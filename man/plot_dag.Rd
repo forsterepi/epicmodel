@@ -92,12 +92,11 @@ scc_model <- create_scc(steplist_checked)
 dag <- scc_to_dag(scc_model)[["dag"]]
 
 # Plot DAG
-plot_dag(dag)
+plot_dag(dag, label_shift = list(all = c(0,0.05), outcome = c(0.05,0)))
 
 # plot_dag() works also with dagitty objects created in other ways
 dag_to_plot <- dagitty::dagitty('dag {V1 -> V2 ; V2 -> V3}')
-plot_dag(dag_to_plot, node_outc = "V3", label = c(V3 = "outcome"),
-label_shift = list(all = c(0,1), V1 = c(0.5,0.1)))
+plot_dag(dag_to_plot, node_outc = "V3", node_expo = "V1", label = c(V3 = "outcome"))
 }
 \references{
 VanderWeele TJ, Robins JM (2007): Directed acyclic graphs, sufficient causes, and the properties of conditioning on

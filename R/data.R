@@ -15,12 +15,3 @@
 #' `epicmodel_steplist` class objects.
 #'
 "steplist_rain"
-
-#' Generic example steplist
-#'
-#' A generic example steplist, which contains all relevant special cases for development purposes.
-#'
-#' @format An object of class `epicmodel_steplist`, which is a list of 8 data.frames. See [new_steplist()] for the detailed structure of
-#' `epicmodel_steplist` class objects.
-#'
-"steplist_generic"

@@ -10,6 +10,14 @@
 
 Create causal models for use in epidemiological studies, including sufficient-component cause models.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/forsterepi/epicmodel}
+  \item Report bugs at \url{https://github.com/forsterepi/epicmodel/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Felix Forster \email{felix.forster@med.uni-muenchen.de} (\href{https://orcid.org/0000-0002-3670-9244}{ORCID}) [copyright holder]
 

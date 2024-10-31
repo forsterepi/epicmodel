@@ -1,0 +1,76 @@
+url: ~
+template:
+  bootstrap: 5
+
+reference:
+- title: Steplists
+
+- subtitle: Launch steplist creator
+  contents:
+  - launch_steplist_creator
+
+- subtitle: Steplist objects
+  contents:
+  - new_steplist
+
+- subtitle: Check steplist
+  contents:
+  - check_steplist
+
+- subtitle: Processing steplists
+  contents:
+  - remove_all_modules
+  - remove_na
+  - remove_segment
+
+- title: SCC models
+
+- subtitle: Create SCC models
+  contents:
+  - create_scc
+
+- subtitle: SCC model objects
+  contents:
+  - new_scc
+
+- subtitle: Inspecting SCC models
+  contents:
+  - are_sufficient
+  - scc_cause_sets
+  - sc_contain_steps
+  - show_steps
+
+- title: Using SCC models
+
+- subtitle: Standardized effect size
+  contents:
+  - effect_size
+
+- subtitle: Mechanisms
+  contents:
+  - mechanism
+  - export_mechanism
+
+- subtitle: Interventions
+  contents:
+  - intervene
+
+- subtitle: DAGs
+  contents:
+  - scc_to_dag
+  - plot_dag
+
+- title: Built-in steplists
+  contents:
+  - steplist_party
+  - steplist_rain
+
+articles:
+- title: Learn
+  navbar: ~
+  contents:
+  - steplist
+  - steplist_creator_tutorial
+  - scc
+  - modules
+  - glossary
