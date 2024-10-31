@@ -187,7 +187,7 @@ scc_to_dag <- function(scc, unknown = TRUE) {
 #' V1 -> V2
 #' V2 -> V3
 #' }')
-#' plot_dag(dag_to_plot, node_outc = "V3", node_expo = "V1", label = c(V3 = "outcome"), label_shift = list(all = c(0,0.15)))
+#' plot_dag(dag_to_plot, node_outc = "V3", node_expo = "V1", label = c(V3 = "outcome"))
 plot_dag <- function(dag, node_outc = NULL, node_expo = NULL, node_adj = NULL, node_latent = NULL,
                      path_causal = NULL, path_biased = NULL,
                      label = NULL, label_shift = NULL, label_size = 2.5,
