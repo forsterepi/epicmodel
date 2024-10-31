@@ -80,9 +80,8 @@
 #' @export
 #'
 #' @examples
-#' # Create some SCC model that contains interventions
-#' steplist_checked <- check_steplist(steplist_rain)
-#' scc_model <- create_scc(steplist_checked)
+#' # Derive SCC model
+#' scc_model <- scc_rain
 #'
 #' # Inspect the effect of interventions
 #' intervene(scc_model, causes = "all", intervention = "all")

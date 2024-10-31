@@ -15,3 +15,12 @@
 #' `epicmodel_steplist` class objects.
 #'
 "steplist_rain"
+
+#' Rain example SCC model
+#'
+#' An example SCC model created from `steplist_rain`.
+#'
+#' @format An object of class `epicmodel_scc`, which is a list of 10 elements. See [new_scc()] for the detailed structure of
+#' `epicmodel_scc` class objects.
+#'
+"scc_rain"

@@ -168,14 +168,8 @@ scc_to_dag <- function(scc, unknown = TRUE) {
 #' @export
 #'
 #' @examplesIf rlang::is_installed(c("ggdag", "ggforce", "ggraph"))
-#' # example code
-#'
-#' # Create some SCC model
-#' steplist_checked <- check_steplist(steplist_rain)
-#' scc_model <- create_scc(steplist_checked)
-#'
-#' # Transform it into a DAG
-#' dag <- scc_to_dag(scc_model)[["dag"]]
+#' # Transform SCC model into a DAG
+#' dag <- scc_to_dag(scc_rain)[["dag"]]
 #'
 #' # Plot DAG
 #' plot_dag(dag, label_shift = list(all = c(0,0.15), outcome = c(0.05,0)))

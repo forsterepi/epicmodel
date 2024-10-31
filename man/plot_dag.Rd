@@ -85,14 +85,8 @@ e.g., \code{ggsave} and not in the RStudio Viewer.
 }
 \examples{
 \dontshow{if (rlang::is_installed(c("ggdag", "ggforce", "ggraph"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-# example code
-
-# Create some SCC model
-steplist_checked <- check_steplist(steplist_rain)
-scc_model <- create_scc(steplist_checked)
-
-# Transform it into a DAG
-dag <- scc_to_dag(scc_model)[["dag"]]
+# Transform SCC model into a DAG
+dag <- scc_to_dag(scc_rain)[["dag"]]
 
 # Plot DAG
 plot_dag(dag, label_shift = list(all = c(0,0.15), outcome = c(0.05,0)))
