@@ -77,7 +77,7 @@ out <- plot(steplist_checked)
 out$Legend
 ```
 
-`plot()` shows you how your steps are chained together. The graph is created using the `DiagrammeR` package. The legend shown below the graph links the node labels to your steps and tells you to which **module** a step belongs. Steps that belong together can be grouped into modules when creating the steplist. The node colors in the graph, e.g., depend on the step's module. See `vignette("module")` to learn more. Later, we will see similar mechanisms for every sufficient cause.
+`plot()` shows you how your steps are chained together. The graph is created using the `DiagrammeR` package. The legend shown below the graph links the node labels to your steps and tells you to which **module** a step belongs. Steps that belong together can be grouped into modules when creating the steplist. The node colors in the graph, e.g., depend on the step's module. See `vignette("modules")` to learn more. Later, we will see similar mechanisms for every sufficient cause.
 
 # Step 2: Create SCC model from steplist
 
@@ -93,7 +93,7 @@ As our steplist is very small, SCC model creation is fast. However, with realist
 print(scc_model)
 ```
 
-In the output, we are first reminded of our outcome definition before the sufficient causes (SC) are listed. As we saw before, there are two of them: SC 1 & SC 2. Both sufficient causes are reported to be "Always sufficient". This refers to their **sufficiency status**. Due to the structure of steplists, it is possible that sets of component causes are sufficient, i.e., lead to the outcome, only under some specific circumstances. To learn more, see `vignette("scc")`. This is, however, not the case here. Based on our steplist, both sets of component causes, i.e. "rain" & "get groceries", as well as "no vacation" & "weekday" & "rain" are always sufficient to cause outcome "you get wet". Modules also make an appearance here. Again, see `vignette("module")` to learn more.
+In the output, we are first reminded of our outcome definition before the sufficient causes (SC) are listed. As we saw before, there are two of them: SC 1 & SC 2. Both sufficient causes are reported to be "Always sufficient". This refers to their **sufficiency status**. Due to the structure of steplists, it is possible that sets of component causes are sufficient, i.e., lead to the outcome, only under some specific circumstances. To learn more, see `vignette("scc")`. This is, however, not the case here. Based on our steplist, both sets of component causes, i.e. "rain" & "get groceries", as well as "no vacation" & "weekday" & "rain" are always sufficient to cause outcome "you get wet". Modules also make an appearance here. Again, see `vignette("modules")` to learn more.
 
 # Step 3: Use SCC model
 

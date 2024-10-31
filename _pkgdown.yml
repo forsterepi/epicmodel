@@ -4,36 +4,23 @@ template:
 
 reference:
 - title: Steplists
-
-- subtitle: Launch steplist creator
   contents:
   - launch_steplist_creator
-
-- subtitle: Steplist objects
-  contents:
   - new_steplist
-
-- subtitle: Check steplist
-  contents:
   - check_steplist
 
-- subtitle: Processing steplists
+- title: Processing steplists
   contents:
   - remove_all_modules
   - remove_na
   - remove_segment
 
 - title: SCC models
-
-- subtitle: Create SCC models
   contents:
   - create_scc
-
-- subtitle: SCC model objects
-  contents:
   - new_scc
 
-- subtitle: Inspecting SCC models
+- title: Inspecting SCC models
   contents:
   - are_sufficient
   - scc_cause_sets
@@ -70,7 +57,7 @@ articles:
   navbar: ~
   contents:
   - steplist
-  - steplist_creator_tutorial
+  - articles/steplist_creator_tutorial
   - scc
   - modules
   - glossary

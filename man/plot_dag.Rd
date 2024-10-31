@@ -92,10 +92,17 @@ scc_model <- create_scc(steplist_checked)
 dag <- scc_to_dag(scc_model)[["dag"]]
 
 # Plot DAG
-plot_dag(dag, label_shift = list(all = c(0,0.05), outcome = c(0.05,0)))
+plot_dag(dag, label_shift = list(all = c(0,0.15), outcome = c(0.05,0)))
 
 # plot_dag() works also with dagitty objects created in other ways
-dag_to_plot <- dagitty::dagitty('dag {V1 -> V2 ; V2 -> V3}')
+dag_to_plot <- dagitty::dagitty('dag {
+bb="-2.628,-2.412,2.659,2.378"
+V1 [pos="-2.128,-1.912"]
+V2 [pos="-0.031,0.035"]
+V3 [pos="2.159,1.878"]
+V1 -> V2
+V2 -> V3
+}')
 plot_dag(dag_to_plot, node_outc = "V3", node_expo = "V1", label = c(V3 = "outcome"))
 }
 \references{
