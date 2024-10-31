@@ -2,7 +2,7 @@
 #'
 #' Run this function to start the Steplist Creator `shiny` app.
 #'
-#' @return The `launch_steplist_creator` function is used for the side effect of starting the Steplist Creator `shiny` app.
+#' @returns The `launch_steplist_creator` function is used for the side effect of starting the Steplist Creator `shiny` app.
 #' @export
 #'
 #' @examples

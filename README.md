@@ -6,6 +6,7 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/forsterepi/epicmodel/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/forsterepi/epicmodel/actions/workflows/R-CMD-check.yaml)
+
 <!-- badges: end -->
 
 ## Overview
@@ -51,6 +52,14 @@ Creating SCC models follows a three-step workflow (see
   `vignette("dag")` for details)
 
 ## Installation
+
+For the latest release:
+
+``` r
+install.packages("epicmodel")
+```
+
+For the development version:
 
 ``` r
 # install.packages("devtools")

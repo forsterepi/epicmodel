@@ -760,7 +760,7 @@ are_sufficient <- function(scc, causes = NULL, type = c("status","binary")) {
 #' @param output A single element of type character, either "nice" (default) or "table". If "table", returns a data.frame. If "nice", a nicely
 #' formated output is printed in the console.
 #'
-#' @return Either a data.frame (`output` = "table") with variables `id_step` (step ID) and `desc_step` (step description) and one row for every
+#' @returns Either a data.frame (`output` = "table") with variables `id_step` (step ID) and `desc_step` (step description) and one row for every
 #' step in the model, i.e., from the `epicmodel_steplist_checked` data.frame `step`, or a nicely formated output in the console (`output` = "nice").
 #'
 #' @export

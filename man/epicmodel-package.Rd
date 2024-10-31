@@ -8,11 +8,12 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Create causal models for use in epidemiological studies, including sufficient-component cause models.
+Create causal models for use in epidemiological studies, including sufficient-component cause models as introduced by Rothman (1976) \doi{10.1093/oxfordjournals.aje.a112335}.
 }
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://forsterepi.github.io/epicmodel/}
   \item \url{https://github.com/forsterepi/epicmodel}
   \item Report bugs at \url{https://github.com/forsterepi/epicmodel/issues}
 }

@@ -30,6 +30,7 @@ test_that("scc_to_dag mini_and", {
   expect_equal(scc_mini_and %>% scc_to_dag(unknown = T) %>% magrittr::extract2("dag"), dag)
   expect_equal(scc_mini_and %>% scc_to_dag(unknown = T) %>% magrittr::extract2("legend"), legend)
 
+  testthat::skip_if_not_installed(c("ggdag", "ggforce", "ggraph"))
   expect_no_error(scc_mini_and %>% scc_to_dag(unknown = T) %>% magrittr::extract2("dag") %>% plot_dag())
   expect_error(scc_mini_and %>% scc_to_dag(unknown = T) %>% plot_dag(), class = "scc_to_dag_complete_list")
 })
@@ -59,6 +60,7 @@ test_that("scc_to_dag mini_depends", {
   expect_equal(scc_mini_depends %>% scc_to_dag(unknown = T) %>% magrittr::extract2("dag"), dag)
   expect_equal(scc_mini_depends %>% scc_to_dag(unknown = T) %>% magrittr::extract2("legend"), legend)
 
+  testthat::skip_if_not_installed(c("ggdag", "ggforce", "ggraph"))
   expect_no_error(scc_mini_depends %>% scc_to_dag(unknown = T) %>% magrittr::extract2("dag") %>% plot_dag())
 })
 
@@ -89,6 +91,7 @@ test_that("scc_to_dag mini_implau", {
   expect_equal(scc_mini_implau %>% scc_to_dag(unknown = T) %>% magrittr::extract2("dag"), dag)
   expect_equal(scc_mini_implau %>% scc_to_dag(unknown = T) %>% magrittr::extract2("legend"), legend)
 
+  testthat::skip_if_not_installed(c("ggdag", "ggforce", "ggraph"))
   expect_no_error(scc_mini_implau %>% scc_to_dag(unknown = T) %>% magrittr::extract2("dag") %>% plot_dag())
 })
 
@@ -109,6 +112,7 @@ test_that("scc_to_dag mini_intv", {
   expect_equal(scc_mini_intv %>% scc_to_dag(unknown = F) %>% magrittr::extract2("dag"), dag)
   expect_equal(scc_mini_intv %>% scc_to_dag(unknown = F) %>% magrittr::extract2("legend"), legend)
 
+  testthat::skip_if_not_installed(c("ggdag", "ggforce", "ggraph"))
   expect_no_error(scc_mini_intv %>% scc_to_dag(unknown = T) %>% magrittr::extract2("dag") %>% plot_dag())
 })
 
@@ -141,6 +145,7 @@ test_that("scc_to_dag mini_or", {
   expect_equal(scc_mini_or %>% scc_to_dag(unknown = T) %>% magrittr::extract2("dag"), dag)
   expect_equal(scc_mini_or %>% scc_to_dag(unknown = T) %>% magrittr::extract2("legend"), legend)
 
+  testthat::skip_if_not_installed(c("ggdag", "ggforce", "ggraph"))
   expect_no_error(scc_mini_or %>% scc_to_dag(unknown = T) %>% magrittr::extract2("dag") %>% plot_dag())
 })
 
@@ -178,10 +183,12 @@ test_that("scc_to_dag rain_test", {
   expect_equal(scc_rain_test %>% scc_to_dag(unknown = T) %>% magrittr::extract2("dag"), dag)
   expect_equal(scc_rain_test %>% scc_to_dag(unknown = T) %>% magrittr::extract2("legend"), legend)
 
+  testthat::skip_if_not_installed(c("ggdag", "ggforce", "ggraph"))
   expect_no_error(scc_rain_test %>% scc_to_dag(unknown = T) %>% magrittr::extract2("dag") %>% plot_dag())
 })
 
 test_that("plot_dag dag inputs work", {
+  testthat::skip_if_not_installed(c("ggdag", "ggforce", "ggraph"))
   expect_error(plot_dag(dag = ""), class = "no_dag")
   expect_error(plot_dag(dag = NA), class = "no_dag")
   expect_error(plot_dag(dag = NULL), class = "no_dag")
@@ -190,6 +197,7 @@ test_that("plot_dag dag inputs work", {
 
 test_that("plot_dag node & path input types are checked correctly", {
   dag1 <- dagitty::dagitty('dag {E -> O}')
+  testthat::skip_if_not_installed(c("ggdag", "ggforce", "ggraph"))
   expect_error(plot_dag(dag1, node_outc = ""), class = "input_node_outc")
   expect_error(plot_dag(dag1, node_outc = NA), class = "input_node_outc")
   expect_error(plot_dag(dag1, node_outc = c("E","O")), class = "input_node_outc")
@@ -212,6 +220,7 @@ test_that("plot_dag node & path input types are checked correctly", {
 
 test_that("plot_dag recognizes node overlaps", {
   dag1 <- dagitty::dagitty('dag {O [outcome] V1 -> O}')
+  testthat::skip_if_not_installed(c("ggdag", "ggforce", "ggraph"))
   expect_error(plot_dag(dag1, node_outc = "V1"), class = "outc_exists")
   expect_error(plot_dag(dag1, node_expo = "X"), class = "input_node_expo_choices")
   expect_error(plot_dag(dag1, node_adj = "O"), class = "input_node_adj_choices")
@@ -232,6 +241,7 @@ test_that("plot_dag recognizes node overlaps", {
 
 test_that("plot_dag recognizes path overlaps", {
   dag1 <- dagitty::dagitty('dag {V1 -> V2 ; V2 -> V3}')
+  testthat::skip_if_not_installed(c("ggdag", "ggforce", "ggraph"))
   expect_error(plot_dag(dag1, path_causal = "V3->V4"), class = "input_path_causal_choices")
   expect_error(plot_dag(dag1, path_biased = "V3->V4"), class = "input_path_biased_choices")
   expect_error(plot_dag(dag1, path_causal = "V1->V2", path_biased = "V1->V2"), class = "path_causal_biased_overlap")
@@ -241,6 +251,7 @@ test_that("plot_dag recognizes path overlaps", {
 
 test_that("plot_dag labels work", {
   dag1 <- dagitty::dagitty('dag {V1 -> V2 ; V2 -> V3}')
+  testthat::skip_if_not_installed(c("ggdag", "ggforce", "ggraph"))
   expect_error(plot_dag(dag1, label = c("a","b","c")), class = "input_label")
   expect_error(plot_dag(dag1, label = NA), class = "input_label")
   expect_error(plot_dag(dag1, label = c(V1 = "", V2 = "b")), class = "input_label")
@@ -265,6 +276,7 @@ test_that("plot_dag labels work", {
 
 test_that("plot_dag plot and scc parameters work", {
   dag1 <- dagitty::dagitty('dag {V1 -> V2 ; V2 -> V3}')
+  testthat::skip_if_not_installed(c("ggdag", "ggforce", "ggraph"))
   expect_error(plot_dag(dag1, node_size = NA), class = "input_node_size")
   expect_error(plot_dag(dag1, node_size = NULL), class = "input_node_size")
   expect_error(plot_dag(dag1, node_size = ""), class = "input_node_size")
@@ -324,6 +336,7 @@ test_that("plot_dag plot and scc parameters work", {
 
 test_that("plot_dag allows NULL inputs for the correct set of parameters", {
   dag1 <- dagitty::dagitty('dag {V1 -> V2 ; V2 -> V3}')
+  testthat::skip_if_not_installed(c("ggdag", "ggforce", "ggraph"))
   expect_no_error(plot_dag(dag1, node_outc = NULL))
   expect_no_error(plot_dag(dag1, node_expo = NULL))
   expect_no_error(plot_dag(dag1, node_adj = NULL))
@@ -341,6 +354,7 @@ test_that("plot_dag calls that are expect to work do actually work", {
     O [outcome,pos="0.394,0.254"]
     V1 [pos="0.223,0.256"]
     C1 -> O ; C1 -> V1 ; C2 -> O ; C2 -> V1 ; V1 -> O}')
+  testthat::skip_if_not_installed(c("ggdag", "ggforce", "ggraph"))
   expect_no_error(plot_dag(dag_x, node_expo = "V1", node_adj = c("C1","C2"), path_causal = "V1 -> O",
                            label = c(V1 = "Expo"), label_shift = list(outcome = c(0.01,0), exposure = c(0,0.015)),
                            cap_mm = 10, e_w = 1, node_stroke = 2, label_size = 3, node_size = 8))

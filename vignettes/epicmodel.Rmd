@@ -185,7 +185,7 @@ dag <- scc_to_dag(scc_model)
 dag$dag
 ```
 
-Element `dag` of the output contains a `dagitty` object thanks to the `dagitty` package. Printing it prints its `dagitty` model code, which, e.g., can be pasted to DAGitty online on www.dagitty.net for further processing. You can also plot `dagitty` objects with `epicmodel`'s `plot_dag()` function, which tries to mimic DAGitty's online layout in a `ggplot` object.
+Element `dag` of the output contains a `dagitty` object thanks to the `dagitty` package. Printing it prints its `dagitty` model code, which, e.g., can be pasted to DAGitty online on https://www.dagitty.net for further processing. You can also plot `dagitty` objects with `epicmodel`'s `plot_dag()` function, which tries to mimic DAGitty's online layout in a `ggplot` object.
 
 ```{r, eval = FALSE}
 plot_dag(dag$dag)

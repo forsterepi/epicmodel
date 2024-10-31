@@ -7,7 +7,7 @@
 #' individual unknown component cause representing additional unknown components; an unknown sufficient cause is added to the model consisting
 #' of a single unknown component cause and representing all unknown sufficient causes.
 #'
-#' @return A list of length 2 containing an object of class `dagitty` (named `dag`) and a data.frame containing the information, which label in the
+#' @returns A list of length 2 containing an object of class `dagitty` (named `dag`) and a data.frame containing the information, which label in the
 #' DAG corresponds to which component cause (named `legend`).
 #'
 #' @seealso
@@ -120,7 +120,7 @@ scc_to_dag <- function(scc, unknown = TRUE) {
 #' Plot DAG
 #'
 #' Creates a ggplot from a `dagitty` object, using packages `dagitty` and `ggdag`. Mimics format and colors used on the `dagitty` homepage
-#' www.dagitty.net. Please note the recommendation in argument `label_shift` below: Getting the values for `label_shift` right can be an iterative
+#' https://www.dagitty.net. Please note the recommendation in argument `label_shift` below: Getting the values for `label_shift` right can be an iterative
 #' and slightly tedious procedure. It is highly recommended to evaluate the result of the current values already in the saved plot using,
 #' e.g., `ggsave` and not in the RStudio Viewer.
 #'
@@ -167,7 +167,9 @@ scc_to_dag <- function(scc, unknown = TRUE) {
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf rlang::is_installed(c("ggdag", "ggforce", "ggraph"))
+#' # example code
+#'
 #' # Create some SCC model
 #' steplist_checked <- check_steplist(steplist_rain)
 #' scc_model <- create_scc(steplist_checked)

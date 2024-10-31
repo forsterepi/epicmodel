@@ -79,11 +79,14 @@ A \code{ggplot} object.
 }
 \description{
 Creates a ggplot from a \code{dagitty} object, using packages \code{dagitty} and \code{ggdag}. Mimics format and colors used on the \code{dagitty} homepage
-www.dagitty.net. Please note the recommendation in argument \code{label_shift} below: Getting the values for \code{label_shift} right can be an iterative
+https://www.dagitty.net. Please note the recommendation in argument \code{label_shift} below: Getting the values for \code{label_shift} right can be an iterative
 and slightly tedious procedure. It is highly recommended to evaluate the result of the current values already in the saved plot using,
 e.g., \code{ggsave} and not in the RStudio Viewer.
 }
 \examples{
+\dontshow{if (rlang::is_installed(c("ggdag", "ggforce", "ggraph"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+# example code
+
 # Create some SCC model
 steplist_checked <- check_steplist(steplist_rain)
 scc_model <- create_scc(steplist_checked)
@@ -104,6 +107,7 @@ V1 -> V2
 V2 -> V3
 }')
 plot_dag(dag_to_plot, node_outc = "V3", node_expo = "V1", label = c(V3 = "outcome"))
+\dontshow{\}) # examplesIf}
 }
 \references{
 VanderWeele TJ, Robins JM (2007): Directed acyclic graphs, sufficient causes, and the properties of conditioning on

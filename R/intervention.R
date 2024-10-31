@@ -25,7 +25,7 @@
 #' @param output Either "nice" (default) or "table". If "nice", prints a nicely formatted summary in the console. If "table", returns a list of
 #' several elements described in detail in section "Value" below.
 #'
-#' @return ## Output
+#' @returns ## Output
 #' If `output = "nice"` (default), prints a nicely formatted output in the console. If `output = "table"`, returns a list with the following
 #' elements:
 #' \describe{
