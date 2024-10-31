@@ -43,5 +43,5 @@ Depends:
     R (>= 3.5.0)
 LazyData: true
 VignetteBuilder: knitr
-URL: https://github.com/forsterepi/epicmodel
+URL: https://forsterepi.github.io/epicmodel/, https://github.com/forsterepi/epicmodel
 BugReports: https://github.com/forsterepi/epicmodel/issues

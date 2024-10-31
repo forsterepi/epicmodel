@@ -1,57 +1,44 @@
-url: ~
+url: https://forsterepi.github.io/epicmodel/
 template:
   bootstrap: 5
-
 reference:
 - title: Steplists
   contents:
   - launch_steplist_creator
   - new_steplist
   - check_steplist
-
 - title: Processing steplists
   contents:
   - remove_all_modules
   - remove_na
   - remove_segment
-
 - title: SCC models
   contents:
   - create_scc
   - new_scc
-
 - title: Inspecting SCC models
   contents:
   - are_sufficient
   - scc_cause_sets
   - sc_contain_steps
   - show_steps
-
 - title: Using SCC models
-
 - subtitle: Standardized effect size
-  contents:
-  - effect_size
-
+  contents: effect_size
 - subtitle: Mechanisms
   contents:
   - mechanism
   - export_mechanism
-
 - subtitle: Interventions
-  contents:
-  - intervene
-
+  contents: intervene
 - subtitle: DAGs
   contents:
   - scc_to_dag
   - plot_dag
-
 - title: Built-in steplists
   contents:
   - steplist_party
   - steplist_rain
-
 articles:
 - title: Learn
   navbar: ~
@@ -61,3 +48,4 @@ articles:
   - scc
   - modules
   - glossary
+
