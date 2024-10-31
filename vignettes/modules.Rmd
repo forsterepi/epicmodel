@@ -1,0 +1,56 @@
+---
+title: "Modules"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Modules}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(epicmodel)
+library(magrittr)
+```
+
+Modules are groups, to which steps can be assigned, e.g., you might assign all steps, in which the immune system is involved, to module "immune system". With modules, it is easier to see if certain groups are involved in sufficient causes, e.g., if there are sufficient causes without any involvement of the immune system.
+
+# Define modules
+
+Modules are defined during steplist creation. You don't have to use modules, but if you do, every step has to be part of exactly one module. During steplist checking, it leads to an error if only some steps have been assigned a module. For quick removal of all modules, use `remove_all_modules()`.
+Once the SCC model has been created, the information, if modules are used or not, is saved in element `sc_use_modules` of `epicmodel_scc` class objects.
+
+# Plot steplist
+
+After successful checking, steplists can be plotted to see all steps chained together. By default, if modules have been used, nodes in the graph are colored according to their module with all steps in the same module having the same color. Use arguments `modules` and `module_colors` to turn coloring off and change colors, respectively.
+
+# Mechanisms
+
+Since mechanisms and steplist plotting works similarly, `mechanism()` offers arguments `modules` and `module_colors` as well and they work similarly to `plot.epicmodel_steplist_checked()`.
+
+# SCC model summary
+
+When printing a SCC model that uses modules, the output also reports how many steps in the sufficient cause-specific mechanism belong to each module. Let's look at the built-in `steplist_party` as an example. First, we load the steplist, make some adjustments that would cause steplist checking to fail, and finally run `check_steplist()`. Next, we create the SCC model from the checked steplist and print the model.
+
+```{r include=FALSE}
+steplist_checked <- steplist_party %>% remove_na() %>% remove_segment("d4") %>% check_steplist()
+scc_model <- steplist_checked %>% create_scc()
+```
+
+```{r, eval = FALSE}
+steplist_checked <- steplist_party %>% remove_na() %>% remove_segment("d4") %>% check_steplist()
+scc_model <- steplist_checked %>% create_scc()
+scc_model
+```
+
+```{r echo=FALSE}
+scc_model
+```
+
+From the output, we can see that, e.g., sufficient cause 1 (SC 1) includes 10 steps in its minimally sufficient mechanism from component causes to the outcome of interest, of which 4 have been assigned to module "guests", 4 have been assigned to module "orga", and 2 have been assigned to module "food".

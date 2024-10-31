@@ -1,0 +1,273 @@
+---
+title: "Steplists"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Steplists}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(epicmodel)
+```
+
+# Input for SCC model creation
+
+**Sufficient-component cause (SCC) models** consist of component causes, which are grouped to sufficient causes. Sufficient causes are minimally sufficient for the outcome of interest to occur, i.e., if only one of the component causes included is missing, the outcome does not occur (at least not via this sufficient cause).
+
+The **main modeling task** when creating SCC models is therefore to specify, which component causes belong into the same sufficient cause. Since SCC models are causal models, these specifications need to be based on knowledge regarding the mechanisms of outcome occurrence and not statistical knowledge, i.e., based on the mechanisms of outcome occurrence it needs to be specified how component causes are connected with each other and with the outcome.
+
+Because sufficient causes are minimally sufficient, it is necessary to also describe minimally sufficient mechanisms that connect them. For this reason, the complex net of mechanisms leading to outcome occurrence needs to be split into small parts. These small parts are called **steps** in `epicmodel`. Component causes are linked with each other and the outcome of interest by **chaining** these steps together.
+
+# Step structure
+
+Steps have a **pre-defined structure** to facilitate chaining. The developed structure tries to strike the balance between flexible and user-friendly step specification and automated SCC model creation. The structure used in `epicmodel` is basically an IF-THEN structure. Steps consists of 3 parts:
+
+-   IF condition
+-   IFNOT condition
+-   THEN statement
+
+## THEN statements
+
+THEN statements are the core building block of steps. They describe what happens, e.g., Cell A releases cytokine B, Exposure to C, D moves to E, etc. In order to facilitate chaining of steps, THEN statements also follow a **pre-defined structure**. This makes it possible to automatically create ID and description for THEN statements. IDs are then used for chaining. As steps are built from THEN statements, this structure also enables automated creation of step IDs and descriptions.
+
+THEN statements contain **up to 4 segments**:
+
+-   WHAT segment (Subject)
+-   DOES segment
+-   WHAT segment or THEN statement (Object)
+-   WHERE segment
+
+THEN statements follow a `WHAT DOES WHAT WHERE` structure and therefore generally consist of **WHAT, DOES, and WHERE segments**. WHAT segments can appear twice: the first is called **"subject"**, the second is called **"object"**. Here you can see how the examples above fit into the `WHAT DOES WHAT WHERE` structure:
+
+**Cell A releases cytokine B**
+
+-   WHAT: Cell A
+-   DOES: releases
+-   WHAT: cytokine B
+-   WHERE: -
+
+**Exposure to C**
+
+-   WHAT: -
+-   DOES: Exposure to
+-   WHAT: C
+-   WHERE: -
+
+**D moves to E**
+
+-   WHAT: D
+-   DOES: moves
+-   WHAT: -
+-   WHERE: to E
+
+Some DOES segments require the **object to be a THEN statement** instead of a WHAT segment. Image, e.g., the DOES segment "inhibition". In general, inhibition can be modeled by specifying IFNOT conditions (see below). However, if inhibition only occurs under certain condition, it might need to be specified as its own step. Since only a certain process, i.e., a specific step is inhibited, the object in these cases needs to be this exact step. There might be other DOES segments, for which THEN objects are necessary. The option to use THEN objects offers more flexibility to model the mechanisms found in Nature within the `WHAT DOES WHAT WHERE` structure. Note that a certain DOES segment either has WHAT or THEN objects in all its steps. Please also note that THEN objects can be "stacked" by including as object a THEN statement that already has a THEN object. In general, WHAT object should be far more prevalent though. (That's why we generally refer to the structure as `WHAT DOES WHAT WHERE` structure.)
+
+A THEN statement can contain up to 4 segments, but it **does not have to**. In general, all combinations of segments are possible and you, the modeler, need to decide how to model the process of interest. The `WHAT DOES WHAT WHERE` structure is supposed to facilitate automation of naming and SCC creation, but also grant as much flexibility as needed to model all necessary processes. Remember that the goal is to connect component causes with each other and the outcome of interest in order to enable grouping of component causes to sufficient causes. The structure is designed with this goal in mind. So far, in our projects, we were able to model all processes within this structure, but if you encounter something you cannot model, let us know on GitHub and we adjust the structure accordingly. Please also note that, although all segment combinations are possible in general, only DOES, only WHERE, and WHAT-WHAT, in our experience, do not make much sense.
+
+## IF and IFNOT conditions
+
+IF and IFNOT describe the conditions for the THEN statement to occur. The IF condition must be fulfilled in order for the THEN statement to occur. The IFNOT condition must **not** be fulfilled in order for the THEN statement to occur. IF and IFNOT themselves are a combination of THEN statements combined with AND/OR logic. By using THEN statements in IF and IFNOT conditions, the individual step can be chained together.
+
+When creating a step, specification of the THEN statement is mandatory while IF and IFNOT conditions are optional. If IF and IFNOT are both missing and only the THEN statement is available, there is no pre-condition and the THEN statement "just happens". Therefore, this type of steps are **"starting steps"** and their description begins with `Start:`. They form the start of the chains that connect the component causes and the outcome of interest. In our context, "starting steps" usually represent component causes. In reality, component causes are, of course, caused by other factors not otherwise involved in causing the outcome, e.g., an occupational exposure that causes occupational asthma is caused by socio-economic factors that influence job choice. But in the context of SCC model creation when our task is to group the component causes to sufficient causes, component causes are the starting point and therefore represented by steps without IF condition. However, please note that component causes can have IFNOT conditions.
+
+Here are the step descriptions from the built-in steplist `steplist_rain` as an example:
+
+-   Start: IFNOT take vacation THEN no vacation
+-   Start: weekday
+-   Start: rain
+-   Start: get groceries
+-   Start: take umbrella
+-   Start: work from home
+-   Start: take vacation
+-   IF no vacation and weekday and IFNOT work from home THEN walk to work
+-   IF get groceries or walk to work THEN go outside
+-   End: IF go outside and rain and IFNOT take umbrella THEN you get wet
+
+# Step types
+
+There are, as mentioned, different types of steps that play different roles during SCC model creation:
+
+Based on the presence of an IF condition, we define:
+
+-   **Starting steps**: Steps without IF condition
+-   **Non-starting steps**: Steps with IF condition
+
+Starting steps can also be separated into two types:
+
+-   **Component causes**: Starting steps which appear in IF conditions of other steps (and maybe additionally in IFNOT conditions of other steps)
+-   **Interventions**: Starting steps which do **not** appear in IF conditions of other steps but only in IFNOT conditions of other steps
+
+Therefore, component causes, interventions, and non-starting steps are mutually exclusive and together form the complete list of steps.
+
+In addition, we define:
+
+-   **IFNOT steps**: Steps with IFNOT condition, including starting steps with IFNOT condition
+-   **End steps**: Steps that appear in outcome definitions
+
+# Steplist
+
+The steplist is the structure that contains all specified steps. It is the only input for function `create_scc()`, which creates the SCC model. See `?epicmodel_steplist` for a detailed description of the structure of steplists from a R perspective.
+
+## Additional step attributes
+
+Steps contain additional attributes:
+
+-   Module: Modules are groups to which steps are assigned. If modules are used, every step is in exactly one module.
+-   End step indicator: Indicates if a certain step is part of the outcome definition
+-   Note: Additional notes, e.g., regarding the level of evidence, etc.
+-   Reference: Since we model our steps based on the literature, every step should have at least one reference
+
+## Steplist elements
+
+In R, steplists are defined as S3 class and contain 8 data.frames. Here's a short overview, but also see `?epicmodel_steplist` for details.
+
+-   WHAT: Contains WHAT segments
+-   DOES: Contains DOES segments
+-   WHERE: Contains WHERE segments
+-   THEN: Contains THEN statements
+-   Module: Contains the list of modules
+-   Step: Contains the list of steps
+-   ICC: Short for `incompatible component causes` and records combinations of component causes, which cannot appear in practice. Sets of component causes which contain ICCs are not considered during SCC model creation.
+-   Outc: Short for `outcome definition`, which is a list of conditions under which the outcome is assumed to have occurred. In practice, the outcome definition consists of end steps combined by AND/OR logic.
+
+# Steplist creation
+
+Steplists are created with the built-in **Steplist Creator `Shiny` App**. It can be launched with:
+
+```{r, eval = FALSE}
+launch_steplist_creator()
+```
+
+We made a little tutorial that shows how to use the `shiny` app, see `vignette("steplist_creator_tutorial")`. It contains screenshots and an example for you to click along. Please note that the tutorial is not shipped with the package and can only be accessed on the homepage.
+
+# Processing steplists in R
+
+The steplist created in the `shiny` app can be downloaded as `.rds` file and loaded into R using `readRDS()`. Additionally, there are some options to process the steplist in R, as it might be easier for some standard tasks instead of clicking through the app. These functions accompany `check_steplist()`, so let's talk about this function first.
+
+## Checked and unchecked steplists
+
+A steplist needs to fulfill additional structural requirements in order to be used in `create_scc()`. These requirements are checked with `check_steplist()`. The function documentation contains a detailed description of conducted checks. Some violation will result in errors, which means that checking was not successful and you need to make changes. Other violations will only result in warnings, which suggest some non-mandatory changes. If `check_steplist()` only results in warnings, you will still get a checked steplist. Let's look at the built-in `steplist_party` as an example.
+
+```{r}
+steplist <- steplist_party
+```
+
+Now, let's run `check_steplist()`. 
+
+```{r include=FALSE}
+steplist_checked <- check_steplist(steplist)
+```
+
+```{r, eval = FALSE}
+steplist_checked <- check_steplist(steplist)
+#> ── Checking epicmodel_steplist steplist ──────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ✔ Checking WHAT IDs was successful.
+#> ✔ Checking DOES IDs was successful.
+#> ✔ Checking WHERE IDs was successful.
+#> ✔ Checking Module IDs was successful.
+#> ✔ Checking ICC IDs was successful.
+#> ✔ Checking WHAT keywords was successful.
+#> ✔ Checking DOES keywords was successful.
+#> ✔ Checking WHERE keywords was successful.
+#> ✔ Checking Module keywords was successful.
+#> ✔ Checking Modules was successful.
+#> ✖ Checking ICC entries failed!
+#> Caused by error in `check_steps_in_icc()`:
+#> ! All IDs in data.frame `icc`, i.e. in variables `id1` and `id2`, must be in `id_step` of data.frame `step`!
+#> ℹ Data.frame `icc` contains 4 elements with two step IDs each.
+#> ✖ In total, 1 ID is not in data.frame `step`: NA
+#> ℹ If only `NA` is not in data.frame `step`, use `steplist <- remove_na(steplist)`.
+#> ✔ Checking WHAT segments was successful.
+#> ! Checking DOES segments resulted in warnings!
+#> Caused by warning:
+#> ! Not all DOES segments have been used in data.frame `step`!
+#> ℹ Data.frame `does` contains 6 elements.
+#> ℹ In total, 1 DOES segment is not being used in data.frame `step`: d4
+#> ✔ Checking WHERE segments was successful.
+#> ! Checking references resulted in warnings!
+#> Caused by warning:
+#> ! For some steps no references have been provided!
+#> ℹ In total, 16 steps have no references.
+#> ✔ Checking start/end steps was successful.
+#> ✔ Checking THEN statements was successful.
+#> ✔ Checking THEN/IF/IFNOT equality was successful.
+#> ✔ Checking outcome definitions was successful.
+#> ── Summary ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ✖ Checking failed! Please correct errors and repeat.
+```
+
+You can see that many checks have been successful but also that some of them resulted in errors or warnings. The first error tells you that "Checking ICC entries failed!". As a reminder, ICC is short for incompatible component causes and it tells you that in the `ICC` data.frame of the steplist, you used step IDs that have not been defined, i.e., cannot be found in data.frame `step` of the steplist. It gives more details: "In total, 1 ID is not in data.frame `step`: NA". This clarifies a lot: There is still an entry in the table that contains NA, which is counted as an empty element. Luckily, in this case, it offers a solution: using `remove_na()`. Next, we have the warning "Not all DOES segments have been used in data.frame `step`!" As it tells us two lines below, we specified `d4` in data.frame `does` but did not use it when creating steps. Even though this won't break SCC model creation, let's also address it. Finally, `check_steplist()` warns us that "For some steps no references have been provided!". Because steps are usually based on the literature, `epicmodel` will not get tired of telling you to specify references in the steplist! In summary, checking failed, which we can verify by printing `steplist_checked`.
+
+```{r}
+print(steplist_checked)
+```
+
+The first line shows us that `steplist_checked` is still "unchecked". So, let's work on those errors and warnings. First, to remove the NAs from data.frame `icc`, let's run `remove_na()`. It removes rows that only consist of NAs from data.frames `icc` as well as `outc`, which contains the outcome definition. Next, we can delete DOES segment `d4` with function `remove_segment()`, which allows you to delete a single entry from data.frames `what`, `does`, `where`, `module`, and `icc` by specifying its ID.
+
+```{r}
+steplist <- remove_na(steplist)
+steplist <- remove_segment(steplist, "d4")
+```
+
+This time, `check_steplist()` is successful. Since our example is about a party, we ignore the warning about references.
+
+```{r include=FALSE}
+steplist_checked <- check_steplist(steplist)
+```
+
+```{r, eval = FALSE}
+steplist_checked <- check_steplist(steplist)
+# ── Checking epicmodel_steplist steplist ───────────────────────────────────────────────────────────────────────────────────────────────────────────
+# ✔ Checking WHAT IDs was successful.
+# ✔ Checking DOES IDs was successful.
+# ✔ Checking WHERE IDs was successful.
+# ✔ Checking Module IDs was successful.
+# ✔ Checking ICC IDs was successful.
+# ✔ Checking WHAT keywords was successful.
+# ✔ Checking DOES keywords was successful.
+# ✔ Checking WHERE keywords was successful.
+# ✔ Checking Module keywords was successful.
+# ✔ Checking Modules was successful.
+# ✔ Checking ICC entries was successful.
+# ✔ Checking WHAT segments was successful.
+# ✔ Checking DOES segments was successful.
+# ✔ Checking WHERE segments was successful.
+# ! Checking references resulted in warnings!
+# Caused by warning:
+# ! For some steps no references have been provided!
+# ℹ In total, 16 steps have no references.
+# ✔ Checking start/end steps was successful.
+# ✔ Checking THEN statements was successful.
+# ✔ Checking THEN/IF/IFNOT equality was successful.
+# ✔ Checking outcome definitions was successful.
+# ── Summary ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+# ✔ Checking successful!
+```
+
+Printing `steplist_checked` confirms that checking was successful.
+
+```{r}
+print(steplist_checked)
+```
+
+There is another function available for processing steplists in R. It's called `remove_all_modules()` and, as the name implies, it removes all modules from data.frame `module` and deletes assigned modules in data.frame `step`. `epicmodel` expects that either all steps or none of them have a module specified. With `remove_all_modules()`, you have an easy tool for choosing the second option.
+
+```{r}
+steplist_checked <- remove_all_modules(steplist_checked)
+```
+
+We already get a warning that we need to repeat `check_steplist()`. Let's print `steplist_checked` to investigate.
+
+```{r}
+print(steplist_checked)
+```
+
+Indeed, we see that `steplist_checked` has 0 modules now but is "unchecked" again. In fact, `remove_na()` and `remove_segment()` also "uncheck" a previously checked steplist. Additionally, all steplists you download from the `shiny` app are "unchecked" as well, even if you uploaded a "checked" steplist.
