@@ -35,10 +35,11 @@ reference:
   contents:
   - scc_to_dag
   - plot_dag
-- title: Built-in steplists
+- title: Built-in data
   contents:
   - steplist_party
   - steplist_rain
+  - scc_rain
 articles:
 - title: Learn
   navbar: ~

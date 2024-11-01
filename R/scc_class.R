@@ -112,7 +112,7 @@
 #' @seealso
 #' * [create_scc()] for information on the algorithm for creating SCC models
 #' * [plot_dag()] for how determinative sets of component causes are displayed in a DAG
-#' * [intervene()] for the use of sufficiency status⁠ "never"
+#' * [intervene()] for the use of sufficiency status "never"
 #'
 #' @references
 #' * Rothman KJ, Greenland S, Poole C, Lash TL (2008): Causation and Causal Inference. In: Rothman KJ, Greenland S, Lash TL (Ed.): Modern

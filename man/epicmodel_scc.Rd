@@ -230,6 +230,6 @@ a common effect. American Journal of Epidemiology 166 (9): 1096–1104.
 \itemize{
 \item \code{\link[=create_scc]{create_scc()}} for information on the algorithm for creating SCC models
 \item \code{\link[=plot_dag]{plot_dag()}} for how determinative sets of component causes are displayed in a DAG
-\item \code{\link[=intervene]{intervene()}} for the use of sufficiency status⁠ "never"
+\item \code{\link[=intervene]{intervene()}} for the use of sufficiency status "never"
 }
 }
