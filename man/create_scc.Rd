@@ -15,7 +15,7 @@ is displayed in the console.
 }
 \description{
 Creates a sufficient-components cause (SCC) model from a steplist, which is a list of IF/THEN statements describing the causal mechanism behind
-an outcome of interest. The steplist needs to meet cretain structural requirements. Therefore, for steplist creation, use the Steplist Creator
+an outcome of interest. The steplist needs to meet certain structural requirements. Therefore, for steplist creation, use the Steplist Creator
 \code{shiny} app launched by \code{\link[=launch_steplist_creator]{launch_steplist_creator()}}.
 }
 \details{
@@ -27,7 +27,7 @@ The following algorithm is used to create a sufficient-component cause (SCC) mod
 \item Get all combinations of component causes in the steplist: Component causes are steps, which themselves have no IF condition but appear
 in IF conditions of other steps (and maybe additionally in IFNOT conditions). Interventions are not considered to be component causes.
 Interventions are as well steps without IF condition, but they only appear in IFNOT conditions of other steps. Invalid combinations of
-component causes as specified in the ICC part of the steplist are excluded, as well as every component cause being FALSE.
+component causes as specified in the ICC part of the steplist are excluded, as well as every component cause being absent.
 \item Check sufficiency: Sufficiency is checked for every combination of component causes. First, based on a specific set of component causes,
 it is derived, which steps can be caused by this set, i.e., which IF conditions are fulfilled. For this, a current set of included steps is
 defined, which in the beginning includes only the corresponding set of component causes. Then, it is iteratively checked, for which other
@@ -56,7 +56,7 @@ always and depends) sets of component causes is reduced to minimal ones.
 Therefore, every sufficient cause gets an additional individual (i.e., a different one for each sufficient cause) unknown component cause
 representing additional unknown components, and one unknown sufficient cause is added to the model consisting of a single unknown component
 cause and representing all unknown sufficient causes. If relevant, the user can decide in functions with the SCC model as input if unknown
-causes ahould be included or not.
+causes should be included or not.
 \item Output preparation: Combines all outputs to an object of class \code{epicmodel_scc} for further analysis.
 }
 }
