@@ -50,7 +50,7 @@ scc_model <- create_scc(steplist_checked)
 mech <- mechanism(scc_model)
 
 # Export mechanism plots
-\dontrun{
+if(interactive()){
 export_mechanism(mech, file_name = "folder/file.png", title = "Sufficient Cause")
 }
 }

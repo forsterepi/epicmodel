@@ -183,22 +183,20 @@ have similar structure, which can be validated by \code{validate_steplist()}.
 }
 \examples{
 # Create steplists in the Steplist Creator `shiny` app
-\dontrun{
+if(interactive()){
 launch_steplist_creator()
+}
 
 # Download the steplist from the `shiny` app
 # Load the steplist into R
-steplist <- readRDS("folder/file.rds")
-}
-
-# To familiarize yourself with the package you can use a built-in steplist
-steplist <- steplist_rain
+path <- system.file("extdata", "steplist_rain.rds", package = "epicmodel")
+steplist <- readRDS(path)
 
 # new_steplist(), validate_steplist(), and empty_steplist() are used in the `shiny` app
 # nonetheless, you can check steplist structures with validate_steplist()
 validate_steplist(steplist)
 
-# print() provides a summary of steplist entries and if it'S checked or unchecked
+# print() provides a summary of steplist entries and if it's checked or unchecked
 print(steplist)
 
 # Check steplist before using `summary()` and `plot()`

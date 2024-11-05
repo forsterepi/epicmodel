@@ -106,7 +106,7 @@
 #' mech
 #'
 #' # Export mechanism plots
-#' \dontrun{
+#' if(interactive()){
 #' export_mechanism(mech, file_name = "folder/file.png", title = "Sufficient Cause")
 #' }
 mechanism <- function(scc, modules = TRUE, module_colors = NULL) {
@@ -496,7 +496,7 @@ print.epicmodel_mechanism <- function(x, ...) {
 #' mech <- mechanism(scc_model)
 #'
 #' # Export mechanism plots
-#' \dontrun{
+#' if(interactive()){
 #' export_mechanism(mech, file_name = "folder/file.png", title = "Sufficient Cause")
 #' }
 export_mechanism <- function(mechanism, sc = NULL, file_name = NULL, file_type = "png", title = NULL, ...) {

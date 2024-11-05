@@ -34,13 +34,13 @@ The package documentation contains many terms with very specific meanings in the
 Creating SCC models follows a three-step workflow (see `vignette("epicmodel")` for an overview):
 
 1.  Create the input for SCC model creation, the so called **steplist**, using the built-in shiny app. See `vignette("steplist")` for details.
-2.  Let `epicmodel` create the **SCC model** from the steplist.
+2.  Let `epicmodel` create the **SCC model** from the steplist
 3.  Use the SCC model, e.g., for:
 
 -   Estimating **standardized effect size**
--   Investigating the effect of **interventions** (see `vignette("interventions")` for details)
--   Inspecting the **mechanisms** behind sufficient cause (see `vignette("mechanisms")` for details)
--   Transforming the SCC model to a directed acyclic graph (**DAG**) (see `vignette("dag")` for details)
+-   Investigating the effect of **interventions**
+-   Inspecting the **mechanisms** behind sufficient causes
+-   Transforming the SCC model to a directed acyclic graph (**DAG**)
 
 ## Installation
 

@@ -6,7 +6,7 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' if(interactive()){
 #' launch_steplist_creator()
 #' }
 launch_steplist_creator <- function() {

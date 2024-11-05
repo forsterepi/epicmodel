@@ -13,7 +13,7 @@ The \code{launch_steplist_creator} function is used for the side effect of start
 Run this function to start the Steplist Creator \code{shiny} app.
 }
 \examples{
-\dontrun{
+if(interactive()){
 launch_steplist_creator()
 }
 }
