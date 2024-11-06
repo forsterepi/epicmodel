@@ -17,7 +17,7 @@ plot() renders a graph of the complete network of mechanisms in the RStudio View
 
     <a class="navbar-brand me-2" href="../index.html">epicmodel</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -248,16 +248,14 @@ have similar structure, which can be validated by <code>validate_steplist()</cod
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Create steplists in the Steplist Creator `shiny` app</span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="launch_steplist_creator.html">launch_steplist_creator</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Download the steplist from the `shiny` app</span></span></span>
 <span class="r-in"><span><span class="co"># Load the steplist into R</span></span></span>
-<span class="r-in"><span><span class="va">steplist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="st">"folder/file.rds"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># To familiarize yourself with the package you can use a built-in steplist</span></span></span>
-<span class="r-in"><span><span class="va">steplist</span> <span class="op">&lt;-</span> <span class="va">steplist_rain</span></span></span>
+<span class="r-in"><span><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"steplist_rain.rds"</span>, package <span class="op">=</span> <span class="st">"epicmodel"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">steplist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># new_steplist(), validate_steplist(), and empty_steplist() are used in the `shiny` app</span></span></span>
 <span class="r-in"><span><span class="co"># nonetheless, you can check steplist structures with validate_steplist()</span></span></span>
@@ -271,7 +269,7 @@ have similar structure, which can be validated by <code>validate_steplist()</cod
 <span class="r-out co"><span class="r-pr">#&gt;</span> ICC:  0  incompatible component-cause pairs</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> OUTCOME:  1  outcome definition</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># print() provides a summary of steplist entries and if it'S checked or unchecked</span></span></span>
+<span class="r-in"><span><span class="co"># print() provides a summary of steplist entries and if it's checked or unchecked</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">steplist</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> unchecked (please run `check_steplist()` before continuing)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> WHAT:  7  WHAT segments</span>

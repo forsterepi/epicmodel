@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">epicmodel</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -89,7 +89,7 @@ model” is to <code>epicmodel</code>.</p>
 <li>This vignette touches on concepts described in
 <code><a href="../articles/steplist.html">vignette("steplist")</a></code>.</li>
 <li>For a detailed description of the structure of SCC objects from a R
-perspective, see <code>?epicmodel_scc</code>.</li>
+perspective, see <code><a href="../reference/epicmodel_scc.html">?new_scc</a></code>.</li>
 <li>And as always, Rothman’s paper is highly recommended (Rothman
 1976).</li>
 </ul>
@@ -234,7 +234,7 @@ diagram. In <code>epicmodel</code>, this separate description takes the
 form of the <strong>sufficiency status</strong>. The sufficiency status
 describes for every sufficient cause, if it is always sufficient or if
 sufficiency depends on the order of occurrence of some of its elements.
-See also <code>?epicmodel_scc</code> for more information.</p>
+See also <code><a href="../reference/epicmodel_scc.html">?new_scc</a></code> for more information.</p>
 <p>Let’s look at the built-in <code>steplist_party</code> as an example.
 It describes the situation of our friend Clara who is wondering under
 which circumstances her birthday party will be a success. Let’s first
@@ -340,7 +340,7 @@ causes, component causes as well as sufficient causes, of the outcome of
 interest. In practice, knowing all causes is of course unrealistic.
 <code><a href="../reference/create_scc.html">create_scc()</a></code> therefore adds unknown causes as placeholders.
 Two types of unknown causes are added (see also
-<code>?epicmodel_scc</code>):</p>
+<code><a href="../reference/epicmodel_scc.html">?new_scc</a></code>):</p>
 <ul>
 <li>Unknown component cause: One additional component cause is added to
 every sufficient cause to represent the set of unknown component causes.

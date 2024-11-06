@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">epicmodel</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -159,7 +159,7 @@ into the <code>WHAT DOES WHAT WHERE</code> structure:</p>
 <li>WHERE: to E</li>
 </ul>
 <p>Some DOES segments require the <strong>object to be a THEN
-statement</strong> instead of a WHAT segment. Image, e.g., the DOES
+statement</strong> instead of a WHAT segment. Imagine, e.g., the DOES
 segment “inhibition”. In general, inhibition can be modeled by
 specifying IFNOT conditions (see below). However, if inhibition only
 occurs under certain condition, it might need to be specified as its own
@@ -186,7 +186,7 @@ sufficient causes. The structure is designed with this goal in mind. So
 far, in our projects, we were able to model all processes within this
 structure, but if you encounter something you cannot model, let us know
 on GitHub and we adjust the structure accordingly. Please also note
-that, although all segment combinations are possible in general, only
+that, although all segment combinations are possible in theory, only
 DOES, only WHERE, and WHAT-WHAT, in our experience, do not make much
 sense.</p>
 </div>
@@ -201,19 +201,18 @@ combination of THEN statements combined with AND/OR logic. By using THEN
 statements in IF and IFNOT conditions, the individual step can be
 chained together.</p>
 <p>When creating a step, specification of the THEN statement is
-mandatory while IF and IFNOT conditions are optional. If IF and IFNOT
-are both missing and only the THEN statement is available, there is no
-pre-condition and the THEN statement “just happens”. Therefore, this
-type of steps are <strong>“starting steps”</strong> and their
-description begins with <code>Start:</code>. They form the start of the
-chains that connect the component causes and the outcome of interest. In
-our context, “starting steps” usually represent component causes. In
-reality, component causes are, of course, caused by other factors not
-otherwise involved in causing the outcome, e.g., an occupational
-exposure that causes occupational asthma is caused by socio-economic
-factors that influence job choice. But in the context of SCC model
-creation when our task is to group the component causes to sufficient
-causes, component causes are the starting point and therefore
+mandatory while IF and IFNOT conditions are optional. If the IF
+condition is missing, there is no pre-condition and the THEN statement
+“just happens”. Therefore, this type of steps are <strong>“starting
+steps”</strong> and their description begins with <code>Start:</code>.
+They form the start of the chains that connect the component causes and
+the outcome of interest. In our context, “starting steps” usually
+represent component causes. In reality, component causes are, of course,
+caused by other factors not otherwise involved in causing the outcome,
+e.g., an occupational exposure that causes occupational asthma is caused
+by socio-economic factors that influence job choice. But in the context
+of SCC model creation when our task is to group the component causes to
+sufficient causes, component causes are the starting point and therefore
 represented by steps without IF condition. However, please note that
 component causes can have IFNOT conditions.</p>
 <p>Here are the step descriptions from the built-in steplist
@@ -274,8 +273,8 @@ definitions</li>
 </h2>
 <p>The steplist is the structure that contains all specified steps. It
 is the only input for function <code><a href="../reference/create_scc.html">create_scc()</a></code>, which creates
-the SCC model. See <code>?epicmodel_steplist</code> for a detailed
-description of the structure of steplists from a R perspective.</p>
+the SCC model. See <code><a href="../reference/epicmodel_steplist.html">?new_steplist</a></code> for a detailed description
+of the structure of steplists from a R perspective.</p>
 <div class="section level3">
 <h3 id="additional-step-attributes">Additional step attributes<a class="anchor" aria-label="anchor" href="#additional-step-attributes"></a>
 </h3>
@@ -295,8 +294,8 @@ step should have at least one reference</li>
 <h3 id="steplist-elements">Steplist elements<a class="anchor" aria-label="anchor" href="#steplist-elements"></a>
 </h3>
 <p>In R, steplists are defined as S3 class and contain 8 data.frames.
-Here’s a short overview, but also see <code>?epicmodel_steplist</code>
-for details.</p>
+Here’s a short overview, but also see <code><a href="../reference/epicmodel_steplist.html">?new_steplist</a></code> for
+details.</p>
 <ul>
 <li>WHAT: Contains WHAT segments</li>
 <li>DOES: Contains DOES segments</li>
@@ -324,7 +323,7 @@ AND/OR logic.</li>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/launch_steplist_creator.html">launch_steplist_creator</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>We made a little tutorial that shows how to use the
 <code>shiny</code> app, see
-<code>vignette("steplist_creator_tutorial")</code>. It contains
+<code><a href="../articles/steplist_creator_tutorial.html">vignette("articles/steplist_creator_tutorial")</a></code>. It contains
 screenshots and an example for you to click along. Please note that the
 tutorial is not shipped with the package and can only be accessed on the
 homepage.</p>

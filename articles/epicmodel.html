@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">epicmodel</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -82,7 +82,7 @@ sufficient-component cause (SCC) model creation with
 <code>epicmodel</code>. But first of all, if you haven’t done so, read
 Rothman’s paper (Rothman 1976)!</p>
 <div class="section level2">
-<h2 id="step-1-create-steplist">Step 1: Create steplist<a class="anchor" aria-label="anchor" href="#step-1-create-steplist"></a>
+<h2 id="task-1-create-steplist">Task 1: Create steplist<a class="anchor" aria-label="anchor" href="#task-1-create-steplist"></a>
 </h2>
 <p>The <strong>steplist</strong> is the input from which the SCC model
 is created. The steplist contains many steps that together form the
@@ -104,9 +104,9 @@ app with:</p>
 <code>steplist_rain</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">steplist</span> <span class="op">&lt;-</span> <span class="va">steplist_rain</span></span></code></pre></div>
-<p><code>steplist_rain</code> is a dummy example and describes ways of
-getting wet. Let’s first inspect the steplist using
-<code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>.</p>
+<p><code>steplist_rain</code> is a dummy example and describes
+weather-induced ways of getting wet. Let’s first inspect the steplist
+using <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">steplist</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> unchecked (please run `check_steplist()` before continuing)</span></span>
@@ -119,7 +119,7 @@ getting wet. Let’s first inspect the steplist using
 <span><span class="co">#&gt; OUTCOME:  1  outcome definition</span></span></code></pre></div>
 <p>Print tells us what the steplist contains. Again, see
 <code><a href="../articles/steplist.html">vignette("steplist")</a></code> to find out what all these different
-things are.</p>
+elements are.</p>
 <p>You can see two important things. First, the steplist contains only
 10 steps, which shows that it’s probably not a realistic example.
 Second, the first line tells you that the steplist is “unchecked” and
@@ -225,7 +225,7 @@ The node colors in the graph, e.g., depend on the step’s module. See
 similar mechanisms for every sufficient cause.</p>
 </div>
 <div class="section level2">
-<h2 id="step-2-create-scc-model-from-steplist">Step 2: Create SCC model from steplist<a class="anchor" aria-label="anchor" href="#step-2-create-scc-model-from-steplist"></a>
+<h2 id="task-2-create-scc-model-from-steplist">Task 2: Create SCC model from steplist<a class="anchor" aria-label="anchor" href="#task-2-create-scc-model-from-steplist"></a>
 </h2>
 <p>But first, we need to actually create the SCC model. This is done by
 function <code><a href="../reference/create_scc.html">create_scc()</a></code>. See the function documentation to
@@ -256,8 +256,8 @@ conditions” for this introduction, but you can learn more from
 sufficient causes are minimal. For a set of component causes to form a
 sufficient cause, it needs to be minimally sufficient, i.e., if you
 would remove any of its component causes, the remaining ones would not
-be sufficient any more. In our example, you will see shortly that
-component causes “rain” and “get groceries” is sufficient to “get wet”.
+be sufficient anymore. In our example, you will see shortly that
+component causes “rain” and “get groceries” are sufficient to “get wet”.
 If it would not be raining or if you would not go outside to get
 groceries, you would not get wet. Therefore, it is minimally sufficient.
 If you add another component cause, e.g., it’s a “weekday”, to the set,
@@ -311,7 +311,7 @@ appearance here. Again, see <code><a href="../articles/modules.html">vignette("m
 more.</p>
 </div>
 <div class="section level2">
-<h2 id="step-3-use-scc-model">Step 3: Use SCC model<a class="anchor" aria-label="anchor" href="#step-3-use-scc-model"></a>
+<h2 id="task-3-use-scc-model">Task 3: Use SCC model<a class="anchor" aria-label="anchor" href="#task-3-use-scc-model"></a>
 </h2>
 <p>Learning about sufficient causes is interesting, but we can do a lot
 more with our SCC model.</p>
@@ -571,9 +571,10 @@ layout in a <code>ggplot</code> object.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_dag.html">plot_dag</a></span><span class="op">(</span><span class="va">dag</span><span class="op">$</span><span class="va">dag</span><span class="op">)</span></span></code></pre></div>
 <p><img src="img%2Fepicmodel_plot_dag.png" width="70%"></p>
 </div>
-<div class="section level3">
-<h3 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
-</h3>
+</div>
+<div class="section level2">
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
 <ul>
 <li>Rothman KJ (1976): <em>Causes</em>. American Journal of Epidemiology
 104(6):587-592.</li>
@@ -581,7 +582,6 @@ layout in a <code>ggplot</code> object.</p>
 sufficient causes, and the properties of conditioning on a common
 effect.</em> American Journal of Epidemiology 166 (9): 1096–1104.</li>
 </ul>
-</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
