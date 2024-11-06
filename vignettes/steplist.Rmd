@@ -114,7 +114,7 @@ In addition, we define:
 
 # Steplist
 
-The steplist is the structure that contains all specified steps. It is the only input for function `create_scc()`, which creates the SCC model. See `?epicmodel_steplist` for a detailed description of the structure of steplists from a R perspective.
+The steplist is the structure that contains all specified steps. It is the only input for function `create_scc()`, which creates the SCC model. See `?new_steplist` for a detailed description of the structure of steplists from a R perspective.
 
 ## Additional step attributes
 
@@ -127,7 +127,7 @@ Steps contain additional attributes:
 
 ## Steplist elements
 
-In R, steplists are defined as S3 class and contain 8 data.frames. Here's a short overview, but also see `?epicmodel_steplist` for details.
+In R, steplists are defined as S3 class and contain 8 data.frames. Here's a short overview, but also see `?new_steplist` for details.
 
 -   WHAT: Contains WHAT segments
 -   DOES: Contains DOES segments
@@ -146,7 +146,7 @@ Steplists are created with the built-in **Steplist Creator `Shiny` App**. It can
 launch_steplist_creator()
 ```
 
-We made a little tutorial that shows how to use the `shiny` app, see `vignette("steplist_creator_tutorial")`. It contains screenshots and an example for you to click along. Please note that the tutorial is not shipped with the package and can only be accessed on the homepage.
+We made a little tutorial that shows how to use the `shiny` app, see `vignette("articles/steplist_creator_tutorial")`. It contains screenshots and an example for you to click along. Please note that the tutorial is not shipped with the package and can only be accessed on the homepage.
 
 # Processing steplists in R
 

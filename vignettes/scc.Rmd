@@ -22,7 +22,7 @@ library(magrittr)
 Sufficient-component cause (SCC) models are the core of the `epicmodel` package. Creating this package came with interesting discoveries and (re-)interpretations of some underlying concepts. They arise, first and foremost, from the definition of the steplist as well as the model creation process from steplist to SCC model. This vignette tries to summarize what "this thing called SCC model" is to `epicmodel`.
 
 -   This vignette touches on concepts described in `vignette("steplist")`.
--   For a detailed description of the structure of SCC objects from a R perspective, see `?epicmodel_scc`.
+-   For a detailed description of the structure of SCC objects from a R perspective, see `?new_scc`.
 -   And as always, Rothman's paper is highly recommended (Rothman 1976).
 
 # Why SCC?
@@ -77,7 +77,7 @@ Importantly, the steplist does not contain information on which of these two ord
 
 It is worth mentioning, that it is implicitly assumed that, once a step occurred, it stays until the end, e.g., if step "IF Cell A produces cytokine B THEN cytokine B is present" occurred, cytokine B will be present until the end. If this assumption is unrealistic, an IFNOT condition needs to be added: "IF Cell A produces cytokine B and IFNOT factor C removes cytokine B THEN cytokine B is present".
 
-In the quote, Rothman et al. speak of a separate description of the crucial information on temporal ordering in addition to the pie-chart diagram. In `epicmodel`, this separate description takes the form of the **sufficiency status**. The sufficiency status describes for every sufficient cause, if it is always sufficient or if sufficiency depends on the order of occurrence of some of its elements. See also `?epicmodel_scc` for more information.
+In the quote, Rothman et al. speak of a separate description of the crucial information on temporal ordering in addition to the pie-chart diagram. In `epicmodel`, this separate description takes the form of the **sufficiency status**. The sufficiency status describes for every sufficient cause, if it is always sufficient or if sufficiency depends on the order of occurrence of some of its elements. See also `?new_scc` for more information.
 
 Let's look at the built-in `steplist_party` as an example. It describes the situation of our friend Clara who is wondering under which circumstances her birthday party will be a success. Let's first load the steplist, check it (after some adjustments), and create the SCC model.
 
@@ -111,7 +111,7 @@ plot(scc_party, remove_sc = 3)
 
 # Unknown causes
 
-The final step of the aforementioned algorithm is called "Add unknown causes". As described above, a SCC model must, in theory, contain all causes, component causes as well as sufficient causes, of the outcome of interest. In practice, knowing all causes is of course unrealistic. `create_scc()` therefore adds unknown causes as placeholders. Two types of unknown causes are added (see also `?epicmodel_scc`):
+The final step of the aforementioned algorithm is called "Add unknown causes". As described above, a SCC model must, in theory, contain all causes, component causes as well as sufficient causes, of the outcome of interest. In practice, knowing all causes is of course unrealistic. `create_scc()` therefore adds unknown causes as placeholders. Two types of unknown causes are added (see also `?new_scc`):
 
 -   Unknown component cause: One additional component cause is added to every sufficient cause to represent the set of unknown component causes. Every sufficient cause gets a unique unknown component cause.
 -   Unknown sufficient cause: One additional sufficient cause with a single component cause is added to represent all unknown sufficient causes.

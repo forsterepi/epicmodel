@@ -151,10 +151,6 @@ plot(mech)
 print(mech)
 mech
 
-# Export mechanism plots
-if(interactive()){
-export_mechanism(mech, file_name = "folder/file.png", title = "Sufficient Cause")
-}
 }
 \seealso{
 \itemize{

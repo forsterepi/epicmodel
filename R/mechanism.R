@@ -105,10 +105,6 @@
 #' print(mech)
 #' mech
 #'
-#' # Export mechanism plots
-#' if(interactive()){
-#' export_mechanism(mech, file_name = "folder/file.png", title = "Sufficient Cause")
-#' }
 mechanism <- function(scc, modules = TRUE, module_colors = NULL) {
   # Check inputs
   if (inherits(scc, "epicmodel_scc") %>% magrittr::not()) {
@@ -488,16 +484,14 @@ print.epicmodel_mechanism <- function(x, ...) {
 #' @export
 #'
 #' @examples
-#' # Create some SCC model
-#' steplist_checked <- check_steplist(steplist_rain)
-#' scc_model <- create_scc(steplist_checked)
-#'
 #' # Derive mechanisms
-#' mech <- mechanism(scc_model)
+#' mech <- mechanism(scc_rain)
 #'
-#' # Export mechanism plots
+#' # Export mechanism plot of sufficient cause (sc) 1
 #' if(interactive()){
-#' export_mechanism(mech, file_name = "folder/file.png", title = "Sufficient Cause")
+#' tmp <- tempfile(fileext = ".png")
+#' export_mechanism(mech, sc = 1, file_name = tmp, title = "Sufficient Cause 1")
+#' unlink(tmp) # delete saved file
 #' }
 export_mechanism <- function(mechanism, sc = NULL, file_name = NULL, file_type = "png", title = NULL, ...) {
   # Check input
