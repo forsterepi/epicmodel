@@ -1,6 +1,6 @@
 Package: epicmodel
 Title: Causal Modeling in Epidemiology
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: 
     person("Felix", "Forster", , "felix.forster@med.uni-muenchen.de", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0002-3670-9244"))
