@@ -3,6 +3,6 @@ bibentry(
   title    = "epicmodel: Causal Modeling in Epidemiology",
   author   = "Felix Forster",
   year     = 2024,
-  note     = "R package version 0.1.0",
+  note     = "R package version 0.1.1",
   url      = "https://forsterepi.github.io/epicmodel/"
 )

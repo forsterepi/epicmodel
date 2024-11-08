@@ -17,7 +17,7 @@ In this article, we'll show you how to use the **Steplist Creator `Shiny` App**.
 
 # Launching the app
 
-First, launch the app with `launch_steplist_creator()`. Unfortunately, in `epicmodel` version 0.1.0, the app is still optimized for a big screen and using it on a laptop might be difficult.
+First, launch the app with `launch_steplist_creator()`. Unfortunately, in `epicmodel` version 0.1.1, the app is still optimized for a big screen and using it on a laptop might be difficult.
 
 ```{r, eval = FALSE}
 launch_steplist_creator()
