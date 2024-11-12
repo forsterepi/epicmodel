@@ -10,7 +10,7 @@
 #' launch_steplist_creator()
 #' }
 launch_steplist_creator <- function() {
-  appDir <- system.file("shiny", "steplist_creator", package = "epicmodel")
+  appDir <- system.file("shiny", "steplist_creator", package = "epicmodel") %>% as.character()
   if (appDir == "") {
     cli::cli_abort("Could not find directory. Try re-installing `epicmodel`.")
   }
