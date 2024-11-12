@@ -1,5 +1,3 @@
-source(system.file("R", "server_utils.R", package = "epicmodel"), local = TRUE)
-
 #' Server of Steplist Creator `shiny` app
 #'
 #' The UI of Steplist Creator `shiny` app including server modules.

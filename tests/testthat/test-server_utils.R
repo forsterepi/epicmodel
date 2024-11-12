@@ -1,3 +1,5 @@
+source(system.file("shiny","steplist_creator","R","server_utils.R", package = "epicmodel"), local = TRUE)
+
 test_that("fun_get_id works", {
   expect_equal(fun_get_id(c("a1","a2"),"what"), "a3")
   expect_equal(fun_get_id(c("i1","i2"),"what"), "i3")
