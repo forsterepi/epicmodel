@@ -130,7 +130,7 @@ intervene <- function(scc, causes = NULL, intervention = NULL, output = c("nice"
   # Get causes
   cause_set <- get_causes(scc = scc, causes = causes, split = split)
 
-  if (!is.null(causes) & !is.null(intervention)) {
+  if (!is.null(cause_set) & !is.null(intv) & !is.null(intervention) & !is.null(causes)) {
     # Prepare container
     out_status <- matrix(rep(NA_character_, nrow(cause_set) * (nrow(intv) + 1)), nrow = nrow(cause_set), ncol = nrow(intv) + 1) %>%
       as.data.frame() %>% magrittr::set_rownames(rownames(cause_set)) %>% magrittr::set_colnames(c("intv0",rownames(intv)))
