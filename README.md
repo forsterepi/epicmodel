@@ -16,7 +16,7 @@ status](https://www.r-pkg.org/badges/version/epicmodel)](https://CRAN.R-project.
 to offer all necessary tools for a causal modeling workflow in R for
 epidemiologists. Causal modeling describes a structured process of
 making causal assumptions based on which an epidemiological study is
-conduted and its results are interpreted. We are always making causal
+conducted and its results are interpreted. We are always making causal
 assumptions, at least implicitly. Causal modeling is about doing so
 explicitly. Did you ever wonder what to measure, how to define your
 variables, or how to model your outcome of interest? If yes, chances are
@@ -30,8 +30,8 @@ using R. SCC models describe, which sets of causes are in combination
 sufficient for the outcome of interest to occur.
 
 The package documentation contains many terms with very specific
-meanings in the the context of this package. Check the **glossary** for
-an overview: `vignette("glossary")`.
+meanings in the context of this package. Check the **glossary** for an
+overview: `vignette("glossary")`.
 
 ## Usage
 

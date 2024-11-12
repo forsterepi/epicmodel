@@ -23,11 +23,11 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-`epicmodel` is short for **"Causal Modeling in Epidemiology"** and wants to offer all necessary tools for a causal modeling workflow in R for epidemiologists. Causal modeling describes a structured process of making causal assumptions based on which an epidemiological study is conduted and its results are interpreted. We are always making causal assumptions, at least implicitly. Causal modeling is about doing so explicitly. Did you ever wonder what to measure, how to define your variables, or how to model your outcome of interest? If yes, chances are you need to think about your causal model in more detail.
+`epicmodel` is short for **"Causal Modeling in Epidemiology"** and wants to offer all necessary tools for a causal modeling workflow in R for epidemiologists. Causal modeling describes a structured process of making causal assumptions based on which an epidemiological study is conducted and its results are interpreted. We are always making causal assumptions, at least implicitly. Causal modeling is about doing so explicitly. Did you ever wonder what to measure, how to define your variables, or how to model your outcome of interest? If yes, chances are you need to think about your causal model in more detail.
 
 Causal models are created by making causal assumptions (i.e., that variable A causes variable B) within a **causal modeling framework**. The current version of `epicmodel` focuses on one of these frameworks, sufficient-component cause (SCC) models, and offers a way to create them using R. SCC models describe, which sets of causes are in combination sufficient for the outcome of interest to occur.
 
-The package documentation contains many terms with very specific meanings in the the context of this package. Check the **glossary** for an overview: `vignette("glossary")`.
+The package documentation contains many terms with very specific meanings in the context of this package. Check the **glossary** for an overview: `vignette("glossary")`.
 
 ## Usage
 

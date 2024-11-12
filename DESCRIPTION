@@ -20,7 +20,6 @@ Imports:
     DT,
     ggplot2,
     gtools,
-    magrittr,
     methods,
     prompter,
     purrr,
@@ -42,7 +41,8 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Depends: 
-    R (>= 3.5.0)
+    R (>= 3.5.0),
+    magrittr
 LazyData: true
 VignetteBuilder: knitr
 URL: https://forsterepi.github.io/epicmodel/, https://github.com/forsterepi/epicmodel
