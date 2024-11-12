@@ -10,8 +10,8 @@
 #' launch_steplist_creator()
 #' }
 launch_steplist_creator <- function() {
-  appDir <- system.file("shiny", "steplist_creator", package = "epicmodel") %>% as.character()
-  if (appDir == "") {
+  appDir <- system.file("shiny", "steplist_creator", package = "epicmodel")
+  if (appDir %>% magrittr::equals("")) {
     cli::cli_abort("Could not find directory. Try re-installing `epicmodel`.")
   }
 
