@@ -55,7 +55,7 @@ server <- function(input, output, session) {
     content = function(file) {
       steplist_temp <- steplist()
       check_if_steplist(steplist_temp)
-      steplist_temp %<>% uncheck_steplist()
+      steplist_temp %<>% epicmodel::uncheck_steplist()
       saveRDS(steplist_temp, file)
     }
   )

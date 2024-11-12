@@ -31,7 +31,7 @@ check_if_rds <- function(x) {
 #' @noRd
 check_if_steplist <- function(x) {
   tryCatch({
-    validate_steplist(x)
+    epicmodel::validate_steplist(x)
   }, error = function(e) {
     shinyalert::shinyalert(title = "Warning!", text = "The selected file is an .rds file but does not contain an object of class epicmodel_steplist.", type = "warning")
     validate(

@@ -12,6 +12,7 @@ reference:
   - remove_all_modules
   - remove_na
   - remove_segment
+  - uncheck_steplist
 - title: SCC models
   contents:
   - create_scc
