@@ -17,7 +17,6 @@ ui <- tagList(
     moduleTabUI("module_tab"),
     ui_step_tab(),
     iccUI("icc_tab"),
-    ui_outc_tab(),
-    ui_then_tab()
+    ui_outc_tab()
   )
 )

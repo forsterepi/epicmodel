@@ -37,7 +37,7 @@ ui_step_tab <- function(){
 
   tabPanel("STEP",
            fluidRow(
-             column(10,
+             column(7,
                     fluidRow(
                       column(6,
                              add_if_ifnot_header("if"),
@@ -101,65 +101,28 @@ ui_step_tab <- function(){
                       actionButton("step_add", label = "Add") %>%
                         prompter::add_prompt(position = "left", message = "Click to add a STEP. Also adds the THEN statement to the THEN table if it's not
                                  already available."),
-                      br(),br(),
                       actionButton("step_delete", label = "Delete") %>%
                         prompter::add_prompt(position = "left", message = "Delete a row from the STEP table by specifying the corresponding ID in the pop-up window."),
-                      br(),br(),
                       actionButton("step_clear", label = "Clear") %>%
                         prompter::add_prompt(position = "left", message = "Click to revert all inputs to their empty default states."),
                       style = "padding: 0px; background: #ffffff"
                     )
-             )
-           )
-  )
-}
-
-#' UI THEN tab
-#'
-#' Defines the UI elements of tab 'THEN' in the Steplist Creator `shiny` app.
-#'
-#' @noRd
-ui_then_tab <- function() {
-  tabPanel("THEN",
-           fluidRow(
+             ),
              column(3,
-                    h2("Create THEN Statement"),
-                    wellPanel(
-                      uiOutput("then_select_subject"),
-                      uiOutput("then_select_does"),
-                      uiOutput("then_select_object"),
-                      uiOutput("then_select_where"),
-                      style = "padding: 10px; background: #69d3bf"),
                     add_then_preview("step_then_id","step_then_desc"),
                     wellPanel(
                       h5("Actions: THEN"),
                       actionButton("then_add", label = "Add") %>%
-                        prompter::add_prompt(position = "right", message = "Click to add a THEN statement."),
+                        prompter::add_prompt(position = "left", message = "Select Subject, DOES, Object, and WHERE (or some of them) and click the button
+                                  for the THEN statment to be selectable for IF and IFNOT conditions."),
                       actionButton("then_delete", label = "Delete") %>%
-                        prompter::add_prompt(position = "right", message = "Delete a row from the THEN table by specifying the corresponding ID in the pop-up window."),
+                        prompter::add_prompt(position = "left", message = "Delete a row from the THEN table by specifying the corresponding ID in the pop-up window."),
                       style = "padding: 0px; background: #ffffff"
-                    )
-             ),
-             column(9,
-                    DT::DTOutput("then_tbl")
-             )
+                    ),
+                    DT::DTOutput("then_tbl"))
            )
   )
 }
-
-# ,
-# column(3,
-#        add_then_preview("step_then_id","step_then_desc"),
-#        wellPanel(
-#          h5("Actions: THEN"),
-#          actionButton("then_add", label = "Add") %>%
-#            prompter::add_prompt(position = "left", message = "Select Subject, DOES, Object, and WHERE (or some of them) and click the button
-#                                   for the THEN statment to be selectable for IF and IFNOT conditions."),
-#          actionButton("then_delete", label = "Delete") %>%
-#            prompter::add_prompt(position = "left", message = "Delete a row from the THEN table by specifying the corresponding ID in the pop-up window."),
-#          style = "padding: 0px; background: #ffffff"
-#        ),
-#        DT::DTOutput("then_tbl"))
 
 #' UI outcome definition tab
 #'

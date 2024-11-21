@@ -77,18 +77,13 @@ server <- function(input, output, session) {
 
   # STEP
 
-  # Dropdown Menus STEP -----------------------------------------------------
+  # Dropdown Menus ----------------------------------------------------------
   output$select_subject <- renderUI(selectInput("select_subject", "Subject (WHAT)", c(Choose = "", steplist()[["what"]]$key_what %>% magrittr::extract(order(.))), selectize = T))
   output$select_does <- renderUI(selectInput("select_does", "DOES", c(Choose = "", steplist()[["does"]]$key_does %>% magrittr::extract(order(.))), selectize = T))
   output$select_where <- renderUI(selectInput("select_where", "WHERE", c(Choose = "", steplist()[["where"]]$key_where %>% magrittr::extract(order(.))), selectize = T))
   output$step_input_module <- renderUI(selectInput("step_input_module", label = "Module", c(Choose = "", steplist()[["module"]]$key_module %>% magrittr::extract(order(.))), selectize = T))
 
-  # Dropdown Menus THEN -----------------------------------------------------
-  output$then_select_subject <- renderUI(selectInput("then_select_subject", "Subject (WHAT)", c(Choose = "", steplist()[["what"]]$key_what %>% magrittr::extract(order(.))), selectize = T))
-  output$then_select_does <- renderUI(selectInput("then_select_does", "DOES", c(Choose = "", steplist()[["does"]]$key_does %>% magrittr::extract(order(.))), selectize = T))
-  output$then_select_where <- renderUI(selectInput("then_select_where", "WHERE", c(Choose = "", steplist()[["where"]]$key_where %>% magrittr::extract(order(.))), selectize = T))
-
-  # Object Input STEP -------------------------------------------------------
+  # Object Input ------------------------------------------------------------
   ## Define check_object, which indicates if for the current DOES segment we need a WHAT or THEN object
   check_object <- reactive(min(length(steplist()[["does"]]$then_object_does[steplist()[["does"]]$key_does == input$select_does]),
                                steplist()[["does"]]$then_object_does[steplist()[["does"]]$key_does == input$select_does]))
@@ -127,44 +122,6 @@ server <- function(input, output, session) {
     }
   })
 
-  # Object Input THEN -------------------------------------------------------
-  ## Define check_object, which indicates if for the current DOES segment we need a WHAT or THEN object
-  then_check_object <- reactive(min(length(steplist()[["does"]]$then_object_does[steplist()[["does"]]$key_does == input$then_select_does]),
-                               steplist()[["does"]]$then_object_does[steplist()[["does"]]$key_does == input$then_select_does]))
-
-  ## Define object_what & object_then
-  then_object_what <- reactiveVal()
-  then_object_then <- reactiveVal()
-
-  ## object_what remembers the current value of select_object_what, even if select_object_then is currently rendered
-  observeEvent(input$then_select_object_what, {
-    then_object_what(input$then_select_object_what)
-  })
-
-  ## object_then remembers the current value of select_object_then, even if select_object_what is currently rendered
-  observeEvent(input$then_select_object_then, {
-    then_object_then(input$then_select_object_then)
-  })
-
-  ## object_key holds the current object value (WHAT or THEN depending on check_object)
-  then_object_key <- reactive({
-    if (then_check_object() == "1") {
-      then_object_what("")
-      then_object_key <- input$then_select_object_then
-    } else {
-      then_object_then("")
-      then_object_key <- input$then_select_object_what
-    }
-  })
-
-  ## Render the corresponding selectInput depending on check_object
-  output$then_select_object <- renderUI({
-    if (then_check_object() == "1") {
-      selectInput("then_select_object_then", "Object (THEN)", selected = then_object_then(), c(Choose = "", steplist()[["then"]]$desc_then %>% magrittr::extract(order(.))), selectize = T)
-    } else {
-      selectInput("then_select_object_what", "Object (WHAT)", selected = then_object_what(), c(Choose = "", steplist()[["what"]]$key_what %>% magrittr::extract(order(.))), selectize = T)
-    }
-  })
 
   # IF Input ----------------------------------------------------------------
   n_if <- reactiveVal(1)
@@ -303,16 +260,16 @@ server <- function(input, output, session) {
   # THEN Preview ------------------------------------------------------------
   ## step_then_id
   output$step_then_id <- renderText({
-    fun_create_then_step_id(subject_key = input$then_select_subject, does_key = input$then_select_does, object_key = (then_object_key() %||% ""),
-                            where_key = input$then_select_where, check_object = (then_check_object() %||% ""),
+    fun_create_then_step_id(subject_key = input$select_subject, does_key = input$select_does, object_key = (object_key() %||% ""),
+                            where_key = input$select_where, check_object = (check_object() %||% ""),
                             what_data = steplist()[["what"]], does_data = steplist()[["does"]],
                             where_data = steplist()[["where"]], then_data = steplist()[["then"]])
   })
 
   ## step_then_desc
   output$step_then_desc <- renderText({
-    fun_create_then_step_desc(subject_key = input$then_select_subject, does_key = input$then_select_does, object_key = (then_object_key() %||% ""),
-                              where_key = input$then_select_where, check_object = (then_check_object() %||% ""),
+    fun_create_then_step_desc(subject_key = input$select_subject, does_key = input$select_does, object_key = (object_key() %||% ""),
+                              where_key = input$select_where, check_object = (check_object() %||% ""),
                               what_data = steplist()[["what"]], does_data = steplist()[["does"]],
                               where_data = steplist()[["where"]], then_data = steplist()[["then"]])
   })
@@ -328,14 +285,14 @@ server <- function(input, output, session) {
   observeEvent(input$then_add, {
     steplist_temp <- steplist()
 
-    id_then_temp <- fun_create_then_step_id(subject_key = input$then_select_subject, does_key = input$then_select_does,
-                                            object_key = (then_object_key() %||% ""), where_key = input$then_select_where,
-                                            check_object = (then_check_object() %||% ""), what_data = steplist_temp[["what"]],
+    id_then_temp <- fun_create_then_step_id(subject_key = input$select_subject, does_key = input$select_does,
+                                            object_key = (object_key() %||% ""), where_key = input$select_where,
+                                            check_object = (check_object() %||% ""), what_data = steplist_temp[["what"]],
                                             does_data = steplist_temp[["does"]], where_data = steplist_temp[["where"]],
                                             then_data = steplist_temp[["then"]])
-    desc_then_temp <- fun_create_then_step_desc(subject_key = input$then_select_subject, does_key = input$then_select_does,
-                                                object_key = (then_object_key() %||% ""), where_key = input$then_select_where,
-                                                check_object = (then_check_object() %||% ""), what_data = steplist_temp[["what"]],
+    desc_then_temp <- fun_create_then_step_desc(subject_key = input$select_subject, does_key = input$select_does,
+                                                object_key = (object_key() %||% ""), where_key = input$select_where,
+                                                check_object = (check_object() %||% ""), what_data = steplist_temp[["what"]],
                                                 does_data = steplist_temp[["does"]], where_data = steplist_temp[["where"]],
                                                 then_data = steplist_temp[["then"]])
     if (desc_then_temp == "") {
@@ -343,11 +300,11 @@ server <- function(input, output, session) {
     }
     if (id_then_temp %>% magrittr::is_in(steplist_temp[["then"]]$id_then)) {
       shinyalert::shinyalert(title = "Warning!", text = "This THEN statement already exists.", type = "warning")
-      updateSelectInput(session, inputId = "then_select_subject", "Subject (WHAT)", selected = "")
-      updateSelectInput(session, inputId = "then_select_does", "DOES", selected = "")
-      updateSelectInput(session, inputId = "then_select_where", "WHERE", selected = "")
-      then_object_what("")
-      then_object_then("")
+      updateSelectInput(session, inputId = "select_subject", "Subject (WHAT)", selected = "")
+      updateSelectInput(session, inputId = "select_does", "DOES", selected = "")
+      updateSelectInput(session, inputId = "select_where", "WHERE", selected = "")
+      object_what("")
+      object_then("")
     }
     if ((id_then_temp %>% magrittr::is_in(steplist_temp[["then"]]$id_then) %>% magrittr::not()) & desc_then_temp != "") {
       to_add <- data.frame(id_then = id_then_temp,
@@ -357,11 +314,11 @@ server <- function(input, output, session) {
       steplist(steplist_temp)
 
       ## Clear input fields
-      updateSelectInput(session, inputId = "then_select_subject", "Subject (WHAT)", selected = "")
-      updateSelectInput(session, inputId = "then_select_does", "DOES", selected = "")
-      updateSelectInput(session, inputId = "then_select_where", "WHERE", selected = "")
-      then_object_what("")
-      then_object_then("")
+      updateSelectInput(session, inputId = "select_subject", "Subject (WHAT)", selected = "")
+      updateSelectInput(session, inputId = "select_does", "DOES", selected = "")
+      updateSelectInput(session, inputId = "select_where", "WHERE", selected = "")
+      object_what("")
+      object_then("")
 
       ## Clear and update if
       n <- n_if()
@@ -421,7 +378,7 @@ server <- function(input, output, session) {
                              updateSelectInput(session, "ifnot_select_input1", label = NULL, selected = "",
                                                choices = c(Choose = "", steplist_temp[["then"]]$desc_then %>% magrittr::extract(order(.))))
                              updateNumericInput(session, "ifnot_numeric_input1", label = NULL, value = 1)
-                             }
+                           }
     )
   })
 
