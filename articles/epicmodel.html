@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="epicmodel">
 </head>
 <body>
@@ -126,7 +126,7 @@ elements are.</p>
 Second, the first line tells you that the steplist is “unchecked” and
 asks you to run <code><a href="../reference/check_steplist.html">check_steplist()</a></code>.
 <code><a href="../reference/check_steplist.html">check_steplist()</a></code> ensures that the steplist’s structure is
-fine for SCC model creation.</p>
+suitable for SCC model creation.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">steplist_checked</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/check_steplist.html">check_steplist</a></span><span class="op">(</span><span class="va">steplist</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -230,8 +230,8 @@ similar mechanisms for every sufficient cause.</p>
 </h2>
 <p>But first, we need to actually create the SCC model. This is done by
 function <code><a href="../reference/create_scc.html">create_scc()</a></code>. See the function documentation to
-learn more about the applied algorithm. It only has a single input: the
-checked steplist.</p>
+learn more about the applied algorithm. It only requires a single input:
+the checked steplist.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">scc_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_scc.html">create_scc</a></span><span class="op">(</span><span class="va">steplist_checked</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -261,9 +261,9 @@ be sufficient anymore. In our example, you will see shortly that
 component causes “rain” and “get groceries” are sufficient to “get wet”.
 If it would not be raining or if you would not go outside to get
 groceries, you would not get wet. Therefore, it is minimally sufficient.
-If you add another component cause, e.g., it’s a “weekday”, to the set,
-it would of course still lead to the outcome but it would not be
-minimally sufficient anymore. Now, let’s inspect our SCC model using
+If you add another component cause, such as “weekday”, to the set, it
+would still lead to the outcome; however, it would not be minimally
+sufficient anymore. Now, let’s inspect our SCC model using
 <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> or <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>, which are identical for
 SCC models.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -372,10 +372,10 @@ and “rain” together formed a sufficient cause. Maybe you wondered, how
 the three of them would cause “you get wet”? We can explore further by
 inspecting the <strong>mechanisms</strong>. We already saw the complete
 one when plotting our steplist. Using <code><a href="../reference/mechanism.html">mechanism()</a></code>, we can
-split them up by sufficient cause. Using <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>, produces
-one graph for every sufficient cause. using <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>
-provides us with the legend we already know from earlier. Graphs can be
-downloaded with <code><a href="../reference/export_mechanism.html">export_mechanism()</a></code>.</p>
+split it up by sufficient cause. Using <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> produces one
+graph for every sufficient cause. Using <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> provides us
+with the legend we already know from earlier. Graphs can be downloaded
+with <code><a href="../reference/export_mechanism.html">export_mechanism()</a></code>.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mech</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mechanism.html">mechanism</a></span><span class="op">(</span><span class="va">scc_model</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">mech</span><span class="op">)</span></span>
@@ -427,7 +427,7 @@ downloaded with <code><a href="../reference/export_mechanism.html">export_mechan
 <span><span class="co">#&gt; • go outside</span></span></code></pre></div>
 <p>You can see that three steps are listed as
 <strong>interventions</strong>, “take vacation”, “take umbrella”, and
-“work from home”. For now, we don’t need to now, how interventions are
+“work from home”. For now, we don’t need to know, how interventions are
 defined exactly (again, see <code><a href="../articles/steplist.html">vignette("steplist")</a></code> for the
 details), but from their names we can see that they are actions which
 might prevent the outcome. <code>epicmodel</code> can investigate their
