@@ -44,7 +44,7 @@ print(steplist)
 
 Print tells us what the steplist contains. Again, see `vignette("steplist")` to find out what all these different elements are. 
 
-You can see two important things. First, the steplist contains only 10 steps, which shows that it's probably not a realistic example. Second, the first line tells you that the steplist is "unchecked" and asks you to run `check_steplist()`. `check_steplist()` ensures that the steplist's structure is fine for SCC model creation.
+You can see two important things. First, the steplist contains only 10 steps, which shows that it's probably not a realistic example. Second, the first line tells you that the steplist is "unchecked" and asks you to run `check_steplist()`. `check_steplist()` ensures that the steplist's structure is suitable for SCC model creation.
 
 ```{r}
 steplist_checked <- check_steplist(steplist)
@@ -81,13 +81,13 @@ out$Legend
 
 # Task 2: Create SCC model from steplist
 
-But first, we need to actually create the SCC model. This is done by function `create_scc()`. See the function documentation to learn more about the applied algorithm. It only has a single input: the checked steplist.
+But first, we need to actually create the SCC model. This is done by function `create_scc()`. See the function documentation to learn more about the applied algorithm. It only requires a single input: the checked steplist.
 
 ```{r}
 scc_model <- create_scc(steplist_checked)
 ```
 
-As our steplist is very small, SCC model creation is fast. However, with realistic steplists, `create_scc()` can take some time because it evaluates every possible combination of component causes. From the output we see that 15 sets of component causes have been checked. When running `summary(steplist_checked)` before, we saw that there are 4 component causes. Because every one of them can be present or absent, we have `2 ^ 4 = 16` combinations. Of course, there's no need to evaluate the set where all component causes are absent, which leaves us with 15 combinations. We can further see that 5 of these 15 combinations were sufficient, i.e., fulfilled the outcome definition. We ignore the "Check if sufficiency depends on IFNOT conditions" for this introduction, but you can learn more from `vignette("scc")`. Finally, we see that 2 out of the 5 sufficient causes are minimal. For a set of component causes to form a sufficient cause, it needs to be minimally sufficient, i.e., if you would remove any of its component causes, the remaining ones would not be sufficient anymore. In our example, you will see shortly that component causes "rain" and "get groceries" are sufficient to "get wet". If it would not be raining or if you would not go outside to get groceries, you would not get wet. Therefore, it is minimally sufficient. If you add another component cause, e.g., it's a "weekday", to the set, it would of course still lead to the outcome but it would not be minimally sufficient anymore. Now, let's inspect our SCC model using `print()` or `summary()`, which are identical for SCC models.
+As our steplist is very small, SCC model creation is fast. However, with realistic steplists, `create_scc()` can take some time because it evaluates every possible combination of component causes. From the output we see that 15 sets of component causes have been checked. When running `summary(steplist_checked)` before, we saw that there are 4 component causes. Because every one of them can be present or absent, we have `2 ^ 4 = 16` combinations. Of course, there's no need to evaluate the set where all component causes are absent, which leaves us with 15 combinations. We can further see that 5 of these 15 combinations were sufficient, i.e., fulfilled the outcome definition. We ignore the "Check if sufficiency depends on IFNOT conditions" for this introduction, but you can learn more from `vignette("scc")`. Finally, we see that 2 out of the 5 sufficient causes are minimal. For a set of component causes to form a sufficient cause, it needs to be minimally sufficient, i.e., if you would remove any of its component causes, the remaining ones would not be sufficient anymore. In our example, you will see shortly that component causes "rain" and "get groceries" are sufficient to "get wet". If it would not be raining or if you would not go outside to get groceries, you would not get wet. Therefore, it is minimally sufficient. If you add another component cause, such as "weekday", to the set, it would still lead to the outcome; however, it would not be minimally sufficient anymore. Now, let's inspect our SCC model using `print()` or `summary()`, which are identical for SCC models.
 
 ```{r}
 print(scc_model)
@@ -123,7 +123,7 @@ From the output, we see that `epicmodel` calculates a value for each component c
 
 ## Mechanisms
 
-When printing our SCC model, we saw that "no vacation", "weekday", and "rain" together formed a sufficient cause. Maybe you wondered, how the three of them would cause "you get wet"? We can explore further by inspecting the **mechanisms**. We already saw the complete one when plotting our steplist. Using `mechanism()`, we can split them up by sufficient cause. Using `plot()`, produces one graph for every sufficient cause. using `print()` provides us with the legend we already know from earlier. Graphs can be downloaded with `export_mechanism()`.
+When printing our SCC model, we saw that "no vacation", "weekday", and "rain" together formed a sufficient cause. Maybe you wondered, how the three of them would cause "you get wet"? We can explore further by inspecting the **mechanisms**. We already saw the complete one when plotting our steplist. Using `mechanism()`, we can split it up by sufficient cause. Using `plot()` produces one graph for every sufficient cause. Using `print()` provides us with the legend we already know from earlier. Graphs can be downloaded with `export_mechanism()`.
 
 ```{r, eval = FALSE}
 mech <- mechanism(scc_model)
@@ -149,7 +149,7 @@ Let's take another look at our steplist summary:
 summary(steplist_checked)
 ```
 
-You can see that three steps are listed as **interventions**, "take vacation", "take umbrella", and "work from home". For now, we don't need to now, how interventions are defined exactly (again, see `vignette("steplist")` for the details), but from their names we can see that they are actions which might prevent the outcome. `epicmodel` can investigate their impact based on your SCC model. In general, there are two directions such an investigation can take:
+You can see that three steps are listed as **interventions**, "take vacation", "take umbrella", and "work from home". For now, we don't need to know, how interventions are defined exactly (again, see `vignette("steplist")` for the details), but from their names we can see that they are actions which might prevent the outcome. `epicmodel` can investigate their impact based on your SCC model. In general, there are two directions such an investigation can take:
 
 -   Which sufficient causes can be prevented by a given intervention?
 -   Which intervention prevents the outcome for an individual with a given set of component causes?

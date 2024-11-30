@@ -16,7 +16,6 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(epicmodel)
-library(magrittr)
 ```
 
 Sufficient-component cause (SCC) models are the core of the `epicmodel` package. Creating this package came with interesting discoveries and (re-)interpretations of some underlying concepts. They arise, first and foremost, from the definition of the steplist as well as the model creation process from steplist to SCC model. This vignette tries to summarize what "this thing called SCC model" is to `epicmodel`.

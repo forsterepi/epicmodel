@@ -428,7 +428,7 @@ server <- function(input, output, session) {
   # STEP Table --------------------------------------------------------------
   output$step_tbl <- DT::renderDataTable(steplist()[["step"]], server = T, rownames = F, selection = "none",
                                          editable = list(target = "cell", disable = list(columns = c(0,1))),
-                                         options = list(scrollY = '380px', scrollCollapse = TRUE,
+                                         options = list(scrollY = '520px', scrollCollapse = TRUE,
                                                         paging = FALSE, order = list(0,'asc'),
                                                         searchHighlight = TRUE))
 

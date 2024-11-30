@@ -17,7 +17,7 @@ In this article, we'll show you how to use the **Steplist Creator `Shiny` App**.
 
 # Launching the app
 
-First, launch the app with `launch_steplist_creator()`. Unfortunately, in `epicmodel` version 0.1.1, the app is still optimized for a big screen and using it on a laptop might be difficult.
+First, launch the app with `launch_steplist_creator()`.
 
 ```{r, eval = FALSE}
 launch_steplist_creator()
@@ -25,20 +25,21 @@ launch_steplist_creator()
 
 # A first look at the app
 
-Before creating a steplist, let's look at the app first. There are 8 elements, i.e., tabs, in the menu at the top. Here's a short description:
+Before creating a steplist, let's look at the app first. There are 9 elements, i.e., tabs, in the menu at the top. Here's a short description:
 
 -   **START**: Upload and download data
 -   **WHAT**: Create and manage WHAT segments
 -   **DOES**: Create and manage DOES segments
 -   **WHERE**: Create and manage WHERE segments
 -   **MODULE**: Create and manage modules
--   **STEP**: Create and manage steps and THEN statements
+-   **STEP**: Create and manage steps
 -   **ICC**: Define incompatible component causes
 -   **OUTCOME**: Define outcome definitions
+-   **THEN**: Create and manage THEN statements
 
 All tabs (apart from `START`) contain basically the same elements:
 
--   Input fields: When creating new entries, the information is inputted in the input fields. Input fields always have a green background.
+-   Input fields: When creating new entries, the information is entered in the input fields. Input fields always have a green background.
 -   Action buttons: Buttons for *adding* and *deleting* entries as well as for *clearing*, i.e., returning the input fields to their defaults
 -   Table: A table that contains all current entries in a certain tab. Tables can be searched by typing into the search field at the top right of the table. Elements in a table can be edited by double-clicking the corresponding cell. Cells that are automatically filled cannot be edited. These cells are all IDs as well as descriptions of steps and THEN segments. Since tables in tabs ICC and OUTCOME re-use step IDs and descriptions, they cannot be edited at all.
 
@@ -53,27 +54,27 @@ IDs are automatically created by the app and follow a pre-defined form:
 -   ICC (id_icc): i1, i2, i3, etc.
 -   THEN (id_then): Combinations of the segment IDs that together form the THEN statement following the `WHAT DOES WHAT WHERE` structure, e.g., `a1d2e1`, `d4a67`, `a2d3a8`. If THEN objects are used, the object ID is put into `()`, e.g., `a1d1(a1d2e1)e1`.
 -   STEP (id_step): Combinations of the IDs of THEN statements, the keys `IF`, `IFNOT`, and `THEN`, as well as additional characters indicating AND/OR logic
--   OUTCOME (id_out): Combinations of IDs of THEN statements and additional characters indicating AND logic
+-   OUTCOME (id_outc): Combinations of IDs of THEN statements and additional characters indicating AND logic
 
 ## Descriptions
 
-Descriptions are partly provided by the user and partly created automatically. Descriptions in tabs WHAT, DOES, WHERE, and MODULE need to be provided. Descriptions in tab STEP are created automatically. Automatically created descriptions should not completely neglect English grammar. Therefore, WHAT and DOES need to provide slightly more information. Let's take a detailed look at the corresponding fields.
+Descriptions are partly provided by the user and partly created automatically. Descriptions in tabs WHAT, DOES, WHERE, and MODULE need to be provided. Descriptions in tabs STEP and THEN are created automatically. Automatically created descriptions should not completely neglect English grammar. Therefore, WHAT and DOES need to provide slightly more information. Let's take a detailed look at the corresponding fields.
 
--   Keywords (key_what, key_does, key_where, key_module): All 4 tabs (WHAT, DOES, WHERE, MODULE) need a keyword. In tab STEP, you will later select from these 4 tables with drop-down menus. Keywords are the descriptors that appear in these drop-down menus. So provide values that are not too long but still identifiable. For modules, the keyword is also used in output, e.g., when printing a SCC model.
+-   Keywords (key_what, key_does, key_where, key_module): All 4 tabs (WHAT, DOES, WHERE, MODULE) need a keyword. In tabs STEP and THEN, you will later select from these 4 tables with drop-down menus. Keywords are the descriptors that appear in these drop-down menus. Therefore, keywords should be concise but descriptive enough to be easily identifiable. For modules, the keyword is also used in output, e.g., when printing a SCC model.
 
 -   Segment descriptions (desc_what, desc_where): They are used in automatically created descriptions of THEN statements and steps.
 
--   WHAT plural indicator (plural_what): DOES segments are basically verbs in a sentence and therefore they change based on the sentence's subject. Following the `WHAT DOES WHAT WHERE` structure, the subject is the first WHAT segment. Therefore, WHAT segments need to declare if they are singular or plural. In the app, this is done via a checkbox on tab WHAT. In the table, singular translates to `plural_what == 0` and plural translates to `plural_what == 1`.
+-   WHAT plural indicator (plural_what): Since DOES segments essentially act as verbs in a sentence, their form depends on the sentence's subject. Following the `WHAT DOES WHAT WHERE` structure, the subject is the first WHAT segment. Therefore, WHAT segments need to declare if they are singular or plural. In the app, this is done via a checkbox on tab WHAT. In the table, singular translates to `plural_what == 0` and plural translates to `plural_what == 1`.
 
 -   DOES descriptions (subject_singular_does, subject_plural_does, no_subject_does): If a subject is used that has `plural_what == 0`, the automatically created THEN description uses `subject_singular_does`. If a subject is used that has `plural_what == 1`, the automatically created THEN description uses `subject_plural_does`. If no subject has been specified, i.e., if the THEN statement starts with the DOES segment, `no_subject_does` is used.
 
 -   MODULE description (desc_module): The module description offers you the possibility to describe in more detail, what certain modules refer to, since the keyword needs to be short.
 
--   THEN objects (then_object_does): The checkbox in tab DOES controls if a DOES segment requires a WHAT object (unchecked) or a THEN object (checked). See `vignette("steplist")` for an explanation. In the table, WHAT objects translate to `then_object_does == 0` and THEN objects translate to `then_object_does == 1`.
+-   THEN objects (then_object_does): The checkbox in tab DOES determines whether a DOES segment requires a WHAT object (unchecked) or a THEN object (checked). See `vignette("steplist")` for an explanation. In the table, WHAT objects translate to `then_object_does == 0` and THEN objects translate to `then_object_does == 1`.
 
 ## Additional step information
 
-We look at tab STEP in more detail later with the example. There are, however, three more non-drop-down input fields in STEP:
+The STEP tab will be discussed in more detail later using an example. There are, however, three more non-drop-down input fields in STEP:
 
 -   End step? (end_step): If the checkbox is checked (`end_step == 1`), the step will be considered for outcome definitions, while steps with unchecked box (`end_step == 0`) won't. Accordingly, steps with (`end_step == 1`) appear in the drop-down-menus in tab OUTCOME, where outcome definitions are created.
 -   References (ref_step): Space for literature references
@@ -82,6 +83,10 @@ We look at tab STEP in more detail later with the example. There are, however, t
 ## ICC and OUTCOME
 
 In tabs ICC and OUTCOME, steps are selected from the drop-down menus. Therefore, all columns in the tables are automatically created.
+
+## THEN tab
+
+The THEN tab contains a list of THEN statements. Tab STEP contains the same input fields as tab THEN and, normally, you will enter THEN statements while creating steps in tab STEP. When creating a step in tab STEP, the THEN statement is also entered in the THEN table, which is visible in tab THEN. This table is the base for drop-down menus with THEN statements, namely the THEN object as well as drop-downs for creating IF/IFNOT conditions. You only need to use the THEN tab if you want to create a step that needs a THEN object, IF/IFNOT condition, which is not yet available as a step. The THEN tab therefore offers more flexibility on the order the steps are entered in the app. Please note that all THEN statements of steps in table STEP must be in table THEN as well, because some `epicmodel` functions use it for merging descriptions to THEN IDs. Only delete from tab THEN, if you also deleted to corresponding step in tab STEP.
 
 # Example
 
@@ -158,7 +163,7 @@ Let's do the same for our DOES segments. Here are the tasks:
 7.  Click `Add DOES segment`
 8.  Repeat steps 2-7 for every segment
 
-We suggest the following values but make adjustments, if you want to. Please note, that we used `NA` in `no_subject_does` because we expect that none of our verbs will be used without subject. In such a case, we recommend to still assign a value, e.g. `NA`, instead of leaving it empty. Remember that, in case you misspell something, you can edit entries by double-clicking on the corresponding cell.
+We suggest the following values but make adjustments, if you want to. Please note, that we used `NA` in `no_subject_does` because we expect that none of our verbs will be used without subject. In such a case, we recommend to assign a placeholder, e.g. `NA`, instead of leaving it blank. Remember that, in case you misspell something, you can edit entries by double-clicking on the corresponding cell.
 
 If you need `no_subject_does` in one of your projects, e.g., for DOES segments "exposure" or "intervene", try the values "exposure to" or "intervention by".
 
@@ -205,7 +210,7 @@ knitr::include_graphics("img/epicmodel_app_tutorial_module1.png")
 
 ## STEP tab
 
-Let's now finally take a closer look at tab STEP. In the bottom left, you can see the table that later will contain the steps. All other elements are just there for getting new entries into this table.
+Finally, let's take a closer look at tab STEP. In the bottom left, you can see the table that later will contain the steps. All other elements are just there for getting new entries into this table.
 
 ```{r out.width = '70%', echo = FALSE}
 knitr::include_graphics("img/epicmodel_app_tutorial_step1.png")
@@ -217,15 +222,7 @@ A step contains a THEN segment and potentially IF and/or IFNOT conditions. THEN 
 knitr::include_graphics("img/epicmodel_app_tutorial_step2.png")
 ```
 
-In the top right corner, you can see two empty fields called "THEN ID" and "THEN Description". These fields will preview ID and description based on the currently selected elements in the "Create THEN Statement" block. So take a look before clicking "Add".
-
-Below the THEN preview fields, you can find the THEN action buttons "Add" and "Delete". They add to and delete from the THEN table, which is located below in the bottom right corner. The THEN table is the source for the drop-down menus for IF/IFNOT creation as well as "Object (THEN)". In addition, some `epicmodel` functions use it for merging descriptions to THEN IDs. Normally, you should not need the THEN action buttons because if you add a step, the corresponding THEN statement is automatically added to the THEN table as well (if not already available) and can then be used in the mentioned drop-down menus.
-
-```{r out.width = '70%', echo = FALSE}
-knitr::include_graphics("img/epicmodel_app_tutorial_step3.png")
-```
-
-Below the "Create THEN Statement" block are input fields for additional step information, including the module. Below are the action buttons, which add to and delete from the step table in the bottom left corner. As mentioned, if the THEN statement is not yet in the THEN table in the bottom right, it is added to it when adding the step. Finally, the "Clear" button puts all input fields back to its default values.
+Below the "Create THEN Statement" block are input fields for additional step information, including the module. Below are the action buttons, which add to and delete from the step table in the bottom left corner. As mentioned, if the THEN statement is not yet in the THEN table in tab THEN, it is added to it when adding the step. Finally, the "Clear inputs" button puts all input fields back to its default values.
 
 ```{r out.width = '70%', echo = FALSE}
 knitr::include_graphics("img/epicmodel_app_tutorial_step4.png")
@@ -251,13 +248,8 @@ Here are tasks to enter the first step:
 2.  Select "student" in drop-down menu "Subject (WHAT)"
 3.  Select "take" in drop-down menu "DOES"
 4.  Select "SCC class" in drop-down menu "Object (WHAT)"
-5.  Look at the ID and description preview
-6.  Select module "theory" in drop-down menu "Module"
-7.  Click the "Add" button below "Actions: STEP", not below "Actions: THEN" (see screenshot below)
-
-```{r out.width = '40%', echo = FALSE}
-knitr::include_graphics("img/epicmodel_app_tutorial_cause1.png")
-```
+5.  Select module "theory" in drop-down menu "Module"
+6.  Click the "Add STEP" button
 
 Now, put in the other two steps. The step table should now look like this:
 
@@ -280,7 +272,7 @@ Here are the tasks for the first step:
 6.  Select "student reads Rothman's 1976 paper" in the first drop-down below "Create IF condition"
 7.  Select "student reads Modern Epidemiology (3rd Edition)" in the second drop-down below "Create IF condition"
 8.  Look at the "IF ID" and "IF Description" preview
-9.  Click the "Add" button below "Actions: STEP"
+9.  Click the "Add STEP" button
 
 ```{r out.width = '50%', echo = FALSE}
 knitr::include_graphics("img/epicmodel_app_tutorial_cause3.png")
@@ -298,7 +290,7 @@ Here are the tasks for the second step:
 7.  Select "student takes a class on SCC models" in the second drop-down below "Create IF condition"
 8.  Look at the "IF ID" and "IF Description" preview and you will see that both conditions are combined with AND
 9.  To combine them with OR, change the second number from 1 to 2
-10. Click the "Add" button below "Actions: STEP"
+10. Click the "Add STEP" button
 
 ```{r out.width = '50%', echo = FALSE}
 knitr::include_graphics("img/epicmodel_app_tutorial_cause4.png")
@@ -343,9 +335,9 @@ Finally, let's specify the outcome definition. Tab OUTCOME works very similar to
 2.  Click on "Add statement" to add a second line
 3.  Select "student knows theory" in the first drop-down
 4.  Select "student knows practice" in the second drop-down
-5.  Click "Add"
+5.  Click "Add outcome definition"
 
-```{r out.width = '50%', echo = FALSE}
+```{r out.width = '40%', echo = FALSE}
 knitr::include_graphics("img/epicmodel_app_tutorial_outcome1.png")
 ```
 

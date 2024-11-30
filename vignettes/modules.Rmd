@@ -16,7 +16,6 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(epicmodel)
-library(magrittr)
 ```
 
 Modules are groups, to which steps can be assigned, e.g., you might assign all steps, in which the immune system is involved, to module "immune system". With modules, it is easier to see if certain groups are involved in sufficient causes, e.g., if there are sufficient causes without any involvement of the immune system.

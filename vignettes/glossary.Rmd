@@ -24,8 +24,8 @@ knitr::opts_chunk$set(
     steps*, i.e., they have no *IF condition* but they might have an
     *IFNOT condition*. Unlike *interventions*, they appear in *IF
     conditions* of other *steps*. See `vignette("steplist")`.
--   **DAG**: Directed acyclic graph. In maths, graphs are basically
-    networks consisiting of nodes and edges. `Directed` means that edges
+-   **DAG**: Directed acyclic graph. In maths, graphs are
+    networks consisting of nodes and edges. `Directed` means that edges
     are arrows. `Acyclic` means that, when you follow the arrows, you
     never get back to the same node. DAG is the form used for causal
     graphs. (Nodes are variables. Edges are causal relations. Causal

@@ -15,7 +15,7 @@ iccUI <- function(id) {
                                                      message = "Add two component causes that logically cannot be in the same suffcient cause."),
                               uiOutput(NS(id,"select_desc1")),
                               uiOutput(NS(id,"select_desc2")),
-                              style = "padding: 10px; background: #69d3bf"),
+                              style = "padding: 10px; background: #92d056"),
                     actionButton(NS(id,"add"), label = "Add ICC pair") %>%
                       prompter::add_prompt(position = "right",
                                            message = "Fill in both fields and click the button to add a ICC pair. IDs are added automatically."),

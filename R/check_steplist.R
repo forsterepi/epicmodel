@@ -648,7 +648,7 @@ check_start_end_steps <- function(steplist) {
 #'
 #' Checks if there are steps that can chain together with all IF/IFNOT conditions, i.e., if there are steps that have the corresponding
 #' statement as THEN part. Also checks, if there are duplicated THEN statements and if they have different values for `end_step`. Also checkes if
-#' there are steps who's THEN statment is not in THEN. This might cause problems when merging the THEN description to the steps vie `steplist$then`.
+#' there are steps who's THEN statement is not in THEN. This might cause problems when merging the THEN description to the steps vie `steplist$then`.
 #'
 #' @param steplist An object of class `epicmodel_steplist`.
 #'

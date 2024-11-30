@@ -20,7 +20,7 @@ ui_start_tab <- function(){
                         accept = ".rds", placeholder = "Select steplist object (.rds)"),
               h4("Download Steplist"),
               downloadButton("download", label = "Download Steplist"),
-              style = "padding: 10px; background: #69d3bf"
+              style = "padding: 10px; background: #92d056"
             )
         )
   )
@@ -53,7 +53,7 @@ ui_step_tab <- function(){
                                                               choices = c(Choose = "", initial_then_data$desc_then %>% magrittr::extract(order(.)))))
                                      )
                                    )),
-                               style = "padding: 10px; background: #69d3bf"
+                               style = "padding: 10px; background: #92d056"
                              ),
                              add_if_ifnot_preview("step_if_id", "step_if_desc", "IF")
                       ),
@@ -71,7 +71,7 @@ ui_step_tab <- function(){
                                                               choices = c(Choose = "", initial_then_data$desc_then %>% magrittr::extract(order(.)))))
                                      )
                                    )),
-                               style = "padding: 10px; background: #69d3bf"
+                               style = "padding: 10px; background: #92d056"
                              ),
                              add_if_ifnot_preview("step_ifnot_id", "step_ifnot_desc", "IFNOT")
                       )
@@ -85,7 +85,7 @@ ui_step_tab <- function(){
                       uiOutput("select_does"),
                       uiOutput("select_object"),
                       uiOutput("select_where"),
-                      style = "padding: 10px; background: #69d3bf"),
+                      style = "padding: 10px; background: #92d056"),
                     h4("Additional STEP Information"),
                     wellPanel(
                       checkboxInput("step_input_end", label = "End step?", value = F),
@@ -94,18 +94,17 @@ ui_step_tab <- function(){
                                     height = "200%", resize = "vertical"),
                       textAreaInput("step_input_note", label = "Notes", placeholder = "Important information and conflicting findings",
                                     height = "200%", resize = "vertical"),
-                      style = "padding: 10px; background: #69d3bf"
+                      style = "padding: 10px; background: #92d056"
                     ),
                     wellPanel(
-                      h5("Actions: STEP"),
-                      actionButton("step_add", label = "Add") %>%
-                        prompter::add_prompt(position = "left", message = "Click to add a STEP. Also adds the THEN statement to the THEN table if it's not
+                      actionButton("step_add", label = "Add STEP") %>%
+                        prompter::add_prompt(position = "left", message = "Click to add a step Also adds the THEN statement to the THEN table if it's not
                                  already available."),
                       br(),br(),
-                      actionButton("step_delete", label = "Delete") %>%
+                      actionButton("step_delete", label = "Delete row") %>%
                         prompter::add_prompt(position = "left", message = "Delete a row from the STEP table by specifying the corresponding ID in the pop-up window."),
                       br(),br(),
-                      actionButton("step_clear", label = "Clear") %>%
+                      actionButton("step_clear", label = "Clear inputs") %>%
                         prompter::add_prompt(position = "left", message = "Click to revert all inputs to their empty default states."),
                       style = "padding: 0px; background: #ffffff"
                     )
@@ -129,13 +128,12 @@ ui_then_tab <- function() {
                       uiOutput("then_select_does"),
                       uiOutput("then_select_object"),
                       uiOutput("then_select_where"),
-                      style = "padding: 10px; background: #69d3bf"),
+                      style = "padding: 10px; background: #92d056"),
                     add_then_preview("step_then_id","step_then_desc"),
                     wellPanel(
-                      h5("Actions: THEN"),
-                      actionButton("then_add", label = "Add") %>%
+                      actionButton("then_add", label = "Add THEN statement") %>%
                         prompter::add_prompt(position = "right", message = "Click to add a THEN statement."),
-                      actionButton("then_delete", label = "Delete") %>%
+                      actionButton("then_delete", label = "Delete row") %>%
                         prompter::add_prompt(position = "right", message = "Delete a row from the THEN table by specifying the corresponding ID in the pop-up window."),
                       style = "padding: 0px; background: #ffffff"
                     )
@@ -146,20 +144,6 @@ ui_then_tab <- function() {
            )
   )
 }
-
-# ,
-# column(3,
-#        add_then_preview("step_then_id","step_then_desc"),
-#        wellPanel(
-#          h5("Actions: THEN"),
-#          actionButton("then_add", label = "Add") %>%
-#            prompter::add_prompt(position = "left", message = "Select Subject, DOES, Object, and WHERE (or some of them) and click the button
-#                                   for the THEN statment to be selectable for IF and IFNOT conditions."),
-#          actionButton("then_delete", label = "Delete") %>%
-#            prompter::add_prompt(position = "left", message = "Delete a row from the THEN table by specifying the corresponding ID in the pop-up window."),
-#          style = "padding: 0px; background: #ffffff"
-#        ),
-#        DT::DTOutput("then_tbl"))
 
 #' UI outcome definition tab
 #'
@@ -184,15 +168,14 @@ ui_outc_tab <- function() {
                                                     choices = c(Choose = "", initial_step_data$desc_step %>%
                                                                   magrittr::extract(order(.))))
                          )),
-                     style = "padding: 10px; background: #69d3bf"
+                     style = "padding: 10px; background: #92d056"
                     ),
                     wellPanel(
-                      h5("Actions: OUTCOME"),
-                      actionButton("outc_add", label = "Add") %>%
+                      actionButton("outc_add", label = "Add outcome definition") %>%
                         prompter::add_prompt(position = "right", message = "Click to add an OUTCOME definition."),
-                      actionButton("outc_delete", label = "Delete") %>%
+                      actionButton("outc_delete", label = "Delete row") %>%
                         prompter::add_prompt(position = "right", message = "Delete a row from the OUTCOME table by specifying the corresponding ID in the pop-up window."),
-                      actionButton("outc_clear", label = "Clear") %>%
+                      actionButton("outc_clear", label = "Clear inputs") %>%
                         prompter::add_prompt(position = "right", message = "Click to revert all inputs to their empty default states."),
                       style = "padding: 0px; background: #ffffff"
                     )
@@ -225,7 +208,7 @@ add_text_input <- function(id, type) {
   )
   message <- switch(type,
                     "key" = "Keywords are short descriptions.",
-                    "desc" = "Descriptions are longer than keywords and contain the text that will appear in the STEP descriptions.",
+                    "desc" = "Descriptions are longer than keywords and contain the text that will appear in the step descriptions.",
                     "desc_module" = "Descriptions are longer than keywords.",
                     "Add message for this type!"
   )
@@ -239,7 +222,7 @@ add_text_input <- function(id, type) {
   wellPanel(h4(paste0("New ",long)) %>%
               prompter::add_prompt(position = "right", message = message),
             textInput(id, label = NULL, placeholder = placeholder),
-            style = "padding: 10px; background: #69d3bf")
+            style = "padding: 10px; background: #92d056")
 }
 
 #' Add DOES description text inputs to `shiny` UI
@@ -256,13 +239,13 @@ add_text_input <- function(id, type) {
 #' @noRd
 add_text_does <- function(id1,id2,id3) {
   wellPanel(h4("New DOES variations") %>%
-              prompter::add_prompt(position = "right", message = "In order to have a grammatically correct STEP description, add
+              prompter::add_prompt(position = "right", message = "In order to have a grammatically correct step description, add
                                             the corresponding variations: for WHAT segments in singular, for WHAT segments in plural, and if no
                                             subject (i.e., the WHAT segment before the DOES segment) is provided."),
             textInput(id1, label = NULL, placeholder = "For subjects in singular"),
             textInput(id2, label = NULL, placeholder = "For subjects in plural"),
             textInput(id3, label = NULL, placeholder = "For missing subjects"),
-            style = "padding: 10px; background: #69d3bf")
+            style = "padding: 10px; background: #92d056")
 }
 
 #' Add WHAT checkbox input to `shiny` UI
@@ -278,7 +261,7 @@ add_check_what <- function(id) {
               prompter::add_prompt(position = "right",
                                    message = "This will affect the form of the DOES segment that is used in the step description."),
             checkboxInput(id, label = "Plural?", value = F),
-            style = "padding: 10px; background: #69d3bf")
+            style = "padding: 10px; background: #92d056")
 }
 
 #' Add DOES checkbox input to `shiny` UI
@@ -293,7 +276,7 @@ add_check_does <- function(id) {
   wellPanel(h4("Does this DOES segment need a THEN object?") %>%
               prompter::add_prompt(position = "right", message = "Some DOES segments, e.g., inhibition, need THEN instead of WHAT objects."),
             checkboxInput(id, label = "THEN object?", value = F),
-            style = "padding: 10px; background: #69d3bf")
+            style = "padding: 10px; background: #92d056")
 }
 
 #' Add IF/IFNOT buttons to `shiny` UI
@@ -350,16 +333,14 @@ add_if_ifnot_header <- function(type = c("if","ifnot")) {
   if (type == "if") {
     out <- tagList(
       h4("Create IF Condition") %>%
-        prompter::add_prompt(position = "right", message = "The IF condition is a collection of available, previously created THEN statments,
-                                       which together must be fulfilled, in order for the STEP to occur.")
+        prompter::add_prompt(position = "right", message = "The IF condition is a set of THEN statements that must be fulfilled, in order for the step to occur.")
     )
   }
 
   if (type == "ifnot") {
     out <- tagList(
       h4("Create IFNOT Condition") %>%
-        prompter::add_prompt(position = "right", message = "The IFNOT condition is a collection of available, previously created THEN statments,
-                                       which together must not be fulfilled, in order for the STEP to occur.")
+        prompter::add_prompt(position = "right", message = "The IFNOT condition is a set of THEN statements that must not be fulfilled, in order for the step to occur.")
     )
   }
 
@@ -379,10 +360,10 @@ add_if_ifnot_header <- function(type = c("if","ifnot")) {
 add_then_preview <- function(id1, id2) {
   tagList(
     h5("THEN ID") %>%
-      prompter::add_prompt(position = "left", message = "Previews the ID combination for the THEN statement."),
+      prompter::add_prompt(position = "right", message = "Previews the ID combination for the THEN statement."),
     wellPanel(textOutput(id1), style = "padding: 5px; background: #ffffff; border-color: #95a5a6"),
     h5("THEN Description") %>%
-      prompter::add_prompt(position = "left", message = "Previews the combined description for the THEN statement."),
+      prompter::add_prompt(position = "right", message = "Previews the combined description for the THEN statement."),
     wellPanel(textOutput(id2), style = "padding: 5px; background: #ffffff; border-color: #95a5a6"),
   )
 }

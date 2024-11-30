@@ -403,7 +403,7 @@ is_fulfilled <- function(if_list, current_list_then) {
 #' Used in `is_sufficient()`.
 #'
 #' @param outc_list See `is_sufficient()`.
-#' @param final_list_then A character vector contaning the THEN statments of the final list of steps that can be caused by a certain set of
+#' @param final_list_then A character vector contaning the THEN statements of the final list of steps that can be caused by a certain set of
 #' component causes, created by `is_sufficient()`.
 #'
 #' @returns TRUE or FALSE.

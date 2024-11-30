@@ -47,7 +47,7 @@ sep_step <- function(x) {
 #' @param x A vector of type character containing an IF conditions or an IFNOT condition.
 #'
 #' @return A data.frame containing one THEN statement per row with two columns:
-#' * sce: The scenario of the THEN statement, which is an integer but of type character. Statments in the same scenario are combined with AND,
+#' * sce: The scenario of the THEN statement, which is an integer but of type character. Statements in the same scenario are combined with AND,
 #'   while all statements in different scenarios are combined with OR.
 #' * id: The ID of the corresponding THEN statement. If `x` is NA, the function returns a list of length 1 with a table containing 1 row of NAs.
 #'   If `x` is an empty character vector, the function returns a list of length 1 with a table containing 0 rows.
