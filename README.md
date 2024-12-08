@@ -29,9 +29,9 @@ sufficient-component cause (SCC) models, and offers a way to create them
 using R. SCC models describe, which sets of causes are in combination
 sufficient for the outcome of interest to occur.
 
-The package documentation contains many terms with very specific
-meanings in the context of this package. Check the **glossary** for an
-overview: `vignette("glossary")`.
+The package documentation contains many terms with a specific meaning in
+the context of this package. Check the **glossary** for an overview:
+`vignette("glossary")`.
 
 ## Usage
 
@@ -45,7 +45,7 @@ Creating SCC models follows a three-step workflow (see
 3.  Use the SCC model, e.g., for:
 
 - Estimating **standardized effect size**
-- Investigating the effect of **interventions**
+- Investigating the effect of **prevention** and **intervention**
 - Inspecting the **mechanisms** behind sufficient causes
 - Transforming the SCC model to a directed acyclic graph (**DAG**)
 

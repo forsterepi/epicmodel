@@ -176,6 +176,18 @@ intervene(scc_model, causes = c("IFNOTd6a6THENd5a6","THENa5","THENa1"), interven
 
 The output shows that, to prevent the outcome, you can either work from home or take vacation. Both together would work as well, of course, but again, this intervention set is not minimal.
 
+## Prevention
+
+In addition to interventions, we can focus only on the component causes. It might be of interest, which component causes need to be prevented in order to avoid outcome occurrence. `prevent()` answers this question for a certain set of component causes, representing a certain group of individuals.
+
+```{r}
+prevent(scc_model, causes = c("IFNOTd6a6THENd5a6","THENa5","THENa1","THENd2a3"))
+```
+
+`prevent()` tells us that there are three possibilities to prevent the outcome. First, prevent "rain". Second, prevent that it's a "weekday" and that they "get groceries". Third, prevent that they have "no vacation" and that they "get groceries". Of course, additionally preventing, e.g., "rain" would also work but `prevent()` only reports the smallest prevention sets.
+
+As we saw earlier, "taking vacation" is implemented as an intervention. But it would also be the best way to prevent component cause "no vacation". Therefore, the results of `prevent()` and `intervene()` can overlap depending on the way these factors are implemented in the model.
+
 ## DAGs
 
 Finally, `epicmodel` can transform SCC models to directed acyclic graphs (DAGs) following VanderWeele & Robins (2007).

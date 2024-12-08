@@ -67,7 +67,7 @@ Creates graphs that visiualize the mechanisms behind each sufficient cause using
 
 One graph per sufficient cause is created. The graphs display steps as nodes and IF/IFNOT relations as edges. Nodes will not be
 labeled with their IDs or descriptions due to limited space, but with newly created labels. These labels are based on the type of node and are
-listed together with the step description in the\code{ legend} (accessed by \code{print()}). Step descriptions are also accessible via tooltips in the
+listed together with the step description in the \code{legend} (accessed by \code{print()}). Step descriptions are also accessible via tooltips in the
 graph. Just put your cursor on the node labels.
 
 There are 4 different types of nodes:

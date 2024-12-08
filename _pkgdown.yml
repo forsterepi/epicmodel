@@ -30,8 +30,10 @@ reference:
   contents:
   - mechanism
   - export_mechanism
-- subtitle: Interventions
-  contents: intervene
+- subtitle: Intervention and Prevention
+  contents:
+  - intervene
+  - prevent
 - subtitle: DAGs
   contents:
   - scc_to_dag

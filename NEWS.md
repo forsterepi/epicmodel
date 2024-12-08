@@ -1,5 +1,7 @@
 # epicmodel (development version)
 
+* `prevent()` now enables investigation of prevention sets
+
 * Fixed a bug that causes the steplist creator shiny app to fail (#2)
 
 * Fixed a bug in function intervene()

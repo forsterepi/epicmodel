@@ -436,7 +436,26 @@ get_causes <- function(scc, causes, split) {
       } else {
         ## Check if causes are sufficient
         if (scc %>% are_sufficient(causes, type = "binary") %>% magrittr::not()) {
-          return(cli::cli_alert_info("The specified set of component causes is not sufficient!"))
+          cli::cli_alert_info("The specified set of component causes is not sufficient!")
+          return(invisible(NULL))
+        }
+        ## Check for incompatible component causes
+        if (nrow(scc$steplist$icc) > 0) {
+          icc_check <- scc$steplist$icc
+          icc_check$check <- FALSE
+          for (i in 1:nrow(icc_check)) {
+            if ((icc_check[i,"id1"] %in% causes) & (icc_check[i,"id2"] %in% causes)) {
+              icc_check$check[i] <- TRUE
+            }
+          }
+          if (icc_check$check %>% all_false() %>% magrittr::not()) {
+            icc_check$combi_desc <- paste(icc_check$desc1," <> ",icc_check$desc2)
+            icc_causes <- icc_check %>% dplyr::filter(.data$check == TRUE) %>% magrittr::extract2("combi_desc") %>%
+              stringr::str_c(collapse = ", ")
+            cli::cli_abort(c("{.var causes} contains incompatible component causes!",
+                             "i" = "The following component causes are incompatible: {icc_causes}"),
+                           class = "icc_causes")
+          }
         }
         ## Get cause_set
         cause_set <- split$causes %>% get_cause_combinations(scc$steplist)
@@ -894,7 +913,7 @@ minimize_intv <- function(intv, out_status) {
 #'
 #' Used in `intervene()` if `output = "nice"`.
 #'
-#' @param out_table The output of `intervene()`, if `output == "table"`.
+#' @param out_table The output of `intervene()`, if `output = "table"`.
 #' @param scc Argument `scc` from the corresponding call of `intervene()`.
 #' @param split A list of sets of steps from `scc` created by `process_steplist()` and `split_prc()`.
 #'
@@ -919,7 +938,6 @@ nice_output_intervene <- function(out_table, scc, split) {
   # Merge THEN description to processed steplist
   split$interventions %<>% dplyr::left_join(scc$steplist$then, by = c("then_step" = "id_then"))
   split$causes %<>% dplyr::left_join(scc$steplist$then, by = c("then_step" = "id_then"))
-
 
   # Start with headline
   cli::cli_h1("Intervention")

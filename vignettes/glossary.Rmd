@@ -65,6 +65,7 @@ knitr::opts_chunk$set(
 -   **Outcome definition**: It defines based on the occurrence of
     certain *steps* that the outcome of interest has occurred. See
     `?create_scc`.
+-   **Prevention**: The avoidance of (a set of) *component causes*.
 -   **SC**: Sufficient cause. A *minimal* set of *component causes*,
     which fulfills the *outcome definition*. See `vignette("scc")`.
 -   **SCC**: Sufficient-component cause. The causal modeling framework

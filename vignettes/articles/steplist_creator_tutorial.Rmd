@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 library(epicmodel)
 ```
 
-In this article, we'll show you how to use the **Steplist Creator `Shiny` App**. Ideally, you have RStudio open and `epicmodel` installed so you can click along with the tutorial.
+In this article, we'll show you how to use the **Steplist Creator `Shiny` App**. Ideally, you have RStudio open and `epicmodel` installed so you can click along with the tutorial. To learn more about steplists, see `vignette("steplist")`.
 
 # Launching the app
 
@@ -60,9 +60,9 @@ IDs are automatically created by the app and follow a pre-defined form:
 
 Descriptions are partly provided by the user and partly created automatically. Descriptions in tabs WHAT, DOES, WHERE, and MODULE need to be provided. Descriptions in tabs STEP and THEN are created automatically. Automatically created descriptions should not completely neglect English grammar. Therefore, WHAT and DOES need to provide slightly more information. Let's take a detailed look at the corresponding fields.
 
--   Keywords (key_what, key_does, key_where, key_module): All 4 tabs (WHAT, DOES, WHERE, MODULE) need a keyword. In tabs STEP and THEN, you will later select from these 4 tables with drop-down menus. Keywords are the descriptors that appear in these drop-down menus. Therefore, keywords should be concise but descriptive enough to be easily identifiable. For modules, the keyword is also used in output, e.g., when printing a SCC model.
+-   Keywords (key_what, key_does, key_where, key_module): All 4 tabs (WHAT, DOES, WHERE, MODULE) need a keyword, which is a very short description. In tabs STEP and THEN, you will later select from these 4 tables with drop-down menus. Keywords are the descriptors that appear in these drop-down menus. Therefore, keywords should be concise but descriptive enough to be easily identifiable. For modules, the keyword is also used in output, e.g., when printing a SCC model.
 
--   Segment descriptions (desc_what, desc_where): They are used in automatically created descriptions of THEN statements and steps.
+-   Segment descriptions (desc_what, desc_where): They are, in general, longer than keywords and used in automatically created descriptions of THEN statements and steps.
 
 -   WHAT plural indicator (plural_what): Since DOES segments essentially act as verbs in a sentence, their form depends on the sentence's subject. Following the `WHAT DOES WHAT WHERE` structure, the subject is the first WHAT segment. Therefore, WHAT segments need to declare if they are singular or plural. In the app, this is done via a checkbox on tab WHAT. In the table, singular translates to `plural_what == 0` and plural translates to `plural_what == 1`.
 
@@ -216,7 +216,7 @@ Finally, let's take a closer look at tab STEP. In the bottom left, you can see t
 knitr::include_graphics("img/epicmodel_app_tutorial_step1.png")
 ```
 
-A step contains a THEN segment and potentially IF and/or IFNOT conditions. THEN statements can be created in the "Create THEN Statement" block. The structure follows the `WHAT DOES WHAT WHERE` structure. You may see that the heading of the third drop-down menu is "Object (WHAT)" by default. If you select a DOES segment with `then_object_does == 1` the drop-down menu will automatically change to "Object (THEN)".
+A step contains a THEN segment and potentially IF and/or IFNOT conditions. THEN statements can be created in the "Create THEN Statement" block in the top right. The structure follows the `WHAT DOES WHAT WHERE` structure. You may see that the heading of the third drop-down menu is "Object (WHAT)" by default. If you select a DOES segment with `then_object_does == 1` the drop-down menu will automatically change to "Object (THEN)".
 
 ```{r out.width = '70%', echo = FALSE}
 knitr::include_graphics("img/epicmodel_app_tutorial_step2.png")
