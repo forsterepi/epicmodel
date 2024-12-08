@@ -81,7 +81,8 @@
 <p>In this article, we’ll show you how to use the <strong>Steplist
 Creator <code>Shiny</code> App</strong>. Ideally, you have RStudio open
 and <code>epicmodel</code> installed so you can click along with the
-tutorial.</p>
+tutorial. To learn more about steplists, see
+<code><a href="../articles/steplist.html">vignette("steplist")</a></code>.</p>
 <div class="section level2">
 <h2 id="launching-the-app">Launching the app<a class="anchor" aria-label="anchor" href="#launching-the-app"></a>
 </h2>
@@ -167,15 +168,15 @@ slightly more information. Let’s take a detailed look at the
 corresponding fields.</p>
 <ul>
 <li><p>Keywords (key_what, key_does, key_where, key_module): All 4 tabs
-(WHAT, DOES, WHERE, MODULE) need a keyword. In tabs STEP and THEN, you
-will later select from these 4 tables with drop-down menus. Keywords are
-the descriptors that appear in these drop-down menus. Therefore,
-keywords should be concise but descriptive enough to be easily
-identifiable. For modules, the keyword is also used in output, e.g.,
-when printing a SCC model.</p></li>
-<li><p>Segment descriptions (desc_what, desc_where): They are used in
-automatically created descriptions of THEN statements and
-steps.</p></li>
+(WHAT, DOES, WHERE, MODULE) need a keyword, which is a very short
+description. In tabs STEP and THEN, you will later select from these 4
+tables with drop-down menus. Keywords are the descriptors that appear in
+these drop-down menus. Therefore, keywords should be concise but
+descriptive enough to be easily identifiable. For modules, the keyword
+is also used in output, e.g., when printing a SCC model.</p></li>
+<li><p>Segment descriptions (desc_what, desc_where): They are, in
+general, longer than keywords and used in automatically created
+descriptions of THEN statements and steps.</p></li>
 <li><p>WHAT plural indicator (plural_what): Since DOES segments
 essentially act as verbs in a sentence, their form depends on the
 sentence’s subject. Following the <code>WHAT DOES WHAT WHERE</code>
@@ -482,7 +483,7 @@ elements are just there for getting new entries into this table.</p>
 <p><img src="img%2Fepicmodel_app_tutorial_step1.png" width="70%"></p>
 <p>A step contains a THEN segment and potentially IF and/or IFNOT
 conditions. THEN statements can be created in the “Create THEN
-Statement” block. The structure follows the
+Statement” block in the top right. The structure follows the
 <code>WHAT DOES WHAT WHERE</code> structure. You may see that the
 heading of the third drop-down menu is “Object (WHAT)” by default. If
 you select a DOES segment with <code>then_object_does == 1</code> the

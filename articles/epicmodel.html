@@ -530,11 +530,61 @@ from home or take vacation. Both together would work as well, of course,
 but again, this intervention set is not minimal.</p>
 </div>
 <div class="section level3">
+<h3 id="prevention">Prevention<a class="anchor" aria-label="anchor" href="#prevention"></a>
+</h3>
+<p>In addition to interventions, we can focus only on the component
+causes. It might be of interest, which component causes need to be
+prevented in order to avoid outcome occurrence. <code><a href="../reference/prevent.html">prevent()</a></code>
+answers this question for a certain set of component causes,
+representing a certain group of individuals.</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/prevent.html">prevent</a></span><span class="op">(</span><span class="va">scc_model</span>, causes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"IFNOTd6a6THENd5a6"</span>,<span class="st">"THENa5"</span>,<span class="st">"THENa1"</span>,<span class="st">"THENd2a3"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> 11/11 | Check if prevention set is minimal</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> 3/11 prevention sets are minimal</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Prevention</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Cause set</span> ──</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Individuals with exactly the following component causes:</span></span>
+<span><span class="co">#&gt; • no vacation</span></span>
+<span><span class="co">#&gt; • weekday</span></span>
+<span><span class="co">#&gt; • rain</span></span>
+<span><span class="co">#&gt; • get groceries</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Prevention sets</span> ──</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Prevent the outcome by preventing any of the following sets:</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Set  1</span></span>
+<span><span class="co">#&gt; • rain</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Set  2</span></span>
+<span><span class="co">#&gt; • weekday</span></span>
+<span><span class="co">#&gt; • get groceries</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Set  3</span></span>
+<span><span class="co">#&gt; • no vacation</span></span>
+<span><span class="co">#&gt; • get groceries</span></span>
+<span><span class="co">#&gt; </span></span></code></pre></div>
+<p><code><a href="../reference/prevent.html">prevent()</a></code> tells us that there are three possibilities to
+prevent the outcome. First, prevent “rain”. Second, prevent that it’s a
+“weekday” and that they “get groceries”. Third, prevent that they have
+“no vacation” and that they “get groceries”. Of course, additionally
+preventing, e.g., “rain” would also work but <code><a href="../reference/prevent.html">prevent()</a></code> only
+reports the smallest prevention sets.</p>
+<p>As we saw earlier, “taking vacation” is implemented as an
+intervention. But it would also be the best way to prevent component
+cause “no vacation”. Therefore, the results of <code><a href="../reference/prevent.html">prevent()</a></code>
+and <code><a href="../reference/intervene.html">intervene()</a></code> can overlap depending on the way these
+factors are implemented in the model.</p>
+</div>
+<div class="section level3">
 <h3 id="dags">DAGs<a class="anchor" aria-label="anchor" href="#dags"></a>
 </h3>
 <p>Finally, <code>epicmodel</code> can transform SCC models to directed
 acyclic graphs (DAGs) following VanderWeele &amp; Robins (2007).</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dag</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/scc_to_dag.html">scc_to_dag</a></span><span class="op">(</span><span class="va">scc_model</span><span class="op">)</span></span>
 <span><span class="va">dag</span><span class="op">$</span><span class="va">dag</span></span>
 <span><span class="co">#&gt; dag {</span></span>
@@ -568,7 +618,7 @@ be pasted to DAGitty online on <a href="https://www.dagitty.net" class="external
 also plot <code>dagitty</code> objects with <code>epicmodel</code>’s
 <code><a href="../reference/plot_dag.html">plot_dag()</a></code> function, which tries to mimic DAGitty’s online
 layout in a <code>ggplot</code> object.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_dag.html">plot_dag</a></span><span class="op">(</span><span class="va">dag</span><span class="op">$</span><span class="va">dag</span><span class="op">)</span></span></code></pre></div>
 <p><img src="img%2Fepicmodel_plot_dag.png" width="70%"></p>
 </div>
