@@ -280,4 +280,32 @@ test_that("scc_cause_sets performs correctly for the party example", {
   expect_equal(scc_cause_sets(scc_party,"desc"), desc_expect)
   expect_equal(scc_cause_sets(scc_party,"desc_no_start"), desc_no_start_expect)
   expect_equal(scc_cause_sets(scc_party,"all"), all_expect)
+
+  steplist_mini_intv <- readRDS(test_path("fixtures", "steplist_mini_intv.rds")) %>% check_steplist()
+  scc_mini_intv <- steplist_mini_intv %>% create_scc()
+  expect_no_error(scc_cause_sets(scc_mini_intv, depends = F, unknown = F))
+  expect_no_error(scc_cause_sets(scc_mini_intv, depends = T, unknown = F))
+  expect_no_error(scc_cause_sets(scc_mini_intv, depends = F, unknown = T))
+  expect_no_error(scc_cause_sets(scc_mini_intv, depends = T, unknown = T))
+})
+
+test_that("necessary_causes works", {
+  expect_equal(necessary_causes(scc_rain), "THENa1")
+  expect_equal(necessary_causes(scc_rain, output = "id"), "THENa1")
+  expect_equal(necessary_causes(scc_rain, output = "desc"), "Start: rain")
+  expect_equal(necessary_causes(scc_rain, output = "desc_no_start"), "rain")
+
+  scc_party <-  readRDS(test_path("fixtures", "scc_party.rds"))
+  expect_equal(necessary_causes(scc_party), c("THENa4d1","THENa6d1"))
+  expect_equal(necessary_causes(scc_party, output = "desc"), c("Start: Emma is invited","Start: Laura is invited"))
+  expect_equal(necessary_causes(scc_party, output = "desc_no_start"), c("Emma is invited","Laura is invited"))
+
+  steplist_mini_or <- readRDS(test_path("fixtures", "steplist_mini_or.rds")) %>% check_steplist()
+  scc_mini_or <- steplist_mini_or %>% create_scc()
+  expect_equal(necessary_causes(scc_mini_or), NULL)
+
+  steplist_mini_intv <- readRDS(test_path("fixtures", "steplist_mini_intv.rds")) %>% check_steplist()
+  scc_mini_intv <- steplist_mini_intv %>% create_scc()
+  expect_equal(necessary_causes(scc_mini_intv), "THENa1")
+  expect_equal(necessary_causes(scc_mini_intv, output = "desc"), "Start: a1")
 })

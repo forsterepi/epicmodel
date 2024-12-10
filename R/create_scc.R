@@ -545,13 +545,13 @@ scc_cause_sets <- function(scc, output = c("id","desc","desc_no_start","all"), d
   # Exclude depends if depends = F
   if (unknown == F) {
     if (depends == F) {
-      sc <- scc$sc_cc[names(scc$sc_status[scc$sc_status == "always"]),]
+      sc <- scc$sc_cc %>% dplyr::filter(rownames(scc$sc_cc) %in% names(scc$sc_status[scc$sc_status == "always"]))
     } else {
       sc <- scc$sc_cc
     }
   } else {
     if (depends == F) {
-      sc <- scc$unknown_cc[names(scc$unknown_status[scc$unknown_status %in% c("always","unknown")]),]
+      sc <- scc$unknown_cc %>% dplyr::filter(rownames(scc$unknown_cc) %in% names(scc$unknown_status[scc$unknown_status %in% c("always","unknown")]))
     } else {
       sc <- scc$unknown_cc
     }
@@ -793,4 +793,78 @@ show_steps <- function(scc, output = c("nice", "table")) {
   if (output == "nice") {
     sc_contain_steps(scc = scc, output = "nice")
   }
+}
+
+#' Extract necessary causes
+#'
+#' Necessary causes are component causes, which are part of every sufficient cause and, therefore, have to be present in order for the outcome
+#' to occur.
+#'
+#' @param scc An object of class `epicmodel_scc`.
+#' @param output A single element of type character determining the type of output. Either `id` (default), `desc`, or `desc_no_start`. See
+#' section "Value" below for a description of the output.
+#'
+#' @returns A character vector containing all necessary causes. Depending on the value of `output`, the vector contains either step IDs
+#' (`output = "id"`), step descriptions (`output = "desc"`), or step descriptions but with the "Start: " in the beginning removed
+#' (`output = "desc_no_start"`).
+#'
+#' @export
+#'
+#' @examples
+#' necessary_causes(scc_rain)
+necessary_causes <- function(scc, output = c("id","desc","desc_no_start")) {
+  # Check input
+  if (inherits(scc, "epicmodel_scc") %>% magrittr::not()) {
+    cli::cli_abort("{.var scc} must be a {.emph epicmodel_scc} class object!",
+                   class = "no_scc")
+  }
+
+  rlang::try_fetch(output <- match.arg(output),
+                   error = function(cnd) {
+                     cli::cli_abort("{.var output} must be one of the following strings: 'id', 'desc', or 'desc_no_start'!",
+                                    parent = cnd, class = "input_output")
+                   })
+  #=============================================================================
+  # Derive component causes
+  prc <- scc$steplist %>% process_steplist()
+  split <- prc %>% split_prc()
+  causes <- split$causes %>%
+    dplyr::left_join(scc$steplist$then, by = c("then_step" = "id_then")) %>%
+    dplyr::left_join(scc$steplist$step[,c("id_step","desc_step")], by = "id_step")
+
+  # Create container
+  check <- rep(NA, nrow(causes)) %>% magrittr::set_names(causes$id_step)
+
+  # Derive cause sets
+  cause_sets <- scc_cause_sets(scc, output = "id", depends = FALSE, unknown = FALSE)
+
+  # Check necessity
+  for (i in 1:length(check)) {
+    check_temp <- rep(FALSE, length(cause_sets))
+
+    for (j in 1:length(check_temp)) {
+      check_temp[j] <- names(check)[i] %in% cause_sets[[j]]
+    }
+
+    check[i] <- all_true(check_temp)
+  }
+
+  if (check %>% all_false()) {
+    cli::cli_alert_info("There are no necessary causes!")
+    return(invisible(NULL))
+  }
+
+  out_id <- names(check)[check]
+
+  # Return
+  if (output == "id") {
+    out <- out_id
+  }
+  if (output == "desc") {
+    out <- causes %>% dplyr::filter(.data$id_step %in% out_id) %>% magrittr::extract2("desc_step")
+  }
+  if (output == "desc_no_start") {
+    out <- causes %>% dplyr::filter(.data$id_step %in% out_id) %>% magrittr::extract2("desc_then")
+  }
+  return(out)
 }

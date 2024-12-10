@@ -157,6 +157,15 @@ scc_model %>% are_sufficient(c("THENa5d1","THENa4d1","THENa6d1","THENa7d3e4"), t
 scc_model %>% are_sufficient(c("THENa5d1","THENa4d1","THENa6d1","THENa7d3e4"), type = "binary")
 ```
 
+## Extract necessary causes
+
+Necessary causes, i.e., component causes that are part of every sufficient cause, can be extracted with function `necessary_causes()`.
+
+```{r}
+scc_model %>% necessary_causes()
+```
+
+
 # References
 
 -   Irvine AD, McLean WHI, Leung DYM (2011): *Filaggrin mutations associated with skin and allergic diseases.* The New England Journal of Medicine 365(14):1315-1327.

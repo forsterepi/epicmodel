@@ -2,7 +2,7 @@
 % Please edit documentation in R/process_steplist_user.R
 \name{uncheck_steplist}
 \alias{uncheck_steplist}
-\title{Uncheckeing \code{epicmodel_steplist} objects}
+\title{Unchecking \code{epicmodel_steplist} objects}
 \usage{
 uncheck_steplist(steplist)
 }

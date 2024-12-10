@@ -1,4 +1,4 @@
-#' Uncheckeing `epicmodel_steplist` objects
+#' Unchecking `epicmodel_steplist` objects
 #'
 #' Putting a checked `epicmodel_steplist` back to an unchecked status.
 #'

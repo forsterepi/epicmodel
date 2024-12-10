@@ -23,6 +23,7 @@ reference:
   - scc_cause_sets
   - sc_contain_steps
   - show_steps
+  - necessary_causes
 - title: Using SCC models
 - subtitle: Standardized effect size
   contents: effect_size
