@@ -1,4 +1,4 @@
-# epicmodel (development version)
+# epicmodel 0.2.0
 
 * `prevent()` now enables investigation of prevention sets
 
