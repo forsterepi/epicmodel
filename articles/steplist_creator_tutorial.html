@@ -6,12 +6,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Steplist Creator Tutorial • epicmodel</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -362,7 +361,7 @@ tasks:</p>
 </ol>
 <p>You can delete from the other tables the same way. The WHAT table
 should now look like this.</p>
-<p><img src="img%2Fepicmodel_app_tutorial_what1.png" width="50%"></p>
+<p><img src="img/epicmodel_app_tutorial_what1.png" class="r-plt" width="50%"></p>
 <p>Let’s do the same for our DOES segments. Here are the tasks:</p>
 <ol style="list-style-type: decimal">
 <li>Go to tab <code>DOES</code>
@@ -436,7 +435,7 @@ e.g., for DOES segments “exposure” or “intervene”, try the values
 </tbody>
 </table>
 <p>The table should now look like this:</p>
-<p><img src="img%2Fepicmodel_app_tutorial_does1.png" width="70%"></p>
+<p><img src="img/epicmodel_app_tutorial_does1.png" class="r-plt" width="70%"></p>
 </div>
 <div class="section level3">
 <h3 id="modules">Modules<a class="anchor" aria-label="anchor" href="#modules"></a>
@@ -472,7 +471,7 @@ labels)</li>
 </tbody>
 </table>
 <p>The table now looks like this:</p>
-<p><img src="img%2Fepicmodel_app_tutorial_module1.png" width="50%"></p>
+<p><img src="img/epicmodel_app_tutorial_module1.png" class="r-plt" width="50%"></p>
 </div>
 <div class="section level3">
 <h3 id="step-tab">STEP tab<a class="anchor" aria-label="anchor" href="#step-tab"></a>
@@ -480,7 +479,7 @@ labels)</li>
 <p>Finally, let’s take a closer look at tab STEP. In the bottom left,
 you can see the table that later will contain the steps. All other
 elements are just there for getting new entries into this table.</p>
-<p><img src="img%2Fepicmodel_app_tutorial_step1.png" width="70%"></p>
+<p><img src="img/epicmodel_app_tutorial_step1.png" class="r-plt" width="70%"></p>
 <p>A step contains a THEN segment and potentially IF and/or IFNOT
 conditions. THEN statements can be created in the “Create THEN
 Statement” block in the top right. The structure follows the
@@ -488,14 +487,14 @@ Statement” block in the top right. The structure follows the
 heading of the third drop-down menu is “Object (WHAT)” by default. If
 you select a DOES segment with <code>then_object_does == 1</code> the
 drop-down menu will automatically change to “Object (THEN)”.</p>
-<p><img src="img%2Fepicmodel_app_tutorial_step2.png" width="70%"></p>
+<p><img src="img/epicmodel_app_tutorial_step2.png" class="r-plt" width="70%"></p>
 <p>Below the “Create THEN Statement” block are input fields for
 additional step information, including the module. Below are the action
 buttons, which add to and delete from the step table in the bottom left
 corner. As mentioned, if the THEN statement is not yet in the THEN table
 in tab THEN, it is added to it when adding the step. Finally, the “Clear
 inputs” button puts all input fields back to its default values.</p>
-<p><img src="img%2Fepicmodel_app_tutorial_step4.png" width="70%"></p>
+<p><img src="img/epicmodel_app_tutorial_step4.png" class="r-plt" width="70%"></p>
 <p>Finally, we have the “Create IF Condition” and “Create IFNOT
 Condition” blocks in the top left. Both are identical in structure. IF
 and IFNOT conditions are a combination of an unlimited number of THEN
@@ -512,7 +511,7 @@ STEP to occur (IF) or not to occur (IFNOT). The different scenarios are
 combined with OR, i.e., only one scenario has to be fulfilled in order
 for the STEP to occur (IF) or not to occur (IFNOT). Below, the input
 rows, there is a preview section for IDs and descriptions.</p>
-<p><img src="img%2Fepicmodel_app_tutorial_step5.png" width="70%"></p>
+<p><img src="img/epicmodel_app_tutorial_step5.png" class="r-plt" width="70%"></p>
 </div>
 <div class="section level3">
 <h3 id="theory-steps">Theory: Steps<a class="anchor" aria-label="anchor" href="#theory-steps"></a>
@@ -537,7 +536,7 @@ interventions in this example).</p>
 </ol>
 <p>Now, put in the other two steps. The step table should now look like
 this:</p>
-<p><img src="img%2Fepicmodel_app_tutorial_cause2.png" width="90%"></p>
+<p><img src="img/epicmodel_app_tutorial_cause2.png" class="r-plt" width="90%"></p>
 <p>It’s finally time to create our first IF conditions. The following
 two steps are still missing:</p>
 <ul>
@@ -561,7 +560,7 @@ second drop-down below “Create IF condition”</li>
 <li>Look at the “IF ID” and “IF Description” preview</li>
 <li>Click the “Add STEP” button</li>
 </ol>
-<p><img src="img%2Fepicmodel_app_tutorial_cause3.png" width="50%"></p>
+<p><img src="img/epicmodel_app_tutorial_cause3.png" class="r-plt" width="50%"></p>
 <p>Here are the tasks for the second step:</p>
 <ol style="list-style-type: decimal">
 <li>Select “student” in drop-down menu “Subject (WHAT)”</li>
@@ -581,9 +580,9 @@ that both conditions are combined with AND</li>
 <li>To combine them with OR, change the second number from 1 to 2</li>
 <li>Click the “Add STEP” button</li>
 </ol>
-<p><img src="img%2Fepicmodel_app_tutorial_cause4.png" width="50%"></p>
+<p><img src="img/epicmodel_app_tutorial_cause4.png" class="r-plt" width="50%"></p>
 <p>The steps table should now look like this:</p>
-<p><img src="img%2Fepicmodel_app_tutorial_cause5.png" width="90%"></p>
+<p><img src="img/epicmodel_app_tutorial_cause5.png" class="r-plt" width="90%"></p>
 <p><strong>A word of caution</strong>: If you would now go back and edit
 the descriptions in tables WHAT, DOES, and WHERE, the step descriptions
 and THEN statements will <strong>not</strong> update automatically!</p>
@@ -651,8 +650,8 @@ practice”:</p>
 <li>Select “student knows practice” in the second drop-down</li>
 <li>Click “Add outcome definition”</li>
 </ol>
-<p><img src="img%2Fepicmodel_app_tutorial_outcome1.png" width="40%"></p>
-<p><img src="img%2Fepicmodel_app_tutorial_outcome2.png" width="70%"></p>
+<p><img src="img/epicmodel_app_tutorial_outcome1.png" class="r-plt" width="40%"></p>
+<p><img src="img/epicmodel_app_tutorial_outcome2.png" class="r-plt" width="70%"></p>
 <p>As an exercise, try to specify an alternative outcome definition:
 “student knows theory OR student knows practice”. You can again find the
 solution at the end of this article.</p>
@@ -690,21 +689,21 @@ save it as described and conduct the following tasks:</p>
 </h3>
 <p>Did you remember to enter <code>epicmodel articles</code> as
 <strong>plural</strong>?</p>
-<p><img src="img%2Fepicmodel_app_tutorial_what2.png" width="70%"><img src="img%2Fepicmodel_app_tutorial_does2.png" width="70%"><img src="img%2Fepicmodel_app_tutorial_where1.png" width="70%"></p>
+<p><img src="img/epicmodel_app_tutorial_what2.png" class="r-plt" width="70%"><img src="img/epicmodel_app_tutorial_does2.png" class="r-plt" width="70%"><img src="img/epicmodel_app_tutorial_where1.png" class="r-plt" width="70%"></p>
 </div>
 <div class="section level3">
 <h3 id="practice-steps">Practice: Steps<a class="anchor" aria-label="anchor" href="#practice-steps"></a>
 </h3>
 <p>Did you remember to check <strong>“End step?”</strong> for
 <code>student knows practice</code>?</p>
-<p><img src="img%2Fepicmodel_app_tutorial_cause6.png" width="90%"></p>
+<p><img src="img/epicmodel_app_tutorial_cause6.png" class="r-plt" width="90%"></p>
 </div>
 <div class="section level3">
 <h3 id="alternative-outcome-definition">Alternative outcome definition<a class="anchor" aria-label="anchor" href="#alternative-outcome-definition"></a>
 </h3>
 <p>Outcome definition: student knows theory OR student knows
 practice</p>
-<p><img src="img%2Fepicmodel_app_tutorial_outcome3.png" width="70%"></p>
+<p><img src="img/epicmodel_app_tutorial_outcome3.png" class="r-plt" width="70%"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -718,7 +717,7 @@ practice</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

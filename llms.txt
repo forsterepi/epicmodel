@@ -1,0 +1,177 @@
+# epicmodel
+
+## Overview
+
+`epicmodel` is short for **“Causal Modeling in Epidemiology”** and wants
+to offer all necessary tools for a causal modeling workflow in R for
+epidemiologists. Causal modeling describes a structured process of
+making causal assumptions based on which an epidemiological study is
+conducted and its results are interpreted. We are always making causal
+assumptions, at least implicitly. Causal modeling is about doing so
+explicitly. Did you ever wonder what to measure, how to define your
+variables, or how to model your outcome of interest? If yes, chances are
+you need to think about your causal model in more detail.
+
+Causal models are created by making causal assumptions (i.e., that
+variable A causes variable B) within a **causal modeling framework**.
+The current version of `epicmodel` focuses on one of these frameworks,
+sufficient-component cause (SCC) models, and offers a way to create them
+using R. SCC models describe, which sets of causes are in combination
+sufficient for the outcome of interest to occur.
+
+The package documentation contains many terms with a specific meaning in
+the context of this package. Check the **glossary** for an overview:
+[`vignette("glossary")`](https://forsterepi.github.io/epicmodel/articles/glossary.md).
+
+## Usage
+
+Creating SCC models follows a three-step workflow (see
+[`vignette("epicmodel")`](https://forsterepi.github.io/epicmodel/articles/epicmodel.md)
+for an overview):
+
+1.  Create the input for SCC model creation, the so called **steplist**,
+    using the built-in shiny app. See
+    [`vignette("steplist")`](https://forsterepi.github.io/epicmodel/articles/steplist.md)
+    for details.
+2.  Let `epicmodel` create the **SCC model** from the steplist
+3.  Use the SCC model, e.g., for:
+
+- Estimating **standardized effect size**
+- Investigating the effect of **prevention** and **intervention**
+- Inspecting the **mechanisms** behind sufficient causes
+- Transforming the SCC model to a directed acyclic graph (**DAG**)
+
+## Installation
+
+For the latest release:
+
+``` r
+install.packages("epicmodel")
+```
+
+For the development version:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("forsterepi/epicmodel")
+```
+
+# Package index
+
+## Steplists
+
+- [`launch_steplist_creator()`](https://forsterepi.github.io/epicmodel/reference/launch_steplist_creator.md)
+  :
+
+  Launch steplist creator `shiny` app
+
+- [`new_steplist()`](https://forsterepi.github.io/epicmodel/reference/epicmodel_steplist.md)
+  [`validate_steplist()`](https://forsterepi.github.io/epicmodel/reference/epicmodel_steplist.md)
+  [`empty_steplist()`](https://forsterepi.github.io/epicmodel/reference/epicmodel_steplist.md)
+  [`print(`*`<epicmodel_steplist>`*`)`](https://forsterepi.github.io/epicmodel/reference/epicmodel_steplist.md)
+  [`print(`*`<epicmodel_steplist_checked>`*`)`](https://forsterepi.github.io/epicmodel/reference/epicmodel_steplist.md)
+  [`summary(`*`<epicmodel_steplist>`*`)`](https://forsterepi.github.io/epicmodel/reference/epicmodel_steplist.md)
+  [`summary(`*`<epicmodel_steplist_checked>`*`)`](https://forsterepi.github.io/epicmodel/reference/epicmodel_steplist.md)
+  [`plot(`*`<epicmodel_steplist>`*`)`](https://forsterepi.github.io/epicmodel/reference/epicmodel_steplist.md)
+  [`plot(`*`<epicmodel_steplist_checked>`*`)`](https://forsterepi.github.io/epicmodel/reference/epicmodel_steplist.md)
+  : Steplist objects
+
+- [`check_steplist()`](https://forsterepi.github.io/epicmodel/reference/check_steplist.md)
+  :
+
+  Check `epicmodel_steplist` class objects
+
+## Processing steplists
+
+- [`remove_all_modules()`](https://forsterepi.github.io/epicmodel/reference/remove_all_modules.md)
+  : Remove all modules
+
+- [`remove_na()`](https://forsterepi.github.io/epicmodel/reference/remove_na.md)
+  :
+
+  Removing NA in `icc` and `outc`
+
+- [`remove_segment()`](https://forsterepi.github.io/epicmodel/reference/remove_segment.md)
+  : Remove segments
+
+- [`uncheck_steplist()`](https://forsterepi.github.io/epicmodel/reference/uncheck_steplist.md)
+  :
+
+  Unchecking `epicmodel_steplist` objects
+
+## SCC models
+
+- [`create_scc()`](https://forsterepi.github.io/epicmodel/reference/create_scc.md)
+  : Creating SCC models
+- [`new_scc()`](https://forsterepi.github.io/epicmodel/reference/epicmodel_scc.md)
+  [`validate_scc()`](https://forsterepi.github.io/epicmodel/reference/epicmodel_scc.md)
+  [`empty_scc()`](https://forsterepi.github.io/epicmodel/reference/epicmodel_scc.md)
+  [`print(`*`<epicmodel_scc>`*`)`](https://forsterepi.github.io/epicmodel/reference/epicmodel_scc.md)
+  [`summary(`*`<epicmodel_scc>`*`)`](https://forsterepi.github.io/epicmodel/reference/epicmodel_scc.md)
+  [`plot(`*`<epicmodel_scc>`*`)`](https://forsterepi.github.io/epicmodel/reference/epicmodel_scc.md)
+  : SCC model objects
+
+## Inspecting SCC models
+
+- [`are_sufficient()`](https://forsterepi.github.io/epicmodel/reference/are_sufficient.md)
+  : Check if a certain set of component causes is suffcient
+- [`scc_cause_sets()`](https://forsterepi.github.io/epicmodel/reference/scc_cause_sets.md)
+  : Extracting component causes from SCC model
+- [`sc_contain_steps()`](https://forsterepi.github.io/epicmodel/reference/sc_contain_steps.md)
+  : Do steps appear in sufficient causes?
+- [`show_steps()`](https://forsterepi.github.io/epicmodel/reference/show_steps.md)
+  : Show all steps of a SCC model
+- [`necessary_causes()`](https://forsterepi.github.io/epicmodel/reference/necessary_causes.md)
+  : Extract necessary causes
+
+## Using SCC models
+
+### Standardized effect size
+
+- [`effect_size()`](https://forsterepi.github.io/epicmodel/reference/effect_size.md)
+  : Determine standardized effect size of component causes
+
+### Mechanisms
+
+- [`mechanism()`](https://forsterepi.github.io/epicmodel/reference/mechanism.md)
+  [`new_mechanism()`](https://forsterepi.github.io/epicmodel/reference/mechanism.md)
+  [`validate_mechanism()`](https://forsterepi.github.io/epicmodel/reference/mechanism.md)
+  [`plot(`*`<epicmodel_mechanism>`*`)`](https://forsterepi.github.io/epicmodel/reference/mechanism.md)
+  [`print(`*`<epicmodel_mechanism>`*`)`](https://forsterepi.github.io/epicmodel/reference/mechanism.md)
+  : Investigate mechanisms
+- [`export_mechanism()`](https://forsterepi.github.io/epicmodel/reference/export_mechanism.md)
+  : Export mechanisms
+
+### Intervention and Prevention
+
+- [`intervene()`](https://forsterepi.github.io/epicmodel/reference/intervene.md)
+  : Explore effect of interventions
+- [`prevent()`](https://forsterepi.github.io/epicmodel/reference/prevent.md)
+  : Explore effect of prevention
+
+### DAGs
+
+- [`scc_to_dag()`](https://forsterepi.github.io/epicmodel/reference/scc_to_dag.md)
+  : Transform SCC to DAG
+- [`plot_dag()`](https://forsterepi.github.io/epicmodel/reference/plot_dag.md)
+  : Plot DAG
+
+## Built-in data
+
+- [`steplist_party`](https://forsterepi.github.io/epicmodel/reference/steplist_party.md)
+  : Birthday party example steplist
+- [`steplist_rain`](https://forsterepi.github.io/epicmodel/reference/steplist_rain.md)
+  : Rain example steplist
+- [`scc_rain`](https://forsterepi.github.io/epicmodel/reference/scc_rain.md)
+  : Rain example SCC model
+
+# Articles
+
+### Learn
+
+- [Steplists](https://forsterepi.github.io/epicmodel/articles/steplist.md):
+- [Steplist Creator
+  Tutorial](https://forsterepi.github.io/epicmodel/articles/steplist_creator_tutorial.md):
+- [SCC Models](https://forsterepi.github.io/epicmodel/articles/scc.md):
+- [Modules](https://forsterepi.github.io/epicmodel/articles/modules.md):
+- [Glossary](https://forsterepi.github.io/epicmodel/articles/glossary.md):

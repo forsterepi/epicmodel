@@ -1,0 +1,464 @@
+# SCC Models
+
+``` r
+library(epicmodel)
+#> Loading required package: magrittr
+```
+
+Sufficient-component cause (SCC) models are the core of the `epicmodel`
+package. Creating this package came with interesting discoveries and
+(re-)interpretations of some underlying concepts. They arise, first and
+foremost, from the definition of the steplist as well as the model
+creation process from steplist to SCC model. This vignette tries to
+summarize what “this thing called SCC model” is to `epicmodel`.
+
+- This vignette touches on concepts described in
+  [`vignette("steplist")`](https://forsterepi.github.io/epicmodel/articles/steplist.md).
+- For a detailed description of the structure of SCC objects from a R
+  perspective, see
+  [`?new_scc`](https://forsterepi.github.io/epicmodel/reference/epicmodel_scc.md).
+- And as always, Rothman’s paper is highly recommended (Rothman 1976).
+
+## Why SCC?
+
+Before going into more specific topics, it is worth clarifying what the
+purpose of a SCC model actually is. As previously described, they are a
+**causal modeling framework**, i.e., a specific structure or an approach
+to causal modeling, i.e., to specifying and structuring causal
+assumptions. As we learned from Pearl (2009; pp. 38-40), causal
+inference is only possible based on causal assumptions and, therefore,
+causal inference methods need to include causal modeling. There are
+different causal modeling frameworks available, e.g., causal graphs in
+the form of directed acyclic graphs (DAG). Different frameworks usually
+have different perspectives and can complement each other.
+
+SCC models describe a single outcome of interest, but with all of its
+(known or suspected) causes, which makes it an outcome-focused approach.
+The SCC framework models the idea that an effect has multiple causes and
+that only certain combinations of these causes lead to the outcome. The
+individual causes are called “component causes”, further emphasizing
+that multiple causes are necessary for the outcome to occur. The
+combinations of component causes that can lead to the outcome of
+interest are called “sufficient causes”, emphasizing that each of these
+sets is enough to cause the outcome. The main modeling task is grouping
+component causes together to form sufficient causes.
+
+SCC models add an important perspective to causal modeling and therefore
+to causal inference. Here is, as an example, a quote from an article by
+Rerknimitr et al. (2017) talking about atopic dermatitis (AD) and
+filaggrin (FLG):
+
+> Although null mutation of the FLG gene poses the strongest risk for
+> AD, 60% of individuals who carry the gene do not have AD symptoms
+> (Irvine et al. 2011). On the contrary, a significant portion of AD
+> patients do not have FLG mutation (Irvine et al. 2011). It is thus
+> evident that additional factors are needed to develop the disease.
+
+Through a SCC lens, the case seems obvious: Null mutations of the FLG
+gene seem to be a component cause for atopic dermatitis, but they are
+not part of every sufficient cause. An intuitive understanding of the
+SCC structure seems especially useful when investigating the effect of
+interventions. A certain intervention might be very beneficial for
+certain sufficient causes, i.e., a certain group of affected
+individuals, but useless for others. Without considering this
+possibility, the effect of beneficial interventions might be easily
+missed.
+
+The purpose of SCC models is therefore to extend causal modeling
+practices by the SCC perspective, which emphasizes two main points:
+
+- A single cause is only a component of a causal mechanism. For the
+  outcome to occur, other complementary component causes are needed.
+- There are multiple mechanisms that can lead to outcome occurrence. A
+  single cause is usually not part of all mechanisms.
+
+The task of SCC model creation can therefore be rephrased to the task of
+finding the smallest sets of component causes that are sufficient for
+outcome occurrence, with “smallest” meaning that, within the sufficient
+set, every single component cause is necessary. In `epicmodel`, these
+smallest sets are sometimes explicitly called **minimally sufficient**,
+even though sufficiency implies “minimality” by definition.
+
+## How can SCC models be used?
+
+The functionalities available in `epicmodel` show how SCC models might
+be used in practice. As mentioned above, SCC models are outcome-focused
+and in theory need to include all causes of an outcome. Their creation
+is therefore time-consuming, but once created, they should be easily
+re-usable. `epicmodel` is built on the assumption that we know enough
+about many health outcomes to create useful SCC models. A useful SCC
+model might be able to fulfill the following tasks:
+
+- Increase understanding of the modeled health outcome by grouping
+  component causes to sufficient causes
+- Generate hypotheses about the effect of prevention and interventions
+- Form the backbone of complex epidemiological causal models by
+  translating the SCC model to a DAG
+
+## Algorithm for SCC model creation
+
+First, let’s briefly talk about the algorithm for SCC model creation.
+The details are described in the function documentation for
+[`create_scc()`](https://forsterepi.github.io/epicmodel/reference/create_scc.md).
+These are the basic steps:
+
+1.  Derive a list of all valid combinations of component causes
+2.  Check all valid combinations of component causes for sufficiency (at
+    this point, IFNOT conditions are ignored)
+3.  Check if IFNOT conditions influence sufficiency
+4.  Reduce list of sufficient causes to minimally sufficient causes
+5.  Add unknown causes
+
+## IFNOT conditions, sufficiency status, and the concept of time
+
+While talking about the induction period in SCC models, Rothman et
+al. (2008; pp. 15-16) write:
+
+> There is no way to tell from a pie-chart diagram of a sufficient cause
+> which components affect each other, which components must come before
+> or after others, for which components the temporal order is
+> irrelevant, etc. The crucial information on temporal ordering must
+> come in a separate description of the interrelations among the
+> components of a sufficient cause.
+
+These interrelations among the component causes are available in the
+steplist, because the steps are based on mechanisms of outcome
+occurrence, which predefines their temporal ordering, i.e., the IF
+condition of a step always occurs before the corresponding THEN
+statement. For IFNOT conditions, however, this is not necessarily the
+case. The IFNOT condition could be fulfilled before or after the IF
+condition. Importantly, the temporal order of IF and IFNOT makes a
+difference. Under the implicit assumption that IF instantly leads to
+THEN, there are two possible orders of occurrence for steps with both IF
+and IFNOT conditions fulfilled:
+
+- IF -\> THEN -\> IFNOT: IF and therefore THEN occur before IFNOT is
+  fulfilled. Therefore, even if IFNOT is fulfilled, it cannot prevent
+  THEN.
+- IFNOT -\> IF: IFNOT occurs before IF and therefore IFNOT prevents THEN
+  from happening, even though IF is fulfilled.
+
+Importantly, the steplist does not contain information on which of these
+two orders of occurrence are realistic or if both are possible.
+Therefore, the algorithm of SCC model creation makes sure that all
+possible temporal orders are investigated. This is the reason, why the
+algorithm starts with ignoring IFNOT.
+
+It is worth mentioning, that it is implicitly assumed that, once a step
+occurred, it stays until the end, e.g., if step “IF Cell A produces
+cytokine B THEN cytokine B is present” occurred, cytokine B will be
+present until the end. If this assumption is unrealistic, an IFNOT
+condition needs to be added: “IF Cell A produces cytokine B and IFNOT
+factor C removes cytokine B THEN cytokine B is present”.
+
+In the quote, Rothman et al. speak of a separate description of the
+crucial information on temporal ordering in addition to the pie-chart
+diagram. In `epicmodel`, this separate description takes the form of the
+**sufficiency status**. The sufficiency status describes for every
+sufficient cause, if it is always sufficient or if sufficiency depends
+on the order of occurrence of some of its elements. See also
+[`?new_scc`](https://forsterepi.github.io/epicmodel/reference/epicmodel_scc.md)
+for more information.
+
+Let’s look at the built-in `steplist_party` as an example. It describes
+the situation of our friend Clara who is wondering under which
+circumstances her birthday party will be a success. Let’s first load the
+steplist, check it (after some adjustments), and create the SCC model.
+
+``` r
+steplist_checked <- steplist_party %>% remove_na() %>% remove_segment("d4") %>% check_steplist()
+scc_model <- steplist_checked %>% create_scc()
+scc_model
+```
+
+    #> 
+    #> ── Outcome Definitions ──
+    #> 
+    #> • Emma is coming and food is fine and Laura is coming and weather is fine
+    #> 
+    #> ── SC 1 ──
+    #> 
+    #> ✔ Always sufficient
+    #> Component causes:
+    #> • Emma is invited
+    #> • Laura is invited
+    #> • Birthday party takes place on a weekday
+    #> • Birthday party takes place at a karaoke bar
+    #> 
+    #> Modules
+    #> • guests: 40% (4/10)
+    #> • orga: 40% (4/10)
+    #> • food: 20% (2/10)
+    #> 
+    #> ── SC 2 ──
+    #> 
+    #> ✔ Always sufficient
+    #> Component causes:
+    #> • Ana is invited
+    #> • Emma is invited
+    #> • Laura is invited
+    #> • Birthday party takes place at a restaurant
+    #> 
+    #> Modules
+    #> • guests: 60% (6/10)
+    #> • orga: 30% (3/10)
+    #> • food: 10% (1/10)
+    #> 
+    #> ── SC 3 ──
+    #> 
+    #> ! Sufficiency depends on order of occurrence
+    #> Component causes:
+    #> • Ana is invited
+    #> • Emma is invited
+    #> • Laura is invited
+    #> • Birthday party takes place on a weekday
+    #> • No rain
+    #> • Birthday party takes place at the beach
+    #> 
+    #> Sufficient orders of occurrence:
+    #> • Ana is invited -> birthday party takes place on a weekday
+    #> 
+    #> Modules
+    #> • guests: 46% (6/13)
+    #> • orga: 38% (5/13)
+    #> • food: 15% (2/13)
+    #> 
+
+In the output, the sufficiency status is displayed as first element of a
+sufficient cause (SC). For SC1 and SC2, the status is “Always
+sufficient”. The status of SC3, however, is reported as “Sufficiency
+depends on order of occurrence”. The reason is that the mechanism of SC3
+contains the following step: *IF Ana is invited and IFNOT birthday party
+takes place on a weekday THEN Ana is coming*. We can see from the list
+of component causes in the output that both IF and IFNOT are fulfilled
+in SC3. Therefore, the algorithm checks, which orders of occurrence are
+sufficient for outcome occurrence and which are not. In this case, there
+are only two options:
+
+1.  Ana is invited -\> birthday party takes place on a weekday
+2.  birthday party takes place on a weekday -\> Ana is invited
+
+In the output, below the list of component causes, the sufficient orders
+of occurrence are listed. Here only option 1 is sufficient, because “Ana
+is invited” is the IF condition and must occur before the IFNOT
+condition “birthday party takes place on a weekday”.
+
+You probably noticed that in this example, these orders of occurrence do
+not make much sense. Even if Ana is invited before the host decides that
+the party takes place on a weekday, she still wouldn’t go. The problem
+occurs because the aforementioned assumption that IF instantly leads to
+THEN is violated. Therefore, you as the user need to evaluate if the
+orders of occurrence are plausible or not. `epicmodel` is able to notice
+some implausibilities and will report their presence in the output below
+the sufficiency status. However, even in this case there are always all
+possible orders of occurrence evaluated and reported and the user needs
+to discard implausible ones. In our birthday party example, we need to
+discard the only sufficient order of occurrence, which means that SC3 is
+actually not a sufficient cause! When creating causal pies, we can
+address this issue by specifying the `remove_sc` argument of
+[`plot()`](https://rdrr.io/r/graphics/plot.default.html).
+
+``` r
+plot(scc_party, remove_sc = 3)
+```
+
+## Unknown causes
+
+The final step of the aforementioned algorithm is called “Add unknown
+causes”. As described above, a SCC model must, in theory, contain all
+causes, component causes as well as sufficient causes, of the outcome of
+interest. In practice, knowing all causes is of course unrealistic.
+[`create_scc()`](https://forsterepi.github.io/epicmodel/reference/create_scc.md)
+therefore adds unknown causes as placeholders. Two types of unknown
+causes are added (see also
+[`?new_scc`](https://forsterepi.github.io/epicmodel/reference/epicmodel_scc.md)):
+
+- Unknown component cause: One additional component cause is added to
+  every sufficient cause to represent the set of unknown component
+  causes. Every sufficient cause gets a unique unknown component cause.
+- Unknown sufficient cause: One additional sufficient cause with a
+  single component cause is added to represent all unknown sufficient
+  causes.
+
+You can decide to not include unknown causes in all relevant functions
+by setting `unknown = FALSE`, for example when plotting causal pies with
+[`plot()`](https://rdrr.io/r/graphics/plot.default.html).
+
+## Other functions for SCC models
+
+`epicmodel` offers additional functions to inspect SCC models created by
+[`create_scc()`](https://forsterepi.github.io/epicmodel/reference/create_scc.md).
+For functions that use or further process SCC models, see “Get started”
+(i.e.,
+[`vignette("epicmodel")`](https://forsterepi.github.io/epicmodel/articles/epicmodel.md)).
+
+### Print all step IDs and descriptions
+
+Use
+[`show_steps()`](https://forsterepi.github.io/epicmodel/reference/show_steps.md)
+to print step IDs and descriptions in the console.
+
+``` r
+show_steps(scc_model)
+#> • THENa5d1: Start: Ana is invited
+#> • THENa4d1: Start: Emma is invited
+#> • THENa6d1: Start: Laura is invited
+#> • THENa7d3e3: Start: Birthday party takes place on a weekday
+#> • IFa5d1IFNOTa7d3e3THENa5d5: IF Ana is invited and IFNOT birthday party takes
+#> place on a weekday THEN Ana is coming
+#> • THENa3: Start: No rain
+#> • THENa7d3e4: Start: Birthday party takes place at a restaurant
+#> • THENa7d3e5: Start: Birthday party takes place at a karaoke bar
+#> • IF(a7d3e2)or(a7d3e1+a3)THENa2d6: End: IF birthday party takes place inside or
+#> (birthday party takes place outside and no rain) THEN weather is fine
+#> • IF(a7d3e5)or(a7d3e4)THENa7d3e2: IF birthday party takes place at a karaoke
+#> bar or birthday party takes place at a restaurant THEN birthday party takes
+#> place inside
+#> • THENa7d3e6: Start: Birthday party takes place at the beach
+#> • IFa7d3e6THENa7d3e1: IF birthday party takes place at the beach THEN birthday
+#> party takes place outside
+#> • IFa6d1THENa6d5: End: IF Laura is invited THEN Laura is coming
+#> • IF(a4d1+a5d5)or(a4d1+a7d3e5)THENa4d5: End: IF (Emma is invited and Ana is
+#> coming) or (Emma is invited and birthday party takes place at a karaoke bar)
+#> THEN Emma is coming
+#> • IFa7d3e3THENa8d2a1: IF birthday party takes place on a weekday THEN Clara,
+#> the host, brings birthday cake
+#> • IF(a7d3e4)or(a8d2a1)THENa9d6: End: IF birthday party takes place at a
+#> restaurant or Clara, the host, brings birthday cake THEN food is fine
+```
+
+### Inspect if sufficient causes contain certain steps
+
+When printing SCC models, it is reported, which component causes are
+part of the sufficient causes. However, sometimes you might want to know
+if some other step is part of the mechanism that links component causes
+and outcome for sufficient causes. Use
+[`sc_contain_steps()`](https://forsterepi.github.io/epicmodel/reference/sc_contain_steps.md)
+to get the answer. When talking about the sufficiency status above, we
+were interested in the step *IF Ana is invited and IFNOT birthday party
+takes place on a weekday THEN Ana is coming*. So let’s double-check if
+it is actually only part of sufficient cause 3. The corresponding step
+ID, as we see from
+[`show_steps()`](https://forsterepi.github.io/epicmodel/reference/show_steps.md)
+is *IFa5d1IFNOTa7d3e3THENa5d5*.
+
+``` r
+scc_model %>% sc_contain_steps("IFa5d1IFNOTa7d3e3THENa5d5")
+#> 
+#> ── SC 1 ──
+#> 
+#> Component causes:
+#> • Emma is invited
+#> • Laura is invited
+#> • Birthday party takes place on a weekday
+#> • Birthday party takes place at a karaoke bar
+#> 
+#> ✖ SC1 does not contain step 'IF Ana is invited and IFNOT birthday party takes place on a weekday THEN Ana is coming' (IFa5d1IFNOTa7d3e3THENa5d5)
+#> 
+#> ── SC 2 ──
+#> 
+#> Component causes:
+#> • Ana is invited
+#> • Emma is invited
+#> • Laura is invited
+#> • Birthday party takes place at a restaurant
+#> 
+#> ✔ SC2 contains step 'IF Ana is invited and IFNOT birthday party takes place on a weekday THEN Ana is coming' (IFa5d1IFNOTa7d3e3THENa5d5)
+#> 
+#> ── SC 3 ──
+#> 
+#> Component causes:
+#> • Ana is invited
+#> • Emma is invited
+#> • Laura is invited
+#> • Birthday party takes place on a weekday
+#> • No rain
+#> • Birthday party takes place at the beach
+#> 
+#> ✔ SC3 contains step 'IF Ana is invited and IFNOT birthday party takes place on a weekday THEN Ana is coming' (IFa5d1IFNOTa7d3e3THENa5d5)
+```
+
+Actually, the step is part of both SC2 and SC3. This makes complete
+sense because, in contrast to SC1, Ana is invited both times and
+therefore the IF condition is fulfilled. Only SC3 has status
+“Sufficiency depends on order of occurrence” because the IFNOT condition
+is only fulfilled in SC3 but not in SC2.
+
+### Get component causes as list
+
+If you want to retrieve the sets of component causes that form the
+sufficient causes as a list of vectors, you can use
+[`scc_cause_sets()`](https://forsterepi.github.io/epicmodel/reference/scc_cause_sets.md).
+You can retrieve both step IDs as well as descriptions.
+
+``` r
+scc_model %>% scc_cause_sets(output = "desc")
+#> $cc90
+#> [1] "Start: Emma is invited"                            
+#> [2] "Start: Laura is invited"                           
+#> [3] "Start: Birthday party takes place on a weekday"    
+#> [4] "Start: Birthday party takes place at a karaoke bar"
+#> 
+#> $cc103
+#> [1] "Start: Ana is invited"                            
+#> [2] "Start: Emma is invited"                           
+#> [3] "Start: Laura is invited"                          
+#> [4] "Start: Birthday party takes place at a restaurant"
+#> 
+#> $cc125
+#> [1] "Start: Ana is invited"                         
+#> [2] "Start: Emma is invited"                        
+#> [3] "Start: Laura is invited"                       
+#> [4] "Start: Birthday party takes place on a weekday"
+#> [5] "Start: No rain"                                
+#> [6] "Start: Birthday party takes place at the beach"
+```
+
+### Check sufficiency for a set of component causes
+
+Finally, with
+[`are_sufficient()`](https://forsterepi.github.io/epicmodel/reference/are_sufficient.md)
+you can check for a given SCC model if a certain set of component causes
+would lead to the outcome of interest, i.e., if any sufficient cause is
+fulfilled by your provided set. There are two types of output:
+`type = "binary"`, returns `TRUE` or `FALSE`, while `type = "status"`
+returns one of “always”, “depends”, or “never”, depending on the
+sufficiency status of fulfilled sufficient causes. (Without specifying
+any causes, the function prints a list of all available ones in the
+console.)
+
+``` r
+scc_model %>% are_sufficient(c("THENa5d1","THENa4d1","THENa6d1","THENa7d3e4"), type = "status")
+#> [1] "always"
+scc_model %>% are_sufficient(c("THENa5d1","THENa4d1","THENa6d1","THENa7d3e4"), type = "binary")
+#> [1] TRUE
+```
+
+### Extract necessary causes
+
+Necessary causes, i.e., component causes that are part of every
+sufficient cause, can be extracted with function
+[`necessary_causes()`](https://forsterepi.github.io/epicmodel/reference/necessary_causes.md).
+
+``` r
+scc_model %>% necessary_causes()
+#> [1] "THENa4d1" "THENa6d1"
+```
+
+## References
+
+- Irvine AD, McLean WHI, Leung DYM (2011): *Filaggrin mutations
+  associated with skin and allergic diseases.* The New England Journal
+  of Medicine 365(14):1315-1327.
+- Pearl J (2009): *Causality: Models, reasoning, and inference.*
+  Cambridge: Univ. Press.
+- Rerknimitr P, Otsuka A, Nakashima C, Kabashima K (2017): *The
+  etiopathogenesis of atopic dermatitis: barrier disruption,
+  immunological derangement, and pruritus.* Inflammation and
+  Regeneration 37:14.
+- Rothman KJ (1976): *Causes*. American Journal of Epidemiology
+  104(6):587-592.
+- Rothman KJ, Greenland S, Poole C, Lash TL (2008): *Causation and
+  Causal Inference.* In: Rothman KJ, Greenland S, Lash TL (Ed.): *Modern
+  epidemiology.* Third edition. Philadelphia, Baltimore, New York:
+  Wolters Kluwer Health Lippincott Williams & Wilkins, pp. 5–31.
