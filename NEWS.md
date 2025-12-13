@@ -1,5 +1,11 @@
 # epicmodel (development version)
 
+* Update email address
+
+* Update roxygen to 7.3.3
+
+* Use argument `.internal` of `rlang::abort()`
+
 * Use `all()` and `any()`
 
 * Replace `label.size` with `linewidth` in a call to `ggplot2::geom_label()`

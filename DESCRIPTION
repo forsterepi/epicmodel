@@ -2,7 +2,7 @@ Package: epicmodel
 Title: Causal Modeling in Epidemiology
 Version: 0.2.0.9000
 Authors@R: 
-    person("Felix", "Forster", , "felix.forster@med.uni-muenchen.de", role = c("aut", "cre", "cph"),
+    person("Felix", "Forster", , "forsterepi@gmail.com", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0002-3670-9244"))
 Description: Create causal models for use in epidemiological studies, 
     including sufficient-component cause models as introduced by 
