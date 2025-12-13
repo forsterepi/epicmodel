@@ -652,7 +652,7 @@ minimize_sc <- function(sc) {
     for (j in 1:n_rows) {
       ### Check if the component causes that are missing in the i-th set, are also missing in the j-th set
       if (length(left_out_start) > 0) {
-        also_false <- sc[j,left_out_start] %>% as.logical() %>% all_false()
+        also_false <- sc[j,left_out_start] %>% as.logical() %>% any() %>% magrittr::not()
       } else {
         also_false <- T
       }
@@ -719,7 +719,7 @@ get_sc_to_check_for_ifnot <- function(sc, sc_final_steps, ifnot_steps){
                                              parent = cnd, class = "input_sc_final_steps")
   })
 
-  if (rownames(sc) %>% magrittr::equals(names(sc_final_steps)) %>% all_true() %>% magrittr::not()) {
+  if (rownames(sc) %>% magrittr::equals(names(sc_final_steps)) %>% all() %>% magrittr::not()) {
     cli::cli_abort(c("Input validation error: {.var sc_final_steps}",
                      "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
                    class = "input_names_sc_and_sc_final_steps")
@@ -734,7 +734,7 @@ get_sc_to_check_for_ifnot <- function(sc, sc_final_steps, ifnot_steps){
   #=============================================================================
   ifnot_steps_finder <- vector(mode = "logical", length = length(sc_final_steps)) %>% magrittr::set_names(rownames(sc))
   for (i in 1:length(sc_final_steps)) {
-    ifnot_steps_finder[rownames(sc)[i]] <- ifnot_steps %>% magrittr::is_in(sc_final_steps[[i]]) %>% all_false() %>% magrittr::not()
+    ifnot_steps_finder[rownames(sc)[i]] <- ifnot_steps %>% magrittr::is_in(sc_final_steps[[i]]) %>% any()
   }
   # LEGACY: out <- sc[ifnot_steps_finder,]
   out <- sc %>% dplyr::filter(rownames(sc) %in% names(ifnot_steps_finder)[ifnot_steps_finder])
@@ -873,7 +873,7 @@ check_ifnot <- function(re_sc, row, sc_final_steps, prc, prc_split, outc_list) {
                                                     magrittr::extract2("then"))
   }
   ## End function when there are no relevant fulfilled IFNOT conditions
-  if (fulfilled_ifnot_conditions %>% all_false()) {
+  if (fulfilled_ifnot_conditions %>% any() %>% magrittr::not()) {
     return(list(sc_status = "always", order = NA, incon = FALSE, incon_then = NA))
   }
   ## Summarize relevant fulfilled IFNOT conditions
@@ -886,8 +886,8 @@ check_ifnot <- function(re_sc, row, sc_final_steps, prc, prc_split, outc_list) {
 
   # Check for potential inconistencies
   potential_implausible_ordering <- FALSE
-  if (relevant_ifnot_steps$then_step %>% magrittr::is_in(relevant_ifnot_steps$if_step) %>% all_false() %>% magrittr::not() |
-      relevant_ifnot_steps$then_step %>% magrittr::is_in(relevant_ifnot_steps$ifnot_step) %>% all_false() %>% magrittr::not()) {
+  if (relevant_ifnot_steps$then_step %>% magrittr::is_in(relevant_ifnot_steps$if_step) %>% any() |
+      relevant_ifnot_steps$then_step %>% magrittr::is_in(relevant_ifnot_steps$ifnot_step) %>% any()) {
     potential_implausible_ordering <- TRUE
     potential_implausible_ordering_then <- c(relevant_ifnot_steps$then_step[relevant_ifnot_steps$then_step %in%
                                                                                relevant_ifnot_steps$if_step],
@@ -951,7 +951,7 @@ check_ifnot <- function(re_sc, row, sc_final_steps, prc, prc_split, outc_list) {
     remove <- suff$remove[i] %>% stringr::str_split_1(";")
     ## Remove starting steps
     remove_cc <- re_sc[row,]
-    if (remove %>% magrittr::is_in(colnames(remove_cc)) %>% all_false() %>% magrittr::not()) {
+    if (remove %>% magrittr::is_in(colnames(remove_cc)) %>% any()) {
       for (j in 1:ncol(remove_cc)) {
         if (colnames(remove_cc)[j] %in% remove) {
           remove_cc[1,j] <- FALSE
@@ -967,13 +967,13 @@ check_ifnot <- function(re_sc, row, sc_final_steps, prc, prc_split, outc_list) {
   # Combine suff with to_remove
   to_remove %<>% dplyr::full_join(suff, by = c("list" = "remove"))
 
-  if (to_remove$suff %>% all_true()) {
+  if (to_remove$suff %>% all()) {
     return(list(sc_status = "always", order = NA, incon = FALSE, incon_then = NA))
   }
-  if (to_remove$suff %>% all_false()) {
+  if (to_remove$suff %>% any() %>% magrittr::not()) {
     return(list(sc_status = "never", order = NA, incon = FALSE, incon_then = NA))
   }
-  if (to_remove$suff %>% all_false() %>% magrittr::not() & to_remove$suff %>% all_true() %>% magrittr::not()) {
+  if (to_remove$suff %>% any() & to_remove$suff %>% all() %>% magrittr::not()) {
     if (potential_implausible_ordering) {
       sc_status_temp <- "depends (potential order implausibilities)"
     } else {
@@ -1078,7 +1078,7 @@ unknown_sc <- function(sc) {
       checkmate::assert_set_equal(colnames(out), c(colnames(sc), paste0("U",c(1:nrow(sc))), "USC"), ordered = T)
       checkmate::assert_set_equal(rownames(out), c(rownames(sc), "cc0"), ordered = T)
       checkmate::assert_true(out["cc0","USC"])
-      checkmate::assert_true(out["cc0", c(1:(ncol(sc) - 1))] %>% as.logical() %>% all_false())
+      checkmate::assert_true(out["cc0", c(1:(ncol(sc) - 1))] %>% as.logical() %>% any() %>% magrittr::not())
     }, error = function(cnd) {cli::cli_abort(c("Output validation error",
                                                "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
                                              parent = cnd, class = "output")

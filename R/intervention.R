@@ -279,7 +279,7 @@ get_intv <- function(scc, intervention, split) {
         intv <- grid
       } else {
         ## Check if specified interventions exists
-        if (intervention %>% magrittr::is_in(split$interventions$id_step) %>% all_true() %>% magrittr::not()) {
+        if (intervention %>% magrittr::is_in(split$interventions$id_step) %>% all() %>% magrittr::not()) {
           cli::cli_abort(c("All elements of {.var intervention} must be IDs of valid intervention steps!",
                            "i" = "Run {.fn intervene} without {.var intervention} argument to list all available intervention steps."),
                          class = "invalid_interventions")
@@ -292,12 +292,12 @@ get_intv <- function(scc, intervention, split) {
     } else {
       # With multiple intervetions specified
       ## Check if "all" has been specified as one element of the vector
-      if (intervention %>% magrittr::is_in("all") %>% all_false() %>% magrittr::not()) {
+      if (intervention %>% magrittr::is_in("all") %>% any()) {
         cli::cli_abort("In {.var intervention}, option {.field 'all'} can only be specified on its own without any other elements!",
                        class = "invalid_interventions_all")
       }
       ## Check if selected interventions exist
-      if (intervention %>% magrittr::is_in(split$interventions$id_step) %>% all_true() %>% magrittr::not()) {
+      if (intervention %>% magrittr::is_in(split$interventions$id_step) %>% all() %>% magrittr::not()) {
         invalid_intv <- intervention[intervention %>% magrittr::is_in(split$interventions$id_step) %>% magrittr::not()] %>%
           stringr::str_c(collapse = ", ")
         cli::cli_abort(c("All elements of {.var intervention} must be IDs of valid intervention steps!",
@@ -401,7 +401,7 @@ get_causes <- function(scc, causes, split) {
         cause_set <- scc$sc_cc
       } else {
         ## Check if specified cause exists
-        if (causes %>% magrittr::is_in(split$causes$id_step) %>% all_true() %>% magrittr::not()) {
+        if (causes %>% magrittr::is_in(split$causes$id_step) %>% all() %>% magrittr::not()) {
           cli::cli_abort(c("All elements of {.var causes} must be IDs of valid component causes!",
                            "i" = "Run {.fn intervene} without {.var causes} argument to list all available component causes."),
                          class = "invalid_causes")
@@ -421,12 +421,12 @@ get_causes <- function(scc, causes, split) {
     } else {
       # With multiple causes specified
       ## Check if "all" has been specified as one element of the vector
-      if (causes %>% magrittr::is_in("all") %>% all_false() %>% magrittr::not()) {
+      if (causes %>% magrittr::is_in("all") %>% any()) {
         cli::cli_abort("In {.var causes}, option {.field 'all'} can only be specified on its own without any other elements!",
                        class = "invalid_causes_all")
       }
       ## Check if selected causes exist
-      if (causes %>% magrittr::is_in(split$causes$id_step) %>% all_true() %>% magrittr::not()) {
+      if (causes %>% magrittr::is_in(split$causes$id_step) %>% all() %>% magrittr::not()) {
         invalid_causes <- causes[causes %>% magrittr::is_in(split$causes$id_step) %>% magrittr::not()] %>%
           stringr::str_c(collapse = ", ")
         cli::cli_abort(c("All elements of {.var causes} must be IDs of valid component causes!",
@@ -448,7 +448,7 @@ get_causes <- function(scc, causes, split) {
               icc_check$check[i] <- TRUE
             }
           }
-          if (icc_check$check %>% all_false() %>% magrittr::not()) {
+          if (icc_check$check %>% any()) {
             icc_check$combi_desc <- paste(icc_check$desc1," <> ",icc_check$desc2)
             icc_causes <- icc_check %>% dplyr::filter(.data$check == TRUE) %>% magrittr::extract2("combi_desc") %>%
               stringr::str_c(collapse = ", ")
@@ -528,7 +528,7 @@ get_prevented_causes <- function(causes, intv) {
                                           current_list_then = intv %>% sep_step() %>% magrittr::extract2("then"))
     }
     ## No IFNOT condition is fulfilled
-    if (fulfilled_causes %>% all_false()) {
+    if (fulfilled_causes %>% any() %>% magrittr::not()) {
       return(character(0))
     } else {
     ## Some IFNOT conditions are fulfilled
@@ -596,7 +596,7 @@ get_prevented_non_start_steps <- function(non_start_steps, intv) {
                                           current_list_then = intv %>% sep_step() %>% magrittr::extract2("then"))
     }
     ## No IFNOT condition is fulfilled
-    if (fulfilled_steps %>% all_false()) {
+    if (fulfilled_steps %>% any() %>% magrittr::not()) {
       return(character(0))
     } else {
       ## Some IFNOT conditions are fulfilled
@@ -704,7 +704,7 @@ check_causes_x_intv <- function(scc, cause_set, intv, prc, split, outc_list) {
 
   # Check sufficiency
   ## Check if all component causes are FALSE
-  if (cause_set %>% as.logical() %>% all_false()) {
+  if (cause_set %>% as.logical() %>% any() %>% magrittr::not()) {
     sufficient <- FALSE
     final_steps <- character(0)
   } else {
@@ -765,7 +765,7 @@ check_causes_x_intv <- function(scc, cause_set, intv, prc, split, outc_list) {
                                              parent = cnd, class = "output_out$intv_status")
   })
 
-  if (is.na(out$intv_order) %>% all_true()) {
+  if (is.na(out$intv_order) %>% all()) {
     rlang::try_fetch({
       checkmate::assert_scalar_na(out$intv_order, null.ok = F)
     }, error = function(cnd) {cli::cli_abort(c("Output validation error: {.var out$intv_order}",
@@ -847,7 +847,7 @@ minimize_intv <- function(intv, out_status) {
     intv0_status <- out_status[i,"intv0"]
     # LEGACY: intv_all_status <- out_status[i, c(2:ncol(out_status))]
     intv_all_status <- out_status %>% dplyr::select(2:dplyr::last_col()) %>% dplyr::slice(i)
-    never_exists <- "never" %>% magrittr::equals(intv_all_status) %>% all_false() %>% magrittr::not()
+    never_exists <- "never" %>% magrittr::equals(intv_all_status) %>% any()
     never_which <- colnames(intv_all_status)["never" %>% magrittr::equals(intv_all_status)]
     depends_which <- colnames(intv_all_status)["depends" %>% magrittr::equals(intv_all_status)]
 
@@ -878,7 +878,7 @@ minimize_intv <- function(intv, out_status) {
         for (k in 1:n_rows) {
           ### Check if the component causes that are missing in the j-th set, are also missing in the k-th set
           if (length(left_out_start) > 0) {
-            also_false <- intv_temp[k,left_out_start] %>% as.logical() %>% all_false()
+            also_false <- intv_temp[k,left_out_start] %>% as.logical() %>% any() %>% magrittr::not()
           } else {
             also_false <- T
           }
@@ -947,7 +947,7 @@ nice_output_intervene <- function(out_table, scc, split) {
     causes_temp <- out_table$cause_set[[rownames(out_table$status)[i]]]
     minimal_temp <- colnames(out_table$minimal)[out_table$minimal[i,] %>% t() %>% magrittr::extract(,1)]
     if (length(minimal_temp) > 0) {
-      never_exists_temp <- "never" %>% magrittr::equals(out_table$status[i,minimal_temp]) %>% all_false() %>% magrittr::not()
+      never_exists_temp <- "never" %>% magrittr::equals(out_table$status[i,minimal_temp]) %>% any()
       intv_temp <- vector(mode = "list", length = length(minimal_temp)) %>% magrittr::set_names(minimal_temp)
       for (j in 1:length(intv_temp)) {
         intv_temp[[j]] <- out_table$intv[[names(intv_temp)[j]]]
@@ -983,7 +983,7 @@ nice_output_intervene <- function(out_table, scc, split) {
             cat("\n")
             cli::cli_text("Prevention (no sufficiency) for the following orders of occurrence")
             order_tab <- out_table$order[[minimal_temp[j]]][[rownames(out_table$status)[i]]]
-            if (order_tab %>% is.na() %>% all_true() %>% magrittr::not()) {
+            if (order_tab %>% is.na() %>% all() %>% magrittr::not()) {
               ## Choose sufficient == FALSE because those are the orders of occurrence for which the outcome is prevented by the intervention
               cli::cli_ul(sufficient_order(order_tab, scc$steplist, sufficient = FALSE))
             }

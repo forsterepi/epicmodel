@@ -17,8 +17,8 @@ check_what_ids <- function(steplist) {
   letter <- "a"
   pattern <- paste0("^",letter,"[:digit:]+$")
   if (nrow(steplist$what) > 0) {
-    if (steplist$what$id_what %>% is.na() %>% all_true() %>% magrittr::not()) {
-      if (steplist$what$id_what %>% stringr::str_detect(pattern) %>% all_true() %>% magrittr::not()) {
+    if (steplist$what$id_what %>% is.na() %>% all() %>% magrittr::not()) {
+      if (steplist$what$id_what %>% stringr::str_detect(pattern) %>% all() %>% magrittr::not()) {
         wrong_ids <- steplist$what$id_what[steplist$what$id_what %>% stringr::str_detect(pattern) %>% magrittr::not()]
         cli::cli_abort(c("IDs in data.frame {.var what} of {.var steplist} must follow  format {.emph {pattern}},
                          i.e., start with lower case {.var {letter}} followed by digits, e.g., {letter}1,{letter}2, etc.!",
@@ -27,7 +27,7 @@ check_what_ids <- function(steplist) {
                        class = "wrong_id_format")
       }
 
-      if (steplist$what$id_what %>% duplicated() %>% all_false() %>% magrittr::not()) {
+      if (steplist$what$id_what %>% duplicated() %>% any()) {
         dupli_ids <- steplist$what$id_what[steplist$what$id_what %>% duplicated()] %>% unique()
         cli::cli_abort(c("IDs in data.frame {.var what} of {.var steplist} must be unique!",
                          "i" = "Data.frame {.var what} contains {nrow(steplist$what)} element{?s}.",
@@ -59,8 +59,8 @@ check_does_ids <- function(steplist) {
   letter <- "d"
   pattern <- paste0("^",letter,"[:digit:]+$")
   if (nrow(steplist$does) > 0) {
-    if (steplist$does$id_does %>% is.na() %>% all_true() %>% magrittr::not()) {
-      if (steplist$does$id_does %>% stringr::str_detect(pattern) %>% all_true() %>% magrittr::not()) {
+    if (steplist$does$id_does %>% is.na() %>% all() %>% magrittr::not()) {
+      if (steplist$does$id_does %>% stringr::str_detect(pattern) %>% all() %>% magrittr::not()) {
         wrong_ids <- steplist$does$id_does[steplist$does$id_does %>% stringr::str_detect(pattern) %>% magrittr::not()]
         cli::cli_abort(c("IDs in data.frame {.var does} of {.var steplist} must follow  format {.emph {pattern}},
                          i.e., start with lower case {.var {letter}} followed by digits, e.g., {letter}1,{letter}2, etc.!",
@@ -69,7 +69,7 @@ check_does_ids <- function(steplist) {
                        class = "wrong_id_format")
       }
 
-      if (steplist$does$id_does %>% duplicated() %>% all_false() %>% magrittr::not()) {
+      if (steplist$does$id_does %>% duplicated() %>% any()) {
         dupli_ids <- steplist$does$id_does[steplist$does$id_does %>% duplicated()] %>% unique()
         cli::cli_abort(c("IDs in data.frame {.var does} of {.var steplist} must be unique!",
                          "i" = "Data.frame {.var does} contains {nrow(steplist$does)} element{?s}.",
@@ -101,8 +101,8 @@ check_where_ids <- function(steplist) {
   letter <- "e"
   pattern <- paste0("^",letter,"[:digit:]+$")
   if (nrow(steplist$where) > 0) {
-    if (steplist$where$id_where %>% is.na() %>% all_true() %>% magrittr::not()) {
-      if (steplist$where$id_where %>% stringr::str_detect(pattern) %>% all_true() %>% magrittr::not()) {
+    if (steplist$where$id_where %>% is.na() %>% all() %>% magrittr::not()) {
+      if (steplist$where$id_where %>% stringr::str_detect(pattern) %>% all() %>% magrittr::not()) {
         wrong_ids <- steplist$where$id_where[steplist$where$id_where %>% stringr::str_detect(pattern) %>% magrittr::not()]
         cli::cli_abort(c("IDs in data.frame {.var where} of {.var steplist} must follow  format {.emph {pattern}},
                          i.e., start with lower case {.var {letter}} followed by digits, e.g., {letter}1,{letter}2, etc.!",
@@ -111,7 +111,7 @@ check_where_ids <- function(steplist) {
                        class = "wrong_id_format")
       }
 
-      if (steplist$where$id_where %>% duplicated() %>% all_false() %>% magrittr::not()) {
+      if (steplist$where$id_where %>% duplicated() %>% any()) {
         dupli_ids <- steplist$where$id_where[steplist$where$id_where %>% duplicated()] %>% unique()
         cli::cli_abort(c("IDs in data.frame {.var where} of {.var steplist} must be unique!",
                          "i" = "Data.frame {.var where} contains {nrow(steplist$where)} element{?s}.",
@@ -143,8 +143,8 @@ check_module_ids <- function(steplist) {
   letter <- "m"
   pattern <- paste0("^",letter,"[:digit:]+$")
   if (nrow(steplist$module) > 0) {
-    if (steplist$module$id_module %>% is.na() %>% all_true() %>% magrittr::not()) {
-      if (steplist$module$id_module %>% stringr::str_detect(pattern) %>% all_true() %>% magrittr::not()) {
+    if (steplist$module$id_module %>% is.na() %>% all() %>% magrittr::not()) {
+      if (steplist$module$id_module %>% stringr::str_detect(pattern) %>% all() %>% magrittr::not()) {
         wrong_ids <- steplist$module$id_module[steplist$module$id_module %>% stringr::str_detect(pattern) %>% magrittr::not()]
         cli::cli_abort(c("IDs in data.frame {.var module} of {.var steplist} must follow  format {.emph {pattern}},
                          i.e., start with lower case {.var {letter}} followed by digits, e.g., {letter}1,{letter}2, etc.!",
@@ -153,7 +153,7 @@ check_module_ids <- function(steplist) {
                        class = "wrong_id_format")
       }
 
-      if (steplist$module$id_module %>% duplicated() %>% all_false() %>% magrittr::not()) {
+      if (steplist$module$id_module %>% duplicated() %>% any()) {
         dupli_ids <- steplist$module$id_module[steplist$module$id_module %>% duplicated()] %>% unique()
         cli::cli_abort(c("IDs in data.frame {.var module} of {.var steplist} must be unique!",
                          "i" = "Data.frame {.var module} contains {nrow(steplist$module)} element{?s}.",
@@ -185,8 +185,8 @@ check_icc_ids <- function(steplist) {
   letter <- "i"
   pattern <- paste0("^",letter,"[:digit:]+$")
   if (nrow(steplist$icc) > 0) {
-    if (steplist$icc$id_icc %>% is.na() %>% all_true() %>% magrittr::not()) {
-      if (steplist$icc$id_icc %>% stringr::str_detect(pattern) %>% all_true() %>% magrittr::not()) {
+    if (steplist$icc$id_icc %>% is.na() %>% all() %>% magrittr::not()) {
+      if (steplist$icc$id_icc %>% stringr::str_detect(pattern) %>% all() %>% magrittr::not()) {
         wrong_ids <- steplist$icc$id_icc[steplist$icc$id_icc %>% stringr::str_detect(pattern) %>% magrittr::not()]
         cli::cli_abort(c("IDs in data.frame {.var icc} of {.var steplist} must follow  format {.emph {pattern}},
                          i.e., start with lower case {.var {letter}} followed by digits, e.g., {letter}1,{letter}2, etc.!",
@@ -195,7 +195,7 @@ check_icc_ids <- function(steplist) {
                        class = "wrong_id_format")
       }
 
-      if (steplist$icc$id_icc %>% duplicated() %>% all_false() %>% magrittr::not()) {
+      if (steplist$icc$id_icc %>% duplicated() %>% any()) {
         dupli_ids <- steplist$icc$id_icc[steplist$icc$id_icc %>% duplicated()] %>% unique()
         cli::cli_abort(c("IDs in data.frame {.var icc} of {.var steplist} must be unique!",
                          "i" = "Data.frame {.var icc} contains {nrow(steplist$icc)} element{?s}.",
@@ -225,7 +225,7 @@ check_what_keys <- function(steplist) {
 
   # Check what keys
   if (nrow(steplist$what) > 0) {
-    if (steplist$what$key_what %>% duplicated() %>% all_false() %>% magrittr::not()) {
+    if (steplist$what$key_what %>% duplicated() %>% any()) {
       dupli_keys <- steplist$what$key_what[steplist$what$key_what %>% duplicated()] %>% unique()
       cli::cli_warn(c("Keywords in data.frame {.var what} of {.var steplist} are not unique!",
                       "i" = "Data.frame {.var what} contains {nrow(steplist$what)} element{?s}.",
@@ -254,7 +254,7 @@ check_does_keys <- function(steplist) {
 
   # Check does keys
   if (nrow(steplist$does) > 0) {
-    if (steplist$does$key_does %>% duplicated() %>% all_false() %>% magrittr::not()) {
+    if (steplist$does$key_does %>% duplicated() %>% any()) {
       dupli_keys <- steplist$does$key_does[steplist$does$key_does %>% duplicated()] %>% unique()
       cli::cli_warn(c("Keywords in data.frame {.var does} of {.var steplist} are not unique!",
                       "i" = "Data.frame {.var does} contains {nrow(steplist$does)} element{?s}.",
@@ -283,7 +283,7 @@ check_where_keys <- function(steplist) {
 
   # Check where keys
   if (nrow(steplist$where) > 0) {
-    if (steplist$where$key_where %>% duplicated() %>% all_false() %>% magrittr::not()) {
+    if (steplist$where$key_where %>% duplicated() %>% any()) {
       dupli_keys <- steplist$where$key_where[steplist$where$key_where %>% duplicated()] %>% unique()
       cli::cli_warn(c("Keywords in data.frame {.var where} of {.var steplist} are not unique!",
                       "i" = "Data.frame {.var where} contains {nrow(steplist$where)} element{?s}.",
@@ -312,7 +312,7 @@ check_module_keys <- function(steplist) {
 
   # Check module keys
   if (nrow(steplist$module) > 0) {
-    if (steplist$module$key_module %>% duplicated() %>% all_false() %>% magrittr::not()) {
+    if (steplist$module$key_module %>% duplicated() %>% any()) {
       dupli_keys <- steplist$module$key_module[steplist$module$key_module %>% duplicated()] %>% unique()
       cli::cli_warn(c("Keywords in data.frame {.var module} of {.var steplist} are not unique!",
                       "i" = "Data.frame {.var module} contains {nrow(steplist$module)} element{?s}.",
@@ -343,11 +343,11 @@ are_modules_used <- function(steplist) {
     modules_used <- FALSE
   } else {
     # No use, if only empty strings or NA as strings are the keys
-    if (steplist$module$key_module %>% magrittr::is_in(c("NA","na",""," ")) %>% all_true()) {
+    if (steplist$module$key_module %>% magrittr::is_in(c("NA","na",""," ")) %>% all()) {
       modules_used <- FALSE
     } else {
       # No use, if module keys contain only actual NAs
-      if (steplist$module$key_module %>% is.na() %>% all_true()) {
+      if (steplist$module$key_module %>% is.na() %>% all()) {
         modules_used <- FALSE
       } else {
       # Otherwise yes
@@ -378,7 +378,7 @@ check_modules_in_steps <- function(steplist) {
   # Only continue if modules are actually used
   if (are_modules_used(steplist)) {
     ## Unspecified modules
-    if (steplist$step$module_step %>% magrittr::is_in(c(steplist$module$id_module,"")) %>% all_true() %>% magrittr::not()) {
+    if (steplist$step$module_step %>% magrittr::is_in(c(steplist$module$id_module,"")) %>% all() %>% magrittr::not()) {
       unspecified_modules <- steplist$step$module_step[steplist$step$module_step %>% magrittr::is_in(c(steplist$module$id_module,"")) %>%
                                                     magrittr::not()] %>% unique()
       cli::cli_abort(c("All modules in data.frame {.var step} must be specified in data.frame {.var modules}!",
@@ -388,7 +388,7 @@ check_modules_in_steps <- function(steplist) {
                      class = "unspecified_modules")
     }
     ## Unused modules
-    if (steplist$module$id_module %>% magrittr::is_in(steplist$step$module_step) %>% all_true() %>% magrittr::not()) {
+    if (steplist$module$id_module %>% magrittr::is_in(steplist$step$module_step) %>% all() %>% magrittr::not()) {
       unused_modules <- steplist$module$id_module[steplist$module$id_module %>% magrittr::is_in(steplist$step$module_step) %>%
                                                     magrittr::not()] %>% unique()
       cli::cli_warn(c("Not all modules have been used in data.frame {.var step}!",
@@ -398,7 +398,7 @@ check_modules_in_steps <- function(steplist) {
                     class = "unused_modules")
     }
     ## Inconsistent module use in steplist$step
-    if (steplist$step$module_step %>% magrittr::is_in("") %>% all_false() %>% magrittr::not()) {
+    if (steplist$step$module_step %>% magrittr::is_in("") %>% any()) {
       number_empty_modules <- steplist$step$module_step %>% magrittr::is_in("") %>% sum()
       cli::cli_abort(c("Either all steps or none must have a module specified, i.e., a value in {.var module_step} of data.frame {.var step}!",
                        "i" = "Data.frame {.var step} contains {nrow(steplist$step)} element{?s}.",
@@ -431,7 +431,7 @@ check_steps_in_icc <- function(steplist) {
 
   # Check if all used IDs are in steplist$step
   if (length(icc_ids) > 0) {
-    if (icc_ids %>% magrittr::is_in(steplist$step$id_step) %>% all_true() %>% magrittr::not()) {
+    if (icc_ids %>% magrittr::is_in(steplist$step$id_step) %>% all() %>% magrittr::not()) {
       not_available <- icc_ids[icc_ids %>% magrittr::is_in(steplist$step$id_step) %>% magrittr::not()]
       cli::cli_abort(c("All IDs in data.frame {.var icc}, i.e. in variables {.var id1} and {.var id2}, must be in {.var id_step} of
                        data.frame {.var step}!",
@@ -468,7 +468,7 @@ check_what_in_steps <- function(steplist) {
 
   if (length(used_what) > 0) {
     ## Unspecified WHAT segments
-    if (used_what %>% magrittr::is_in(steplist$what$id_what) %>% all_true() %>% magrittr::not()) {
+    if (used_what %>% magrittr::is_in(steplist$what$id_what) %>% all() %>% magrittr::not()) {
       unspecified_segments <- used_what[used_what %>% magrittr::is_in(steplist$what$id_what) %>% magrittr::not()] %>% unique()
       cli::cli_abort(c("All WHAT segments in data.frame {.var step} must be specified in data.frame {.var what}!",
                        "i" = "Data.frame {.var step} contains {nrow(steplist$step)} element{?s}.",
@@ -477,7 +477,7 @@ check_what_in_steps <- function(steplist) {
                      class = "unspecified_segments")
     }
     ## Unused WHAT segments
-    if (steplist$what$id_what %>% .[!is.na(.)] %>% magrittr::is_in(used_what) %>% all_true() %>% magrittr::not()) {
+    if (steplist$what$id_what %>% .[!is.na(.)] %>% magrittr::is_in(used_what) %>% all() %>% magrittr::not()) {
       unused_segments <- steplist$what$id_what[steplist$what$id_what %>% magrittr::is_in(used_what) %>% magrittr::not()] %>% unique()
       cli::cli_warn(c("Not all WHAT segments have been used in data.frame {.var step}!",
                       "i" = "Data.frame {.var what} contains {nrow(steplist$what)} element{?s}.",
@@ -510,7 +510,7 @@ check_does_in_steps <- function(steplist) {
 
   if (length(used_does) > 0) {
     ## Unspecified DOES segments
-    if (used_does %>% magrittr::is_in(steplist$does$id_does) %>% all_true() %>% magrittr::not()) {
+    if (used_does %>% magrittr::is_in(steplist$does$id_does) %>% all() %>% magrittr::not()) {
       unspecified_segments <- used_does[used_does %>% magrittr::is_in(steplist$does$id_does) %>% magrittr::not()] %>% unique()
       cli::cli_abort(c("All DOES segments in data.frame {.var step} must be specified in data.frame {.var does}!",
                        "i" = "Data.frame {.var step} contains {nrow(steplist$step)} element{?s}.",
@@ -519,7 +519,7 @@ check_does_in_steps <- function(steplist) {
                      class = "unspecified_segments")
     }
     ## Unused DOES segments
-    if (steplist$does$id_does %>% .[!is.na(.)] %>% magrittr::is_in(used_does) %>% all_true() %>% magrittr::not()) {
+    if (steplist$does$id_does %>% .[!is.na(.)] %>% magrittr::is_in(used_does) %>% all() %>% magrittr::not()) {
       unused_segments <- steplist$does$id_does[steplist$does$id_does %>% magrittr::is_in(used_does) %>% magrittr::not()] %>% unique()
       cli::cli_warn(c("Not all DOES segments have been used in data.frame {.var step}!",
                       "i" = "Data.frame {.var does} contains {nrow(steplist$does)} element{?s}.",
@@ -552,7 +552,7 @@ check_where_in_steps <- function(steplist) {
 
   if (length(used_where) > 0) {
     ## Unspecified WHERE segments
-    if (used_where %>% magrittr::is_in(steplist$where$id_where) %>% all_true() %>% magrittr::not()) {
+    if (used_where %>% magrittr::is_in(steplist$where$id_where) %>% all() %>% magrittr::not()) {
       unspecified_segments <- used_where[used_where %>% magrittr::is_in(steplist$where$id_where) %>% magrittr::not()] %>% unique()
       cli::cli_abort(c("All WHERE segments in data.frame {.var step} must be specified in data.frame {.var where}!",
                        "i" = "Data.frame {.var step} contains {nrow(steplist$step)} element{?s}.",
@@ -561,7 +561,7 @@ check_where_in_steps <- function(steplist) {
                      class = "unspecified_segments")
     }
     ## Unused WHERE segments
-    if (steplist$where$id_where %>% .[!is.na(.)] %>% magrittr::is_in(used_where) %>% all_true() %>% magrittr::not()) {
+    if (steplist$where$id_where %>% .[!is.na(.)] %>% magrittr::is_in(used_where) %>% all() %>% magrittr::not()) {
       unused_segments <- steplist$where$id_where[steplist$where$id_where %>% magrittr::is_in(used_where) %>% magrittr::not()] %>% unique()
       cli::cli_warn(c("Not all WHERE segments have been used in data.frame {.var step}!",
                       "i" = "Data.frame {.var where} contains {nrow(steplist$where)} element{?s}.",
@@ -665,7 +665,7 @@ check_then_use <- function(steplist) {
   prc <- process_steplist(steplist)
 
   if (nrow(prc) > 0) {
-    if (prc$id_step %>% is.na() %>% all_true() %>% magrittr::not()) {
+    if (prc$id_step %>% is.na() %>% all() %>% magrittr::not()) {
       ## Identify THEN subsets
       then_in_if <- prc$if_list %>% purrr::map_dfr(as.data.frame) %>% dplyr::filter(!is.na(.data$id)) %>% magrittr::extract2("id")
       then_in_ifnot <- prc$ifnot_list %>% purrr::map_dfr(as.data.frame) %>% dplyr::filter(!is.na(.data$id)) %>% magrittr::extract2("id")
@@ -673,7 +673,7 @@ check_then_use <- function(steplist) {
       then_not_end <- prc %>% dplyr::filter(.data$end_step != "1") %>% magrittr::extract2("then_step")
       then_end <- prc %>% dplyr::filter(.data$end_step == "1") %>% magrittr::extract2("then_step")
       ## THEN used multiple times with varying end_step
-      if (then_end %>% magrittr::is_in(then_not_end) %>% all_false() %>% magrittr::not()) {
+      if (then_end %>% magrittr::is_in(then_not_end) %>% any()) {
         dupli_end <- then_end[then_end %>% magrittr::is_in(then_not_end)]
         cli::cli_abort(c("Steps with identical THEN statements must not have both {.emph end_step = 0} and {.emph end_step = 1}!",
                          "x" = "In total, {length(dupli_end)} THEN statement{?s} {?is/are} available multiple times with different
@@ -681,7 +681,7 @@ check_then_use <- function(steplist) {
                        class = "dupli_then_with_varying_end_step")
       }
       ## No steps available with THEN that appear in IF/IFNOT
-      if (then_in_if_ifnot %>% magrittr::is_in(then_not_end) %>% all_true() %>% magrittr::not()) {
+      if (then_in_if_ifnot %>% magrittr::is_in(then_not_end) %>% all() %>% magrittr::not()) {
        unavailable_if_ifnot <- then_in_if_ifnot[then_in_if_ifnot %>% magrittr::is_in(then_not_end) %>% magrittr::not()]
        cli::cli_abort(c("All THEN statements used in IF/IFNOT conditions must be available for chaining!",
                       "i" = "There must be a step with this statement as its THEN part. This step must not be defined as {.emph end_step = 1}.",
@@ -690,7 +690,7 @@ check_then_use <- function(steplist) {
                       class = "unavailable_if_ifnot")
       }
       ## Steps without THEN statement in steplist$then
-      if (prc$then_step %>% magrittr::is_in(steplist$then$id_then) %>% all_true() %>% magrittr::not()) {
+      if (prc$then_step %>% magrittr::is_in(steplist$then$id_then) %>% all() %>% magrittr::not()) {
         unavailable_then <- prc$then_step[prc$then_step %>% magrittr::is_in(steplist$then$id_then) %>% magrittr::not()]
         cli::cli_abort(c("For all steps, their THEN statements must be part of data.frame {.var then} of {.var steplist}!",
                          "x" = "In total, {length(unavailable_then)} step{?s} {?has/have} no corresponding entry in data.frame {.var then}:
@@ -698,7 +698,7 @@ check_then_use <- function(steplist) {
                        class = "unavailable_then")
       }
       ## Duplicated THEN statements
-      if (prc$then_step %>% duplicated() %>% all_false() %>% magrittr::not()) {
+      if (prc$then_step %>% duplicated() %>% any()) {
         then_duplicates <- prc$then_step[prc$then_step %>% duplicated()]
         cli::cli_warn(c("There are steps with duplicated THEN statements!",
                         "i" = "In total, {length(then_duplicates)} step{?s} {?has/have} THEN statements that already appeared in other steps:
@@ -730,7 +730,7 @@ check_then_if_ifnot <- function(steplist) {
   prc <- process_steplist(steplist)
 
   if (nrow(prc) > 0) {
-    if (prc$id_step %>% is.na() %>% all_true() %>% magrittr::not()) {
+    if (prc$id_step %>% is.na() %>% all() %>% magrittr::not()) {
       ## Create empty container
       if_ifnot_equality <- rep(FALSE, nrow(prc))
       then_in_if <- rep(FALSE, nrow(prc))
@@ -757,21 +757,21 @@ check_then_if_ifnot <- function(steplist) {
         }
       }
       ## Report IF IFNOT equality
-      if (if_ifnot_equality %>% all_false() %>% magrittr::not()) {
+      if (if_ifnot_equality %>% any()) {
         if_ifnot_equality_steps <- prc$id_step[if_ifnot_equality] %>% stringr::str_c(collapse = ', ')
         cli::cli_abort(c("Some steps have identical IF and IFNOT conditions!",
                         "x" = "Applies to the following steps: {if_ifnot_equality_steps}"),
                       class = "if_ifnot_equality")
       }
       ## Report THEN IF equality
-      if (then_in_if %>% all_false() %>% magrittr::not()) {
+      if (then_in_if %>% any()) {
         then_in_if_steps <- prc$id_step[then_in_if] %>% stringr::str_c(collapse = ', ')
         cli::cli_abort(c("For some steps the THEN statement appears in its own IF condition!",
                          "x" = "Applies to the following steps: {then_in_if_steps}"),
                        class = "then_in_if")
       }
       ## Report THEN IFNOT equality
-      if (then_in_ifnot %>% all_false() %>% magrittr::not()) {
+      if (then_in_ifnot %>% any()) {
         then_in_ifnot_steps <- prc$id_step[then_in_ifnot] %>% stringr::str_c(collapse = ', ')
         cli::cli_abort(c("For some steps the THEN statement appears in its own IFNOT condition!",
                          "x" = "Applies to the following steps: {then_in_ifnot_steps}"),
@@ -802,10 +802,10 @@ check_outc <- function(steplist) {
   if (nrow(steplist$outc) == 0) {
     outc_empty <- TRUE
   } else {
-    if (steplist$outc$id_outc %>% magrittr::is_in(c("NA","na",""," ")) %>% all_false() %>% magrittr::not()) {
+    if (steplist$outc$id_outc %>% magrittr::is_in(c("NA","na",""," ")) %>% any()) {
       outc_empty <- TRUE
     } else {
-      if (steplist$outc$id_outc %>% is.na() %>% all_false() %>% magrittr::not()) {
+      if (steplist$outc$id_outc %>% is.na() %>% any()) {
         outc_empty <- TRUE
       } else {
         outc_empty <- FALSE
@@ -827,7 +827,7 @@ check_outc <- function(steplist) {
 
   # Compare used_then to end_then
   if (length(used_then) > 0) {
-    if (used_then %>% magrittr::is_in(end_then) %>% all_true() %>% magrittr::not()) {
+    if (used_then %>% magrittr::is_in(end_then) %>% all() %>% magrittr::not()) {
       not_available <- used_then[used_then %>% magrittr::is_in(end_then) %>% magrittr::not()]
       cli::cli_abort(c("All steps used in data.frame {.var outc} must be in data.frame {.var step} and must be defined as {.var end_step = 1}!",
                        "x" = "In total, {length(not_available)} step{?s} {?is/are} not in data.frame `step`:
@@ -837,7 +837,7 @@ check_outc <- function(steplist) {
   }
 
   if (length(end_then) > 0) {
-    if (end_then %>% magrittr::is_in(used_then) %>% all_true() %>% magrittr::not()) {
+    if (end_then %>% magrittr::is_in(used_then) %>% all() %>% magrittr::not()) {
       not_used <- end_then[end_then %>% magrittr::is_in(used_then) %>% magrittr::not()]
       cli::cli_warn(c("Some steps that are defined as {.var end_step = 1} are not used in outcome definitions, i.e., in data.frame {.var outc}!",
                        "x" = "In total, {length(not_used)} end step{?s} {?is/are} not in data.frame `outc` (with THEN):
@@ -853,8 +853,8 @@ check_outc <- function(steplist) {
 
     for (i in 1:length(outc_parts)) {
       for (j in 1:length(outc_parts)) {
-        all_of_mine_in_yours <- outc_parts[[i]] %>% magrittr::is_in(outc_parts[[j]]) %>% all_true()
-        all_of_yours_in_mine <- outc_parts[[j]] %>% magrittr::is_in(outc_parts[[i]]) %>% all_true()
+        all_of_mine_in_yours <- outc_parts[[i]] %>% magrittr::is_in(outc_parts[[j]]) %>% all()
+        all_of_yours_in_mine <- outc_parts[[j]] %>% magrittr::is_in(outc_parts[[i]]) %>% all()
         if (all_of_mine_in_yours & !(all_of_yours_in_mine)) {
           outc_subsets <- TRUE
         }}}

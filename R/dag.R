@@ -195,7 +195,7 @@ plot_dag <- function(dag, node_outc = NULL, node_expo = NULL, node_adj = NULL, n
   # Check input
   if (inherits(dag, "dagitty") %>% magrittr::not()) {
     if (is.list(dag)) {
-      if (names(dag) %>% magrittr::equals(c("dag","legend")) %>% all_true()) {
+      if (names(dag) %>% magrittr::equals(c("dag","legend")) %>% all()) {
         cli::cli_abort(c("{.var dag} must be a {.emph dagitty} class object!",
                          "i" = "If you used {.fn epicmodel::scc_to_dag} to create the DAG, please only input the element {.var dag}.",
                          "i" = "{.code test_dag <- scc_to_dag(scc)}",
@@ -363,7 +363,7 @@ plot_dag <- function(dag, node_outc = NULL, node_expo = NULL, node_adj = NULL, n
   }
 
   if (!is.null(node_adj)) {
-    if (node_adj %>% magrittr::is_in(nodes_adj_latent) %>% all_true() %>% magrittr::not()) {
+    if (node_adj %>% magrittr::is_in(nodes_adj_latent) %>% all() %>% magrittr::not()) {
       invalid_node_adj <- node_adj[!(node_adj %in% nodes_adj_latent)] %>% stringr::str_c(collapse = ", ")
       cli::cli_abort(c("{.var node_adj} must only contain existing nodes from the DAG without assigned status!",
                        "i" = "The following elements from {.var node_adj} are not in the DAG or already have a status assigned: {invalid_node_adj}",
@@ -385,7 +385,7 @@ plot_dag <- function(dag, node_outc = NULL, node_expo = NULL, node_adj = NULL, n
   }
 
   if (!is.null(node_latent)) {
-    if (node_latent %>% magrittr::is_in(nodes_adj_latent) %>% all_true() %>% magrittr::not()) {
+    if (node_latent %>% magrittr::is_in(nodes_adj_latent) %>% all() %>% magrittr::not()) {
       invalid_node_latent <- node_latent[!(node_latent %in% nodes_adj_latent)] %>% stringr::str_c(collapse = ", ")
       cli::cli_abort(c("{.var node_latent} must only contain existing nodes from the DAG without assigned status!",
                        "i" = "The following elements from {.var node_latent} are not in the DAG or already have a status assigned:
@@ -396,7 +396,7 @@ plot_dag <- function(dag, node_outc = NULL, node_expo = NULL, node_adj = NULL, n
   }
 
   if (!is.null(node_adj) & !is.null(node_latent)) {
-    if (node_adj %>% magrittr::is_in(node_latent) %>% all_false() %>% magrittr::not()) {
+    if (node_adj %>% magrittr::is_in(node_latent) %>% any()) {
       node_overlap <- node_adj[node_adj %>% magrittr::is_in(node_latent)] %>% stringr::str_c(collapse = ", ")
       cli::cli_abort(c("Nodes must not be part of both {.var node_adj} and {.var node_latent}!",
                        "i" = "The following nodes are part of both {.var node_adj} and {.var node_latent}: {node_overlap}"),
@@ -405,7 +405,7 @@ plot_dag <- function(dag, node_outc = NULL, node_expo = NULL, node_adj = NULL, n
   }
 
   if (!is.null(path_causal)) {
-     if (path_causal %>% magrittr::is_in(paths_causal_biased) %>% all_true() %>% magrittr::not()) {
+     if (path_causal %>% magrittr::is_in(paths_causal_biased) %>% all() %>% magrittr::not()) {
       invalid_path_causal <- path_causal[!(path_causal %in% paths_causal_biased)] %>% stringr::str_c(collapse = ", ")
       cli::cli_abort(c("{.var path_causal} must only contain existing paths from the DAG!",
                        "i" = "The following elements from {.var path_causal} are not in the DAG: {invalid_path_causal}",
@@ -415,7 +415,7 @@ plot_dag <- function(dag, node_outc = NULL, node_expo = NULL, node_adj = NULL, n
   }
 
   if (!is.null(path_biased)) {
-    if (path_biased %>% magrittr::is_in(paths_causal_biased) %>% all_true() %>% magrittr::not()) {
+    if (path_biased %>% magrittr::is_in(paths_causal_biased) %>% all() %>% magrittr::not()) {
       invalid_path_biased <- path_biased[!(path_biased %in% paths_causal_biased)] %>% stringr::str_c(collapse = ", ")
       cli::cli_abort(c("{.var path_biased} must only contain existing paths from the DAG!",
                        "i" = "The following elements from {.var path_biased} are not in the DAG: {invalid_path_biased}",
@@ -425,7 +425,7 @@ plot_dag <- function(dag, node_outc = NULL, node_expo = NULL, node_adj = NULL, n
   }
 
   if (!is.null(path_causal) & !is.null(path_biased)) {
-    if (path_causal %>% magrittr::is_in(path_biased) %>% all_false() %>% magrittr::not()) {
+    if (path_causal %>% magrittr::is_in(path_biased) %>% any()) {
       path_overlap <- path_causal[path_causal %>% magrittr::is_in(path_biased)] %>% stringr::str_c(collapse = ", ")
       cli::cli_abort(c("Paths must not be part of both {.var path_causal} and {.var path_biased}!",
                        "i" = "The following paths are part of both {.var path_causal} and {.var path_biased}: {path_overlap}"),
@@ -438,7 +438,7 @@ plot_dag <- function(dag, node_outc = NULL, node_expo = NULL, node_adj = NULL, n
                      error = function(cnd) {
                        cli::cli_abort("The names of {.var label} must be node names!", parent = cnd, class = "label_names")
                      })
-    if (names(label) %>% duplicated() %>% all_false() %>% magrittr::not()) {
+    if (names(label) %>% duplicated() %>% any()) {
       label_names_dupli <- names(label)[names(label) %>% duplicated()] %>% unique()
       cli::cli_abort(c("You try to change the {.var label} for the same node multiple times!",
                        "i" = "The following nodes appear more than once: {label_names_dupli}"
@@ -455,7 +455,7 @@ plot_dag <- function(dag, node_outc = NULL, node_expo = NULL, node_adj = NULL, n
                                         "i" = "Values specified for 'all', the node type, and the individual node are all added up."),
                                       parent = cnd, class = "label_shift_names")
                      })
-    if (names(label_shift) %>% duplicated() %>% all_false() %>% magrittr::not()) {
+    if (names(label_shift) %>% duplicated() %>% any()) {
       label_shift_names_dupli <- names(label_shift)[names(label_shift) %>% duplicated()] %>% unique()
       cli::cli_abort(c("You try to use the same name in {.var label_shift} multiple times!",
                        "i" = "The following names appear more than once: {label_shift_names_dupli}"

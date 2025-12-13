@@ -272,7 +272,7 @@ effect_size <- function(scc, depends = TRUE, output = c("nice","table")) {
                                     parent = cnd, class = "input_depends")
                    })
 
-  if (scc$sc_status %>% magrittr::equals("always") %>% all_false() & !depends) {
+  if (scc$sc_status %>% magrittr::equals("always") %>% any() %>% magrittr::not() & !depends) {
     cli::cli_abort("{.var depends} cannot be FALSE if there are only sufficient causes with status 'depends'!",
                    class = "input_depends_false_no_always")
   }
@@ -327,17 +327,17 @@ effect_size <- function(scc, depends = TRUE, output = c("nice","table")) {
       ### Check grid_true
       temp_suff_true <- rep(NA,length(sc))
       for (k in 1:length(sc)) {
-        temp_suff_true[k] <- sc[[k]] %>% magrittr::is_in(colnames(grid_true)[grid_true[j,] %>% t() %>% magrittr::extract(,1)]) %>% all_true()
+        temp_suff_true[k] <- sc[[k]] %>% magrittr::is_in(colnames(grid_true)[grid_true[j,] %>% t() %>% magrittr::extract(,1)]) %>% all()
       }
-      suff_true[j] <- temp_suff_true %>% all_false() %>% magrittr::not()
+      suff_true[j] <- temp_suff_true %>% any()
     }
     for (j in 1:nrow(grid_false)) {
       ### Check grid_false
       temp_suff_false <- rep(NA,length(sc))
       for (k in 1:length(sc)) {
-        temp_suff_false[k] <- sc[[k]] %>% magrittr::is_in(colnames(grid_false)[grid_false[j,] %>% t() %>% magrittr::extract(,1)]) %>% all_true()
+        temp_suff_false[k] <- sc[[k]] %>% magrittr::is_in(colnames(grid_false)[grid_false[j,] %>% t() %>% magrittr::extract(,1)]) %>% all()
       }
-      suff_false[j] <- temp_suff_false %>% all_false() %>% magrittr::not()
+      suff_false[j] <- temp_suff_false %>% any()
     }
     ## Fill out
     out$num_combos_true[i] <- nrow(grid_true)
@@ -433,7 +433,7 @@ sc_contain_steps <- function(scc, steps = NULL, output = c("nice","table")) {
     }
   } else {
   # Continue when steps have been provided
-    if (steps %>% magrittr::is_in(scc$steplist$step$id_step) %>% all_true() %>% magrittr::not()) {
+    if (steps %>% magrittr::is_in(scc$steplist$step$id_step) %>% all() %>% magrittr::not()) {
       no_steps <- steps[steps %>% magrittr::is_in(scc$steplist$step$id_step) %>% magrittr::not()] %>% stringr::str_c(collapse = ", ")
       cli::cli_abort(c("Not all elements in {.var steps} are valid step IDs: {no_steps}",
                        "i" = "Run {.fn sc_contain_steps} without {.var steps} argument to list all available steps."),
@@ -525,7 +525,7 @@ scc_cause_sets <- function(scc, output = c("id","desc","desc_no_start","all"), d
                                     parent = cnd, class = "input_depends")
                    })
 
-  if (scc$sc_status %>% magrittr::equals("always") %>% all_false() & !depends) {
+  if (scc$sc_status %>% magrittr::equals("always") %>% any() %>% magrittr::not() & !depends) {
     cli::cli_abort("{.var depends} cannot be FALSE if there are only sufficient causes with status 'depends'!",
                    class = "input_depends_false_no_always")
   }
@@ -712,7 +712,7 @@ are_sufficient <- function(scc, causes = NULL, type = c("status","binary")) {
   } else {
     # With causes specified
     ## Check if selected causes exist
-    if (causes %>% magrittr::is_in(split$causes$id_step) %>% all_true() %>% magrittr::not()) {
+    if (causes %>% magrittr::is_in(split$causes$id_step) %>% all() %>% magrittr::not()) {
       invalid_causes <- causes[causes %>% magrittr::is_in(split$causes$id_step) %>% magrittr::not()] %>%
         stringr::str_c(collapse = ", ")
       cli::cli_abort(c("All elements of {.var causes} must be IDs of valid component causes!",
@@ -728,21 +728,21 @@ are_sufficient <- function(scc, causes = NULL, type = c("status","binary")) {
   # Check sufficient causes against 'causes'
   suff_causes <- rep(NA, length(cc_id)) %>% magrittr::set_names(names(cc_id))
   for (i in 1:length(suff_causes)) {
-    suff_causes[i] <- cc_id[[names(suff_causes)[i]]] %>% magrittr::is_in(causes) %>% all_true()
+    suff_causes[i] <- cc_id[[names(suff_causes)[i]]] %>% magrittr::is_in(causes) %>% all()
   }
   if (type == "binary") {
-    if (suff_causes %>% all_false()) {
+    if (suff_causes %>% any() %>% magrittr::not()) {
       return(FALSE)
       } else {
       return(TRUE)
       }
     }
   if (type == "status") {
-    if (suff_causes %>% all_false()) {
+    if (suff_causes %>% any() %>% magrittr::not()) {
       out <- "never"
     } else {
       suff_status <- scc$sc_status[names(suff_causes)[suff_causes]]
-      if ("always" %>% magrittr::is_in(suff_status) %>% all_false() %>% magrittr::not()) {
+      if ("always" %>% magrittr::is_in(suff_status) %>% any()) {
         out <- "always"
       } else {
         out <- "depends"
@@ -846,10 +846,10 @@ necessary_causes <- function(scc, output = c("id","desc","desc_no_start")) {
       check_temp[j] <- names(check)[i] %in% cause_sets[[j]]
     }
 
-    check[i] <- all_true(check_temp)
+    check[i] <- all(check_temp)
   }
 
-  if (check %>% all_false()) {
+  if (check %>% any() %>% magrittr::not()) {
     cli::cli_alert_info("There are no necessary causes!")
     return(invisible(NULL))
   }

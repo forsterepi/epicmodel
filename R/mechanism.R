@@ -255,7 +255,7 @@ mechanism <- function(scc, modules = TRUE, module_colors = NULL) {
         #### Loop over every line in if_list
         for (k in 1:n_if_list_temp) {
           ##### Check if the current part of the IF condition has been used for the current sufficient cause
-          if ((prc_temp$then_step == if_list_temp$id[k]) %>% all_false()) {
+          if ((prc_temp$then_step == if_list_temp$id[k]) %>% any() %>% magrittr::not()) {
             ###### If not, set "from" from 0 instead of the node id
             out_temp$from[k] <- 0
           } else {
@@ -267,7 +267,7 @@ mechanism <- function(scc, modules = TRUE, module_colors = NULL) {
         }
         #### If there are scenarios with parts set from 0, all other parts are set from 0 as well,
         #### thereby only completed IF conditions appear in the graph
-        if ((out_temp$from == 0) %>% all_false() %>% magrittr::not()) {
+        if ((out_temp$from == 0) %>% any()) {
           to_zero <- out_temp$sce[out_temp$from == 0]
           out_temp$from[out_temp$sce %in% to_zero] <- 0
         }
@@ -303,7 +303,7 @@ mechanism <- function(scc, modules = TRUE, module_colors = NULL) {
         #### Loop over every line in ifnot_list
         for (k in 1:n_ifnot_list_temp) {
           ##### Check if the current part of the IF condition has been used for the current sufficient cause
-          if ((prc_temp$then_step == ifnot_list_temp$id[k]) %>% all_false()) {
+          if ((prc_temp$then_step == ifnot_list_temp$id[k]) %>% any() %>% magrittr::not()) {
             ###### If not, set "from" from 0 instead of the node id
             out_temp$from[k] <- 0
           } else {
@@ -315,7 +315,7 @@ mechanism <- function(scc, modules = TRUE, module_colors = NULL) {
         }
         #### If there are scenarios with parts set from 0, all other parts are set from 0 as well,
         #### thereby only completed IF conditions appear in the graph
-        if ((out_temp$from == 0) %>% all_false() %>% magrittr::not()) {
+        if ((out_temp$from == 0) %>% any()) {
           to_zero <- out_temp$sce[out_temp$from == 0]
           out_temp$from[out_temp$sce %in% to_zero] <- 0
         }
@@ -644,7 +644,7 @@ are_colors <- function(x) {
   }
 
   # Check if all of them are colors
-  out <- check %>% all_true()
+  out <- check %>% all()
   #=============================================================================
   # Check output
   rlang::try_fetch(checkmate::assert_logical(out, any.missing = F, len = 1, null.ok = F),

@@ -535,7 +535,7 @@ plot.epicmodel_steplist_checked <- function(x, modules = TRUE, module_colors = N
       #### Loop over every line in if_list
       for (k in 1:n_if_list_temp) {
         ##### Check if the current part of the IF condition has been used for the current sufficient cause
-        if ((prc$then_step == if_list_temp$id[k]) %>% all_false()) {
+        if ((prc$then_step == if_list_temp$id[k]) %>% any() %>% magrittr::not()) {
           ###### If not, set "from" from 0 instead of the node id
           out_temp$from[k] <- 0
         } else {
@@ -547,7 +547,7 @@ plot.epicmodel_steplist_checked <- function(x, modules = TRUE, module_colors = N
       }
       #### If there are scenarios with parts set from 0, all other parts are set from 0 as well,
       #### thereby only completed IF conditions appear in the graph
-      if ((out_temp$from == 0) %>% all_false() %>% magrittr::not()) {
+      if ((out_temp$from == 0) %>% any()) {
         to_zero <- out_temp$sce[out_temp$from == 0]
         out_temp$from[out_temp$sce %in% to_zero] <- 0
       }
@@ -585,7 +585,7 @@ plot.epicmodel_steplist_checked <- function(x, modules = TRUE, module_colors = N
       #### Loop over every line in ifnot_list
       for (k in 1:n_ifnot_list_temp) {
         ##### Check if the current part of the IF condition has been used for the current sufficient cause
-        if ((prc$then_step == ifnot_list_temp$id[k]) %>% all_false()) {
+        if ((prc$then_step == ifnot_list_temp$id[k]) %>% any() %>% magrittr::not()) {
           ###### If not, set "from" from 0 instead of the node id
           out_temp$from[k] <- 0
         } else {
@@ -597,7 +597,7 @@ plot.epicmodel_steplist_checked <- function(x, modules = TRUE, module_colors = N
       }
       #### If there are scenarios with parts set from 0, all other parts are set from 0 as well,
       #### thereby only completed IF conditions appear in the graph
-      if ((out_temp$from == 0) %>% all_false() %>% magrittr::not()) {
+      if ((out_temp$from == 0) %>% any()) {
         to_zero <- out_temp$sce[out_temp$from == 0]
         out_temp$from[out_temp$sce %in% to_zero] <- 0
       }

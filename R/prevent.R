@@ -159,7 +159,7 @@ get_causes_prevent <- function(scc, causes, split) {
   } else {
   # With causes specified
     ## Check if selected causes exist
-    if (causes %>% magrittr::is_in(split$causes$id_step) %>% all_true() %>% magrittr::not()) {
+    if (causes %>% magrittr::is_in(split$causes$id_step) %>% all() %>% magrittr::not()) {
       invalid_causes <- causes[causes %>% magrittr::is_in(split$causes$id_step) %>% magrittr::not()] %>%
         stringr::str_c(collapse = ", ")
       cli::cli_abort(c("All elements of {.var causes} must be IDs of valid component causes!",
@@ -182,7 +182,7 @@ get_causes_prevent <- function(scc, causes, split) {
               icc_check$check[i] <- TRUE
             }
         }
-        if (icc_check$check %>% all_false() %>% magrittr::not()) {
+        if (icc_check$check %>% any()) {
           icc_check$combi_desc <- paste(icc_check$desc1," <> ",icc_check$desc2)
           icc_causes <- icc_check %>% dplyr::filter(.data$check == TRUE) %>% magrittr::extract2("combi_desc") %>%
             stringr::str_c(collapse = ", ")
@@ -259,7 +259,7 @@ minimize_prev <- function(prev_set) {
     for (j in 1:n_rows) {
       ### Check if the component causes that are missing in the i-th set, are also missing in the j-th set
       if (length(left_out_start) > 0) {
-        also_false <- prev_set[j,left_out_start] %>% as.logical() %>% all_false()
+        also_false <- prev_set[j,left_out_start] %>% as.logical() %>% any() %>% magrittr::not()
       } else {
         also_false <- T
       }

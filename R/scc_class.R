@@ -573,7 +573,7 @@ plot.epicmodel_scc <- function(x, remove_sc = NULL, sc_label = NULL, unknown = T
     plot <- plot + ggplot2::labs(caption = caption)
   }
   ## Only add legend when status "depends" or "unknown" appears (i.e., not only "always")
-  if (df_plot$Sufficiency %>% magrittr::equals("always") %>% all_true() %>% magrittr::not()) {
+  if (df_plot$Sufficiency %>% magrittr::equals("always") %>% all() %>% magrittr::not()) {
     plot <- plot + ggplot2::guides(fill = "legend")
   }
 
@@ -598,7 +598,7 @@ plot.epicmodel_scc <- function(x, remove_sc = NULL, sc_label = NULL, unknown = T
 #' @noRd
 sufficient_order <- function(order, steplist, sufficient = TRUE) {
   # Check input
-  if (order %>% is.na() %>% all_true()) {
+  if (order %>% is.na() %>% all()) {
     rlang::try_fetch({
       checkmate::assert_scalar_na(order, null.ok = F)
       }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var order}",

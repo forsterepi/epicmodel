@@ -1,5 +1,7 @@
 # epicmodel (development version)
 
+* Use `all()` and `any()`
+
 * Replace `label.size` with `linewidth` in a call to `ggplot2::geom_label()`
 
 # epicmodel 0.2.0
