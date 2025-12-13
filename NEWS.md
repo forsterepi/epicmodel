@@ -1,10 +1,12 @@
 # epicmodel (development version)
 
+# epicmodel 0.2.1
+
 * Update email address
 
 * Update roxygen to 7.3.3
 
-* Use argument `.internal` of `rlang::abort()`
+* Use `.internal` of `rlang::abort()`
 
 * Use `all()` and `any()`
 

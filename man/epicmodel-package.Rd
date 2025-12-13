@@ -20,7 +20,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Felix Forster \email{felix.forster@med.uni-muenchen.de} (\href{https://orcid.org/0000-0002-3670-9244}{ORCID}) [copyright holder]
+\strong{Maintainer}: Felix Forster \email{forsterepi@gmail.com} (\href{https://orcid.org/0000-0002-3670-9244}{ORCID}) [copyright holder]
 
 }
 \keyword{internal}
