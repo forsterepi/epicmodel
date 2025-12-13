@@ -562,7 +562,7 @@ plot_dag <- function(dag, node_outc = NULL, node_expo = NULL, node_adj = NULL, n
   # Annotate labels
   for (i in 1:nrow(lab_nodes)) {
     plot <- plot + ggplot2::annotate(geom = "label", x = lab_nodes$x[i], y = lab_nodes$y[i], label = lab_nodes$name[i], size = label_size,
-                                     label.r = grid::unit(0.4,"lines"), label.size = NA)
+                                     label.r = grid::unit(0.4,"lines"), linewidth = NA)
   }
 
   # Annotate SCC ellipse
