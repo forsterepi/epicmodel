@@ -84,7 +84,7 @@ and slightly tedious procedure. It is highly recommended to evaluate the result 
 e.g., \code{ggsave} and not in the RStudio Viewer.
 }
 \examples{
-\dontshow{if (rlang::is_installed(c("ggdag", "ggforce", "ggraph"))) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (rlang::is_installed(c("ggdag", "ggforce", "ggraph"))) withAutoprint(\{ # examplesIf}
 # Transform SCC model into a DAG
 dag <- scc_to_dag(scc_rain)[["dag"]]
 
