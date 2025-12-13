@@ -10,8 +10,7 @@ sep_step <- function(x) {
   # Check input
   rlang::try_fetch({
       checkmate::assert_character(x)
-    }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var x}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Input validation error: {.var x}", .internal = TRUE,
                                              parent = cnd, class = "input")
   })
   #=============================================================================
@@ -57,8 +56,7 @@ sep_if_ifnot <- function(x) {
   # Check input
   rlang::try_fetch({
       checkmate::assert_character(x)
-    }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var x}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Input validation error: {.var x}", .internal = TRUE,
                                              parent = cnd, class = "input")
   })
   #=============================================================================
@@ -125,8 +123,7 @@ sep_then <- function(x) {
   # Check input
   rlang::try_fetch({
       checkmate::assert_character(x)
-    }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var x}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Input validation error: {.var x}", .internal = TRUE,
                                              parent = cnd, class = "input")
   })
   #=============================================================================
@@ -217,8 +214,7 @@ process_steplist <- function(steplist) {
   ## Must be possible to process un-checked steplists because processing is part of checking
   rlang::try_fetch({
     steplist %<>% validate_steplist()
-  }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var steplist}",
-                                             "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+  }, error = function(cnd) {cli::cli_abort("Input validation error: {.var steplist}", .internal = TRUE,
                                            parent = cnd, class = "input")
   })
   #=============================================================================

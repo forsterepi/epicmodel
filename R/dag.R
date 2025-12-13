@@ -95,22 +95,19 @@ scc_to_dag <- function(scc, unknown = TRUE) {
   rlang::try_fetch({
       checkmate::assert_list(out, any.missing = F, null.ok = F, len = 2, names = "unique")
       checkmate::assert_set_equal(names(out), c("dag","legend"), ordered = T)
-    }, error = function(cnd) {cli::cli_abort(c("Output validation error: {.var out}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Output validation error: {.var out}", .internal = TRUE,
                                              parent = cnd, class = "output_out")
   })
 
   rlang::try_fetch({
       checkmate::assert_class(out$dag, "dagitty", null.ok = F)
-    }, error = function(cnd) {cli::cli_abort(c("Output validation error: {.var out$dag}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Output validation error: {.var out$dag}", .internal = TRUE,
                                              parent = cnd, class = "output_dag")
   })
 
   rlang::try_fetch({
       checkmate::assert_data_frame(out$legend, types = "character", any.missing = F, null.ok = F, ncols = 2, min.rows = 1)
-    }, error = function(cnd) {cli::cli_abort(c("Output validation error: {.var out$legend}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Output validation error: {.var out$legend}", .internal = TRUE,
                                              parent = cnd, class = "output_legend")
   })
   #=============================================================================

@@ -13,8 +13,7 @@
 uncheck_steplist <- function(steplist) {
   # Check input
   if (inherits(steplist, c("epicmodel_steplist_checked", "epicmodel_steplist")) %>% magrittr::not()) {
-    cli::cli_abort(c("Input validation error: {.var steplist}",
-                     "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"), class = "input_steplist")
+    cli::cli_abort("Input validation error: {.var steplist}", .internal = TRUE, class = "input_steplist")
   }
   #=============================================================================
   if (inherits(steplist, "epicmodel_steplist_checked")) {
@@ -24,8 +23,7 @@ uncheck_steplist <- function(steplist) {
   #=============================================================================
   # Check output
   if (inherits(steplist, "epicmodel_steplist") %>% magrittr::not()) {
-    cli::cli_abort(c("Output validation error: {.var steplist}",
-                     "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"), class = "output_steplist")
+    cli::cli_abort("Output validation error: {.var steplist}", .internal = TRUE, class = "output_steplist")
   }
   #=============================================================================
   return(steplist)
@@ -70,8 +68,7 @@ remove_all_modules <- function(steplist) {
   rlang::try_fetch({
       checkmate::assert_class(steplist, "epicmodel_steplist")
       validate_steplist(steplist)
-    }, error = function(cnd) {cli::cli_abort(c("Output validation error: {.var steplist}",
-                                                 "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Output validation error: {.var steplist}", .internal = TRUE,
                                                parent = cnd, class = "output")
   })
   #=============================================================================
@@ -117,8 +114,7 @@ remove_na <- function(steplist) {
   rlang::try_fetch({
       checkmate::assert_class(steplist, "epicmodel_steplist")
       validate_steplist(steplist)
-    }, error = function(cnd) {cli::cli_abort(c("Output validation error: {.var steplist}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Output validation error: {.var steplist}", .internal = TRUE,
                                              parent = cnd, class = "output")
   })
   #=============================================================================
@@ -195,8 +191,7 @@ remove_segment <- function(steplist, id) {
   rlang::try_fetch({
       checkmate::assert_class(steplist, "epicmodel_steplist")
       validate_steplist(steplist)
-    }, error = function(cnd) {cli::cli_abort(c("Output validation error: {.var steplist}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Output validation error: {.var steplist}", .internal = TRUE,
                                              parent = cnd, class = "output")
   })
   #=============================================================================

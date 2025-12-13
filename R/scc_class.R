@@ -601,8 +601,7 @@ sufficient_order <- function(order, steplist, sufficient = TRUE) {
   if (order %>% is.na() %>% all()) {
     rlang::try_fetch({
       checkmate::assert_scalar_na(order, null.ok = F)
-      }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var order}",
-                                                 "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+      }, error = function(cnd) {cli::cli_abort("Input validation error: {.var order}", .internal = TRUE,
                                                parent = cnd, class = "input_order")
     })
   } else {
@@ -610,23 +609,20 @@ sufficient_order <- function(order, steplist, sufficient = TRUE) {
       checkmate::assert_data_frame(order, types = c("character", "logical"), any.missing = F, null.ok = F, ncols = 2, min.rows = 1,
                                    col.names = "unique")
       checkmate::assert_set_equal(colnames(order), c("order", "suff"), ordered = T)
-    }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var order}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Input validation error: {.var order}", .internal = TRUE,
                                              parent = cnd, class = "input_order")
     })
   }
 
   rlang::try_fetch({
       checkmate::assert_class(steplist, "epicmodel_steplist_checked", null.ok = F)
-    }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var steplist}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Input validation error: {.var steplist}", .internal = TRUE,
                                              parent = cnd, class = "input_steplist")
   })
 
   rlang::try_fetch({
       checkmate::assert_logical(sufficient, any.missing = F, len = 1, null.ok = F)
-    }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var sufficient}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Input validation error: {.var sufficient}", .internal = TRUE,
                                              parent = cnd, class = "input_sufficient")
   })
   #=============================================================================
@@ -672,8 +668,7 @@ sufficient_order <- function(order, steplist, sufficient = TRUE) {
     # Check output
     rlang::try_fetch({
         checkmate::assert_character(out, null.ok = F, any.missing = F, min.len = 1, min.chars = 1)
-      }, error = function(cnd) {cli::cli_abort(c("Output validation error",
-                                                 "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+      }, error = function(cnd) {cli::cli_abort("Output validation error", .internal = TRUE,
                                                parent = cnd, class = "output")
     })
     #=============================================================================
@@ -725,16 +720,14 @@ module_prev <- function(scc) {
   rlang::try_fetch({
     checkmate::assert_list(out, types = "character", any.missing = F, null.ok = F, len = length(scc$sc_status), names = "unique")
     checkmate::assert_set_equal(names(out), names(scc$sc_status))
-    }, error = function(cnd) {cli::cli_abort(c("Output validation error",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Output validation error", .internal = TRUE,
                                              parent = cnd, class = "output")
   })
 
   for (i in 1:length(out)) {
     rlang::try_fetch({
       checkmate::assert_character(out[[i]], any.missing = F, null.ok = F, min.len = 1, min.chars = 1)
-      }, error = function(cnd) {cli::cli_abort(c("Output validation error",
-                                                 "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+      }, error = function(cnd) {cli::cli_abort("Output validation error", .internal = TRUE,
                                                parent = cnd, class = "output")
     })
   }

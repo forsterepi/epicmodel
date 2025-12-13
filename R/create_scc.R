@@ -600,40 +600,35 @@ scc_cause_sets <- function(scc, output = c("id","desc","desc_no_start","all"), d
     rlang::try_fetch({
         checkmate::assert_list(out, any.missing = F, null.ok = F, len = 3, types = "list")
         checkmate::assert_set_equal(names(out), c("id","desc","desc_no_start"))
-      }, error = function(cnd) {cli::cli_abort(c("Output validation error",
-                                                 "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+      }, error = function(cnd) {cli::cli_abort("Output validation error", .internal = TRUE,
                                                parent = cnd, class = "out")
     })
 
     rlang::try_fetch({
         checkmate::assert_list(out$id, any.missing = F, null.ok = F, min.len = 1, types = "character", names = "unique")
         checkmate::assert_character(names(out$id), pattern = "^cc[[:digit:]]+$")
-      }, error = function(cnd) {cli::cli_abort(c("Output validation error",
-                                                 "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+      }, error = function(cnd) {cli::cli_abort("Output validation error", .internal = TRUE,
                                                parent = cnd, class = "out")
     })
 
     rlang::try_fetch({
         checkmate::assert_list(out$desc, any.missing = F, null.ok = F, min.len = 1, types = "character", names = "unique")
         checkmate::assert_character(names(out$desc), pattern = "^cc[[:digit:]]+$")
-      }, error = function(cnd) {cli::cli_abort(c("Output validation error",
-                                                 "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+      }, error = function(cnd) {cli::cli_abort("Output validation error", .internal = TRUE,
                                                parent = cnd, class = "out")
     })
 
     rlang::try_fetch({
         checkmate::assert_list(out$desc_no_start, any.missing = F, null.ok = F, min.len = 1, types = "character", names = "unique")
         checkmate::assert_character(names(out$desc_no_start), pattern = "^cc[[:digit:]]+$")
-      }, error = function(cnd) {cli::cli_abort(c("Output validation error",
-                                                 "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+      }, error = function(cnd) {cli::cli_abort("Output validation error", .internal = TRUE,
                                                parent = cnd, class = "out")
     })
   } else {
     rlang::try_fetch({
       checkmate::assert_list(out, any.missing = F, null.ok = F, min.len = 1, types = "character", names = "unique")
       checkmate::assert_character(names(out), pattern = "^cc[[:digit:]]+$")
-    }, error = function(cnd) {cli::cli_abort(c("Output validation error",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Output validation error", .internal = TRUE,
                                              parent = cnd, class = "out")
     })
   }

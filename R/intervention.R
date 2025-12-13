@@ -184,8 +184,7 @@ intervene <- function(scc, causes = NULL, intervention = NULL, output = c("nice"
       checkmate::assert_data_frame(out_table$minimal, any.missing = F, null.ok = F)
       checkmate::assert_list(out_table$order, types = "list")
       checkmate::assert_list(out_table$order[[1]], types = c("logical","data.frame"))
-    }, error = function(cnd) {cli::cli_abort(c("Output validation error",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Output validation error", .internal = TRUE,
                                              parent = cnd, class = "output")
     })
     #=============================================================================
@@ -220,22 +219,19 @@ intervene <- function(scc, causes = NULL, intervention = NULL, output = c("nice"
 get_intv <- function(scc, intervention, split) {
   # Check input
   if (inherits(scc, "epicmodel_scc") %>% magrittr::not()) {
-    cli::cli_abort(c("Input validation error: {.var scc}",
-                     "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"), class = "input_scc")
+    cli::cli_abort("Input validation error: {.var scc}", .internal = TRUE, class = "input_scc")
   }
 
   rlang::try_fetch({
       checkmate::assert_character(intervention, any.missing = F, null.ok = T, min.len = 1, min.chars = 1)
-    }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var intervention}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Input validation error: {.var intervention}", .internal = TRUE,
                                              parent = cnd, class = "input_intervention")
   })
 
   rlang::try_fetch({
       checkmate::assert_list(split, any.missing = F, null.ok = F, len = 5, names = "unique")
       checkmate::assert_subset(names(split), c("non_start_steps","causes","interventions","ifnot_steps","end_steps"), empty.ok = F)
-    }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var split}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Input validation error: {.var split}", .internal = TRUE,
                                              parent = cnd, class = "input_split")
   })
   #=============================================================================
@@ -334,8 +330,7 @@ get_intv <- function(scc, intervention, split) {
                                    col.names = "unique")
       checkmate::assert_character(rownames(intv), pattern = "^intv[[:digit:]]+$")
       checkmate::assert_set_equal(colnames(intv), split$interventions$id_step)
-    }, error = function(cnd) {cli::cli_abort(c("Output validation error",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Output validation error", .internal = TRUE,
                                              parent = cnd, class = "output")
   })
   #=============================================================================
@@ -363,22 +358,19 @@ get_intv <- function(scc, intervention, split) {
 get_causes <- function(scc, causes, split) {
   # Check input
   if (inherits(scc, "epicmodel_scc") %>% magrittr::not()) {
-    cli::cli_abort(c("Input validation error: {.var scc}",
-                     "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"), class = "input_scc")
+    cli::cli_abort("Input validation error: {.var scc}", .internal = TRUE, class = "input_scc")
   }
 
   rlang::try_fetch({
       checkmate::assert_character(causes, any.missing = F, null.ok = T, min.len = 1, min.chars = 1)
-    }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var causes}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Input validation error: {.var causes}", .internal = TRUE,
                                              parent = cnd, class = "input_causes")
   })
 
   rlang::try_fetch({
       checkmate::assert_list(split, any.missing = F, null.ok = F, len = 5, names = "unique")
       checkmate::assert_subset(names(split), c("non_start_steps","causes","interventions","ifnot_steps","end_steps"), empty.ok = F)
-    }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var split}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Input validation error: {.var split}", .internal = TRUE,
                                              parent = cnd, class = "input_split")
   })
   #=============================================================================
@@ -472,8 +464,7 @@ get_causes <- function(scc, causes, split) {
                                    col.names = "unique")
       checkmate::assert_character(rownames(cause_set), pattern = "^cc[[:digit:]]+$")
       checkmate::assert_set_equal(colnames(cause_set), split$causes$id_step)
-    }, error = function(cnd) {cli::cli_abort(c("Output validation error",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Output validation error", .internal = TRUE,
                                              parent = cnd, class = "output")
   })
   #=============================================================================
@@ -498,15 +489,13 @@ get_prevented_causes <- function(causes, intv) {
       checkmate::assert_tibble(causes, null.ok = F, ncols = 12, min.rows = 1, col.names = "unique")
       checkmate::assert_subset(colnames(causes), c("id_step","then_step","subject_step","does_step","object_step","where_step","if_step","if_list",
                                                 "ifnot_step","ifnot_list","end_step","module_step"), empty.ok = F)
-    }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var causes}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Input validation error: {.var causes}", .internal = TRUE,
                                              parent = cnd, class = "input_causes")
   })
 
   rlang::try_fetch({
       checkmate::assert_character(intv, any.missing = F, null.ok = F, min.chars = 1, min.len = 1, unique = TRUE)
-    }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var intv}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Input validation error: {.var intv}", .internal = TRUE,
                                              parent = cnd, class = "input_intv")
   })
   #=============================================================================
@@ -538,8 +527,7 @@ get_prevented_causes <- function(causes, intv) {
       rlang::try_fetch({
           checkmate::assert_character(out, any.missing = F, null.ok = F, min.chars = 1, min.len = 1, unique = TRUE)
           checkmate::assert_subset(out, causes$id_step, empty.ok = F)
-        }, error = function(cnd) {cli::cli_abort(c("Output validation error",
-                                                 "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+        }, error = function(cnd) {cli::cli_abort("Output validation error", .internal = TRUE,
                                                  parent = cnd, class = "output")
       })
       #=============================================================================
@@ -566,15 +554,13 @@ get_prevented_non_start_steps <- function(non_start_steps, intv) {
       checkmate::assert_tibble(non_start_steps, null.ok = F, ncols = 12, col.names = "unique")
       checkmate::assert_subset(colnames(non_start_steps), c("id_step","then_step","subject_step","does_step","object_step","where_step","if_step",
                                                             "if_list","ifnot_step","ifnot_list","end_step","module_step"), empty.ok = F)
-    }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var non_start_steps}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Input validation error: {.var non_start_steps}", .internal = TRUE,
                                              parent = cnd, class = "input_non_start_steps")
   })
 
   rlang::try_fetch({
       checkmate::assert_character(intv, any.missing = F, null.ok = F, min.chars = 1, min.len = 1, unique = TRUE)
-    }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var intv}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Input validation error: {.var intv}", .internal = TRUE,
                                              parent = cnd, class = "input_intv")
   })
   #=============================================================================
@@ -606,8 +592,7 @@ get_prevented_non_start_steps <- function(non_start_steps, intv) {
       rlang::try_fetch({
           checkmate::assert_character(out, any.missing = F, null.ok = F, min.chars = 1, min.len = 1, unique = TRUE)
           checkmate::assert_subset(out, non_start_steps$id_step, empty.ok = F)
-        }, error = function(cnd) {cli::cli_abort(c("Output validation error",
-                                                 "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+        }, error = function(cnd) {cli::cli_abort("Output validation error", .internal = TRUE,
                                                  parent = cnd, class = "output")
       })
       #=============================================================================
@@ -647,15 +632,13 @@ check_causes_x_intv <- function(scc, cause_set, intv, prc, split, outc_list) {
                                    col.names = "unique")
       checkmate::assert_character(rownames(cause_set), pattern = "^cc[[:digit:]]+$")
       checkmate::assert_set_equal(colnames(cause_set), split$causes$id_step)
-    }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var cause_set}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Input validation error: {.var cause_set}", .internal = TRUE,
                                              parent = cnd, class = "input_cause_set")
   })
 
   rlang::try_fetch({
       checkmate::assert_character(intv, any.missing = F, null.ok = F, min.len = 1, min.chars = 1)
-    }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var intv}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Input validation error: {.var intv}", .internal = TRUE,
                                              parent = cnd, class = "input_intv")
   })
 
@@ -663,16 +646,14 @@ check_causes_x_intv <- function(scc, cause_set, intv, prc, split, outc_list) {
       checkmate::assert_tibble(prc, null.ok = F, ncols = 12, min.rows = 1, col.names = "unique")
       checkmate::assert_subset(colnames(prc), c("id_step","then_step","subject_step","does_step","object_step","where_step","if_step","if_list",
                                                 "ifnot_step","ifnot_list","end_step","module_step"), empty.ok = F)
-    }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var prc}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Input validation error: {.var prc}", .internal = TRUE,
                                              parent = cnd, class = "input_prc")
   })
 
   rlang::try_fetch({
       checkmate::assert_list(split, any.missing = F, null.ok = F, len = 5, names = "unique")
       checkmate::assert_subset(names(split), c("non_start_steps","causes","interventions","ifnot_steps","end_steps"), empty.ok = F)
-    }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var split}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Input validation error: {.var split}", .internal = TRUE,
                                              parent = cnd, class = "input_split")
   })
 
@@ -682,8 +663,7 @@ check_causes_x_intv <- function(scc, cause_set, intv, prc, split, outc_list) {
       checkmate::assert_subset(colnames(outc_list), c("sce","id"), empty.ok = F)
       checkmate::assert_integerish(outc_list$sce %>% as.numeric(), lower = 1, any.missing = F, null.ok = F)
       checkmate::assert_subset(outc_list$id, end_then, empty.ok = F)
-    }, error = function(cnd) {cli::cli_abort(c("Input validation error",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Input validation error", .internal = TRUE,
                                              parent = cnd, class = "input_outc_list")
   })
   #=============================================================================
@@ -752,24 +732,21 @@ check_causes_x_intv <- function(scc, cause_set, intv, prc, split, outc_list) {
   rlang::try_fetch({
       checkmate::assert_list(out, types = c("data.frame","logical","character"), null.ok = F, len = 2, names = "unique")
       checkmate::assert_set_equal(names(out), c("intv_status","intv_order"), ordered = T)
-    }, error = function(cnd) {cli::cli_abort(c("Output validation error: {.var out}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Output validation error: {.var out}", .internal = TRUE,
                                              parent = cnd, class = "output_out")
   })
 
   rlang::try_fetch({
     checkmate::assert_character(out$intv_status, any.missing = F, null.ok = F, len = 1, min.chars = 1)
     checkmate::assert_choice(out$intv_status, c("always", "never", "depends"))
-    }, error = function(cnd) {cli::cli_abort(c("Output validation error: {.var out$intv_status}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Output validation error: {.var out$intv_status}", .internal = TRUE,
                                              parent = cnd, class = "output_out$intv_status")
   })
 
   if (is.na(out$intv_order) %>% all()) {
     rlang::try_fetch({
       checkmate::assert_scalar_na(out$intv_order, null.ok = F)
-    }, error = function(cnd) {cli::cli_abort(c("Output validation error: {.var out$intv_order}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Output validation error: {.var out$intv_order}", .internal = TRUE,
                                              parent = cnd, class = "output_out$intv_order")
     })
   } else {
@@ -779,8 +756,7 @@ check_causes_x_intv <- function(scc, cause_set, intv, prc, split, outc_list) {
       checkmate::assert_set_equal(colnames(out$intv_order), c("order", "suff"), ordered = T)
       checkmate::assert_logical(out$intv_order$suff, any.missing = F, null.ok = F)
       checkmate::assert_character(out$intv_order$order, any.missing = F, null.ok = F, min.chars = 1, unique = T)
-    }, error = function(cnd) {cli::cli_abort(c("Output validation error: {.var out$intv_order}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Output validation error: {.var out$intv_order}", .internal = TRUE,
                                              parent = cnd, class = "output_out$intv_order")
     })
   }
@@ -822,8 +798,7 @@ minimize_intv <- function(intv, out_status) {
       checkmate::assert_data_frame(intv, any.missing = F, null.ok = F, types = "logical", min.rows = 1, min.cols = 1, row.names = "unique",
                                    col.names = "unique")
       checkmate::assert_character(rownames(intv), pattern = "^intv[[:digit:]]+$")
-    }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var intv}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Input validation error: {.var intv}", .internal = TRUE,
                                              parent = cnd, class = "input_intv")
   })
 
@@ -832,8 +807,7 @@ minimize_intv <- function(intv, out_status) {
                                    col.names = "unique")
       checkmate::assert_character(colnames(out_status), pattern = "^intv[[:digit:]]+$")
       checkmate::assert_character(rownames(out_status), pattern = "^cc[[:digit:]]+$")
-    }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var out_status}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Input validation error: {.var out_status}", .internal = TRUE,
                                              parent = cnd, class = "input_out_status")
   })
   #=============================================================================
@@ -901,8 +875,7 @@ minimize_intv <- function(intv, out_status) {
                                    col.names = "unique")
       checkmate::assert_character(colnames(mini), pattern = "^intv[[:digit:]]+$")
       checkmate::assert_character(rownames(mini), pattern = "^cc[[:digit:]]+$")
-    }, error = function(cnd) {cli::cli_abort(c("Output validation error",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Output validation error", .internal = TRUE,
                                              parent = cnd, class = "output")
   })
   #=============================================================================
@@ -930,8 +903,7 @@ nice_output_intervene <- function(out_table, scc, split) {
   rlang::try_fetch({
       checkmate::assert_list(split, any.missing = F, null.ok = F, len = 5, names = "unique")
       checkmate::assert_subset(names(split), c("non_start_steps","causes","interventions","ifnot_steps","end_steps"), empty.ok = F)
-    }, error = function(cnd) {cli::cli_abort(c("Input validation error: {.var split}",
-                                               "i" = "The cause is probably a bug in the {.pkg epicmodel} package. Please report it on github!"),
+    }, error = function(cnd) {cli::cli_abort("Input validation error: {.var split}", .internal = TRUE,
                                              parent = cnd, class = "input_split")
   })
   #=============================================================================
