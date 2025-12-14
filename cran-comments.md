@@ -4,9 +4,7 @@
 
 * checking CRAN incoming feasibility:
   Maintainer: 'Felix Forster <forsterepi@gmail.com>'
-  
-  Version contains large components (0.2.0.9000)
-  
+
   New maintainer:
     Felix Forster <forsterepi@gmail.com>
   Old maintainer(s):

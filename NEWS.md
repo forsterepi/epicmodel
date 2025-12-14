@@ -1,5 +1,3 @@
-# epicmodel (development version)
-
 # epicmodel 0.2.1
 
 * Update email address
