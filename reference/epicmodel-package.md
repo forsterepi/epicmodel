@@ -17,5 +17,5 @@ Useful links:
 
 ## Author
 
-**Maintainer**: Felix Forster <felix.forster@med.uni-muenchen.de>
+**Maintainer**: Felix Forster <forsterepi@gmail.com>
 ([ORCID](https://orcid.org/0000-0002-3670-9244)) \[copyright holder\]
