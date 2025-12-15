@@ -1,8 +1,8 @@
 # Changelog
 
-## epicmodel (development version)
-
 ## epicmodel 0.2.1
+
+CRAN release: 2025-12-15
 
 - Update email address
 
